@@ -1,0 +1,17 @@
+.search__input {
+    border-radius: 1.5rem;
+    background-color: #fff;
+    width: 100%;
+    min-width: 200px;
+    caret-color: #827c79;
+    padding: 14px 20px;
+    font-size: 16px;
+    line-height: 20px;
+    border: 1px solid transparent;
+}
+.search__input:focus {
+    background-color: #fff;
+    outline: none;
+    border-color: #ecdfd8;
+    box-shadow: 5px 5px 10px #cbbcb4;
+}
