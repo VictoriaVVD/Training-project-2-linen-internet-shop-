@@ -5,11 +5,10 @@
     align-items: flex-start;
     position: relative;
     padding: 0px;
-    gap: 16px;
-    width: 236px;
     min-height: 359px;
     color: #1A1A1A;
     font-family: 'Nunito';
+    margin-bottom: 20px;
 }
 
 .card__image {
@@ -24,7 +23,7 @@
     width: 24px;
     height: 24px;
     right: 0px;
-    top: 20px;
+    top: 10px;
     color: #F44336;
     font-size: 20px;
 }
@@ -40,7 +39,7 @@
     padding: 2px 8px;
     position: absolute;
     left: 0px;
-    top: 15px;
+    top: 0;
     width: 58px;
     height: 24px;
     background: #F44336;
@@ -64,7 +63,7 @@
 }
 .tag__type_new {
     right: 0px;
-    top: -10px;
+    top: -25px;
     font-weight: 800;
     font-size: 16px;
     line-height: 20px;
@@ -73,13 +72,16 @@
 
 }
 .tag__type_sale {
-    left: 0px;
-    top: -10px;
+    right: 25%;
+    top: 25%;
+    transform: rotate(-45deg);
     font-weight: 800;
-    font-size: 16px;
+    font-size: 36px;
+    letter-spacing: 20px;
+    text-transform: uppercase;
     line-height: 20px;
-    color: #FFFFFF;
-    background: #efbc6a;
+    color: rgba(255, 0, 0, .4);
+    background: transparent;
 }
 .card__desc {
     display: flex;
@@ -96,6 +98,7 @@
     position: absolute;
     top: -10px;
     text-decoration: line-through;
+    font-size: 18px;
 }
 .card__price {
     display: flex;

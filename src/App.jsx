@@ -7,52 +7,40 @@ import Footer from './components/Footer/Footer';
 import { api } from "./assets/api/api";
 
 const useDebounce = (path) => {
-  // console.log(path);
   const [debounceValue, setDebounceValue] = useState(path);
 
   useEffect(() => {
     const timeout = setTimeout(() => {
       setDebounceValue(path)
   }, 1000);
-  // console.log({timeout});
-  return () => clearTimeout(timeout)
-    }, [path]) 
-  return debounceValue;
+      return () => clearTimeout(timeout)
+  }, [path]); 
+  
+      return debounceValue;
 }
 
 function App() {
-
+  
   const [cards, setCards] = useState([]);
   const [search, setSearch] = useState(undefined);
   const [user, setUser] = useState([]);
-
-  // const userId = "64416c303291d790b3fc22b3";
-  
   const filteredCards = (cards) => {
     return cards.filter(e => e.author._id === "64416c303291d790b3fc22b3")
-  }
-  
+  };
   const debounceValueInApp = useDebounce(search);
-  // console.log({debounceValueInApp});
-
   const handleProductLike = async (product, isLiked) => {
     const updatedCard = await api.toggleCardLike(product._id, isLiked);
-    // const newCards = cards.map(e => e._id === updatedCard._id ? updatedCard : e);
     const foundedIndex = cards.findIndex(e => e._id === updatedCard._id);
     if (foundedIndex !== -1) {
       setCards(state => [...state.slice(0, foundedIndex), updatedCard, ...state.slice(foundedIndex + 1)])
     }
-    // setCards([...newCards]);
-
   }
-
 
   useEffect(() => {
     api.getProductList()
     .then(data => {console.log(data.products);setCards(data.products)}
     );
   }, []);
-
 
   useEffect(() => {
     if (debounceValueInApp === undefined) return;

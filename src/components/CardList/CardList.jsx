@@ -2,8 +2,6 @@ import React from 'react';
 import "./CardList.css";
 import { Card } from '../Card/Card';
 
-
-
 const CardList = ({cards, userId, handleLike}) => {
     return (
         <section className="main">

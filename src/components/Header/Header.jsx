@@ -4,7 +4,7 @@ import { ReactComponent as Logo } from "./img/logo 1.svg";
 import s from "./style.modules.css";
 import { Search } from './Search/Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faHeart} from '@fortawesome/free-solid-svg-icons';
+import { faHeart, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons';
 
 export const Header = (props) => {
 
@@ -17,7 +17,7 @@ export const Header = (props) => {
         <div className='header__wrapper'>
             <Logo className='header__logo'/>
             <Search setSearch={setSearchData} />
-            {/* <div className='icons__wrapper'>
+            <div className='icons__wrapper'>
                 <div className='icons'>
                     <a className="icon-favourite-over" href="">
                     <FontAwesomeIcon icon={faHeart} /></a>
@@ -25,13 +25,15 @@ export const Header = (props) => {
                 </div>
                 <div className='icons'>
                     <a className="icon-cart" href="">
-                    <FontAwesomeIcon icon={faBriefcaseBlank} />
+                    <FontAwesomeIcon icon={faCartShopping} />
                     </a>
                 </div>
                 <div className="icons">
-                    <a className="icon-profile" href=""></a>
+                    <a className="icon-profile" href="">
+                    <FontAwesomeIcon icon={faUser} />
+                    </a>
                 </div>
-            </div> */}
+            </div>
         </div>
     </header>
 }

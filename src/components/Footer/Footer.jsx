@@ -5,7 +5,6 @@ import { faTelegram, faWhatsapp, faViber, faInstagram, faVk } from '@fortawesome
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
-
 const Footer = () => {
     return <footer>
         <div className="footer__wrapper">

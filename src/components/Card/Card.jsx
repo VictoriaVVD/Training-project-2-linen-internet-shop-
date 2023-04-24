@@ -9,35 +9,27 @@ import "./Card.css";
 
 export const Card = ({product, userId, handleLike}) => {
     const isLiked = product.likes.some(e => e === userId);
-
     const toggleCardLike = () => {
-        // isLiked 
-        // ? api.addLike(product._id).then(res => console.log(res))
-        // : api.deleteLike(product._id).then(res => console.log(res))
-
         handleLike(product, isLiked);
-        // const resp = await api.toggleCardLike(product._id, isLiked);
 }
-
-    
 
     return (
         <div className="card">
-            <div className="card__sticky card__sticky_top-left">
-                {!!product.discount && <span className="card__discount">
-                    -{product.discount}%
-                </span>}
-            </div>
             <div className="card__sticky card__sticky_top-right">
                     <span onClick={toggleCardLike}>{isLiked ? <FontAwesomeIcon icon={faHeart} /> : <FontAwesomeIcon icon={faHeartReg} />}</span>
             </div>
             <a href="/" className="card__link">
-                <img src={product.pictures} alt="madame coco linen" className="card__image"/>
+                <div className="card__sticky card__sticky_top-left">
+                    {!!product.discount && <span className="card__discount">
+                        -{product.discount}%
+                    </span>}
+                </div>
+                <img src={product.pictures} alt="madame coco linen" className="card__image" />
                 {product.tags.map((e) =>
-                        <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)}  
+                        <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)} 
                 <div className="card__desc">
-                    <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) : null}</span>
-                    <span className="card__price">{product.price} ₽</span>
+                    <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) + ' ₽' : null}</span>
+                    <span className="card__price" style={product.discount ? {"color": "red"} : {"color": "#1A1A1A"}}>{product.price} ₽</span>
                     <span className="card__wight">{product.wight}</span>
                     <p className="card__title">{product.name}</p>
                 </div>

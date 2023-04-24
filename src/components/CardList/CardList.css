@@ -1,21 +1,21 @@
 .main {
-    margin: 0;
     width: 100%;
     background: #FFF;
     border: none;
-    padding: 60px 100px;
 }
 .cards__wrapper {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
-    width: 100%;
-    max-width: 1024px;
+    max-width: 1140px;
     margin: 0 auto;
+    padding: 50px 0;
     
 }
 .cards {
     display: grid;
+    justify-content: space-between;
+    gap: 30px;
     grid-template-columns: repeat(4, 1fr);
-    gap: 2rem;
+    
 }
