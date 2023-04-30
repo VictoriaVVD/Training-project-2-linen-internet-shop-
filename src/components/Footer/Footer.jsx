@@ -10,7 +10,7 @@ const Footer = () => {
         <div className="footer__wrapper">
             <div className='footer__logo_wrapper'>
                 <Logo />
-                <p>© «Интернет-магазин DogFood.ru»</p>
+                <p>© «Интернет-магазин Linen-shop.ru»</p>
             </div>
             <div className='footer__links'>
                 <a href="#">Каталог</a>
@@ -29,7 +29,7 @@ const Footer = () => {
                     <h4>Мы на связи</h4>
                     <a href="tel">8 (999) 00-00-00</a>
                 </div>
-                <a href="">dogfood.ru@gmail.com</a>
+                <a href="">linen_shop.ru@gmail.com</a>
                 <div className='social-icons'>
                     <a href=""><FontAwesomeIcon icon={faTelegram}/></a>
                     <a href=""><FontAwesomeIcon icon={faWhatsapp}/></a>

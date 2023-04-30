@@ -44,7 +44,7 @@ function App() {
 
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
-    api.searchProduct(search)
+    api.searchProduct(debounceValueInApp)
     .then(data => setCards(filteredCards(data))
     );
   }, [debounceValueInApp]);
