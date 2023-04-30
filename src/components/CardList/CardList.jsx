@@ -2,7 +2,7 @@ import React from 'react';
 import "./CardList.css";
 import { Card } from '../Card/Card';
 
-const CardList = ({cards, userId, handleLike}) => {
+export const CardList = ({cards, userId, handleLike}) => {
     return (
         <section className="main">
             <div className="cards__wrapper">
@@ -13,5 +13,3 @@ const CardList = ({cards, userId, handleLike}) => {
         </section> 
     );
 };
-
-export default CardList;

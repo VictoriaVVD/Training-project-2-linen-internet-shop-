@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import { api } from "../../assets/api/api";
-
+import { Link } from "react-router-dom";
 import "./Card.css";
 
 
@@ -14,26 +14,26 @@ export const Card = ({product, userId, handleLike}) => {
 }
 
     return (
-        <div className="card">
+<div className="card">
+            <div className="card__sticky card__sticky_top-left">
+                {!!product.discount && <span className="card__discount">
+                    -{product.discount}%
+                </span>}
+            </div>
             <div className="card__sticky card__sticky_top-right">
                     <span onClick={toggleCardLike}>{isLiked ? <FontAwesomeIcon icon={faHeart} /> : <FontAwesomeIcon icon={faHeartReg} />}</span>
             </div>
-            <a href="/" className="card__link">
-                <div className="card__sticky card__sticky_top-left">
-                    {!!product.discount && <span className="card__discount">
-                        -{product.discount}%
-                    </span>}
-                </div>
-                <img src={product.pictures} alt="madame coco linen" className="card__image" />
+            <Link to={`/product/${product._id}`} className="card__link">
+                <img src={product.pictures} alt="madame coco linen" className="card__image"/>
                 {product.tags.map((e) =>
-                        <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)} 
+                        <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)}  
                 <div className="card__desc">
-                    <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) + ' ₽' : null}</span>
-                    <span className="card__price" style={product.discount ? {"color": "red"} : {"color": "#1A1A1A"}}>{product.price} ₽</span>
+                    <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) : null}</span>
+                    <span className="card__price" style={product.discount ? {"color": "red"} : {"color": "#1A1A1A"}}>{product.price}&nbsp;₽</span>
                     <span className="card__wight">{product.wight}</span>
                     <p className="card__title">{product.name}</p>
                 </div>
-            </a>
+            </Link>
             <span className="card__button">В корзину</span>
         </div>
     )

@@ -16,7 +16,12 @@ class Api {
         .then(onResponse);
     
     }
-
+    getProductById(id) {
+        return fetch(`${this.baseUrl}products/${id}`, {
+            headers: this.headers,
+        })
+        .then(onResponse);
+    }
 
     searchProduct(path) {
         return fetch(`${this.baseUrl}products/search?query=${path}`, {
