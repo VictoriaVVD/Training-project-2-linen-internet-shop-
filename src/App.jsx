@@ -4,8 +4,7 @@ import './App.css';
 import { Header } from './components/Header/Header';
 import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
-import { FavoritesPage } from "./pages/FavoritesPage/FavoritesPage"
-import { CardList } from "./components/CardList/CardList";
+import { FavouritesPage } from "./pages/FavouritesPage/FavouritesPage";
 import { Footer } from './components/Footer/Footer';
 import { api } from "./assets/api/api";
 import { Routes, Route, Navigate } from "react-router";
@@ -29,6 +28,7 @@ function App() {
   const [search, setSearch] = useState(undefined);
   const [user, setUser] = useState([]);
   const [isAuthorized, setAuthorized] = useState(true);
+  const [favourites, setFavourites] = useState();
   
   const filteredCards = (cards) => {
     return cards.filter(e => e.author._id === "64416c303291d790b3fc22b3")
@@ -42,7 +42,9 @@ function App() {
     if (foundedIndex !== -1) {
       setCards(state => [...state.slice(0, foundedIndex), updatedCard, ...state.slice(foundedIndex + 1)])
     }
-
+    isLiked 
+    ? setFavourites(state => state.filter(e => e._id !== updatedCard._id))
+    : setFavourites(state => [updatedCard, ...state])
   }
 
   const onSort = (sortId) => {
@@ -84,30 +86,37 @@ function App() {
     }
   }
 
+  const findLiked = (product, userId) => {
+    return product.likes.some(e => e === userId)
+  }
+
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
     api.searchProduct(debounceValueInApp)
-    .then(data => setCards(filteredCards(data))
-    );
+    .then(data => setCards(filteredCards(data)))
   }, [debounceValueInApp]);
 
   useEffect(() => {
     Promise.all([api.getUserInfo(), api.getProductList()])
     .then(([userData, data]) => {
       setUser(userData);
-      setCards(filteredCards(data.products));
+      const filtered = filteredCards(data.products);
+      setCards(filtered);
+
+      const favourites = filtered.filter(e => findLiked(e, userData._id));
+      setFavourites(favourites);
     })
   }, []);
 
   return (
     <div className="container">
-      <Header setSearch={setSearch} />
+      <Header setSearch={setSearch} favourites={favourites} handleProductLike={handleProductLike} />
       <section>
         {isAuthorized
         ? <Routes>
               <Route path="/" element={<CatalogPage cards={cards} user={user} handleProductLike={handleProductLike} search={search} onSort={onSort} />}/>
               <Route path="/product/:id" element={<ProductPage />}/>
-              <Route path="/favorites" element={<FavoritesPage />}/>
+              <Route path="/favourites" element={<FavouritesPage favourites={favourites} userId={user._id} handleProductLike={handleProductLike} />}/>
               <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
           </Routes>
         : <Navigate to={'/not authorizated'} />}

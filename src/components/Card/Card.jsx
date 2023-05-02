@@ -2,7 +2,6 @@ import React from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
-import { api } from "../../assets/api/api";
 import { Link } from "react-router-dom";
 import "./Card.css";
 

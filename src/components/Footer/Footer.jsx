@@ -1,6 +1,6 @@
 import React from 'react';
 import "./Footer.css";
-import { ReactComponent as Logo} from "../Header/img/logo 1.svg";
+import { ReactComponent as Logo} from "../../assets/images/logo 1.svg";
 import { faTelegram, faWhatsapp, faViber, faInstagram, faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 

@@ -42,7 +42,6 @@ export const CatalogPage = ({cards, user, handleProductLike, search, onSort}) =>
                     )}
                 </div>
             </div>
-            
             <CardList cards={cards} userId={user._id} handleLike={handleProductLike} onSort={onSort} />
         </>
 )
