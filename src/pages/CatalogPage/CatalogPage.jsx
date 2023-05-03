@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useContext } from "react";
 import { CardList } from "../../components/CardList/CardList";
 import s from "./index.module.css";
+import { CardContext } from "../../context/cardContext";
 
-export const CatalogPage = ({cards, user, handleProductLike, search, onSort}) => {
+export const CatalogPage = () => {
     const foundProduct = (num) => {
         let tmp = num % 10;
         
@@ -31,6 +32,7 @@ export const CatalogPage = ({cards, user, handleProductLike, search, onSort}) =>
         title: "По размеру скидки"}
     ]
 
+    const {cards, onSort, search} = useContext(CardContext);
 
     return (
         <>
@@ -42,7 +44,7 @@ export const CatalogPage = ({cards, user, handleProductLike, search, onSort}) =>
                     )}
                 </div>
             </div>
-            <CardList cards={cards} userId={user._id} handleLike={handleProductLike} onSort={onSort} />
+            <CardList cards={cards} />
         </>
 )
 }

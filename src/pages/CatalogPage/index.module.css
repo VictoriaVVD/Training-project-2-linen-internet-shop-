@@ -30,6 +30,6 @@
     cursor: pointer;
 }
 .sortCardsItem:hover {
-    border-radius: 8px;
+    border-radius: 10px;
     background: #f5efec;
 }

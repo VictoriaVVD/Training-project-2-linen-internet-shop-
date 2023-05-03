@@ -13,6 +13,7 @@ const [product, setProduct] = useState({})
         if (id) {
             api.getProductById(id)
             .then(data => { setProduct(data)})
+            .catch(error => console.log(error.statusText))
         }
     }, [id])
 

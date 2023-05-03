@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import "./Header.css";
 import { ReactComponent as Logo } from "../../assets/images/logo 1.svg";
 import s from "./style.modules.css";
@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons';
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
+import { CardContext } from '../../context/cardContext';
 
 export const Header = (props) => {
 
@@ -14,6 +15,7 @@ export const Header = (props) => {
         props.setSearch(el);
     };
     const location = useLocation();
+    const {favourites} = useContext(CardContext);
 
     return <header>
         <div className='header__wrapper'>
@@ -26,10 +28,10 @@ export const Header = (props) => {
                 <div className='icons'>
                     <Link to={"/favourites"}>
                         <FontAwesomeIcon icon={faHeart} title='Избранное' />
-                    </Link>
-                    <div className='icon-favourite-over-num'>
-                        {/* <span>{props.favourites.length > 0 ? props.favourites.length : ""}</span> */}
-                    </div>   
+                        <div className='icon-favourite-over-num'>
+                        {/* {!!favourites.length && <span>{favourites.length}</span>} */}
+                    </div> 
+                    </Link>  
                 </div>
                 <div className='icons'>
                     <a className="icon-cart" href="">

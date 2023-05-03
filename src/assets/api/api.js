@@ -1,4 +1,4 @@
-const onSuccess = (res) => {
+const onResponse = (res) => {
     return res.json();
 }
 
@@ -13,21 +13,21 @@ class Api {
             method: 'GET',
             headers: this.headers,
         })
-        .then(onSuccess)
+        .then(onResponse)
     
     }
     getProductById(id) {
         return fetch(`${this.baseUrl}products/${id}`, {
             headers: this.headers,
         })
-        .then(onSuccess)
+        .then(onResponse)
     }
 
     searchProduct(path) {
         return fetch(`${this.baseUrl}products/search?query=${path}`, {
             headers: this.headers,
         })
-        .then(onSuccess)
+        .then(onResponse)
     }
 
     // addLike(productId) {
@@ -49,14 +49,14 @@ class Api {
             headers: this.headers,
             method: isLiked ? "DELETE" : "PUT",
         })
-        .then(onSuccess)
+        .then(onResponse)
     }
 
     getUserInfo() {
         return fetch(`${this.baseUrl}users/me`, {
             headers: this.headers,
         })
-        .then(onSuccess)
+        .then(onResponse)
     }
 }
 

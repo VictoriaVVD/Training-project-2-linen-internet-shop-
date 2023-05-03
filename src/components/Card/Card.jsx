@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart} from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
-import { Link } from "react-router-dom";
+import { api } from "../../assets/api/api";
 import "./Card.css";
+import { Link } from "react-router-dom";
+import { UserContext } from "../../context/userContext";
+import { CardContext } from "../../context/cardContext";
 
 
-export const Card = ({product, userId, handleLike}) => {
-    const isLiked = product.likes.some(e => e === userId);
+
+export const Card = ({product}) => {
+    const user = useContext(UserContext);
+    const {handleLike} = useContext(CardContext);
+    const isLiked = product.likes.some(e => e === user._id);
     const toggleCardLike = () => {
         handleLike(product, isLiked);
 }
