@@ -1,20 +1,20 @@
 import React from 'react';
-import "./Footer.css";
+import "./Footer.scss";
 import { ReactComponent as Logo} from "../../assets/images/logo 1.svg";
 import { faTelegram, faWhatsapp, faViber, faInstagram, faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 
 
 export const Footer = () => {
-    return <footer>
-        <div className="footer__wrapper">
+    return <footer className='footer'>
+        <div className='footer__wrapper'>
             <div className='footer__logo_wrapper'>
                 <Logo />
                 <p>© «Интернет-магазин Linen-shop.ru»</p>
             </div>
             <div className='footer__links'>
-                <a href="#">Каталог</a>
-                <a href="#">Акции</a>
+                <a href="">Каталог</a>
+                <a href="">Акции</a>
                 <a href="">Новости</a>
                 <a href="">Отзывы</a>
             </div>

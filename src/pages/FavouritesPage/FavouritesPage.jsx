@@ -1,5 +1,5 @@
 import React from "react";
-import s from "./index.module.css"
+import s from "./index.module.scss"
 import { useNavigate } from "react-router";
 import { CardList } from "../../components/CardList/CardList";
 import { Link } from "react-router-dom";
@@ -16,7 +16,7 @@ export const FavouritesPage = () => {
 
     return (
         <div className={s.favouritesPage}>
-            <div className={s.favouritePageWrapper}>
+            <div className={s.favouritesPage__wrapper }>
                 <Link to="/catalog">
                     <span onClick={() => goBack()} className={s.favourites__back}>{'<'} Назад</span>
                 </Link>

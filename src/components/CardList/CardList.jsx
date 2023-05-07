@@ -1,5 +1,5 @@
 import React from 'react';
-import "./CardList.css";
+import "./CardList.scss";
 import { Card } from '../Card/Card';
 
 export const CardList = ({cards}) => {

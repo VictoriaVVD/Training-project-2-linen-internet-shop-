@@ -1,20 +1,21 @@
-.sortWrapper {
+.sort__wrapper {
     margin: 0 auto;
     max-width: 1140px;
     background: #FFF;
     border: none;
     padding: 30px 100px;
 }
-.searchMessage {
+.search__message {
     display: flex;
     flex-direction: row;
     margin-bottom: 15px;
+
+    p {
+        margin: 0;
+        padding: 0;
+    }
 } 
-.searchMessage p {
-    margin: 0;
-    padding: 0;
-}
-.sortCards {
+.sort__cards {
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(40, 41, 61, 0.04);
     display: flex;
@@ -22,14 +23,15 @@
     align-items: center;
     margin: 10px auto;
 
-}
-.sortCardsItem {
-    font-weight: 400;
-    line-height: 20px;
-    padding: 5px;
-    cursor: pointer;
-}
-.sortCardsItem:hover {
-    border-radius: 10px;
-    background: #f5efec;
+    &_item {
+        font-weight: 400;
+        line-height: 20px;
+        padding: 5px;
+        cursor: pointer;
+
+        &:hover {
+            border-radius: 10px;
+            background: #f5efec;
+        }
+    }
 }

@@ -3,19 +3,18 @@
     background: #FFF;
     border: none;
 }
-.cards__wrapper {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    max-width: 1140px;
-    margin: 0 auto;
-    padding: 50px 0;
-    
-}
 .cards {
     display: grid;
     justify-content: space-between;
     gap: 30px;
     grid-template-columns: repeat(4, 1fr);
     
+    &__wrapper {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        max-width: 1140px;
+        margin: 0 auto;
+        padding: 50px 0;
+    }
 }

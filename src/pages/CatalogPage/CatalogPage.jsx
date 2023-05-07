@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { CardList } from "../../components/CardList/CardList";
-import s from "./index.module.css";
+import s from "./index.module.scss";
 import { CardContext } from "../../context/cardContext";
 
 export const CatalogPage = () => {
@@ -36,11 +36,11 @@ export const CatalogPage = () => {
 
     return (
         <>
-            <div className={s.sortWrapper}>
-                    {search && <p className={s.searchMessage}>По Вашему запросу {cards.length === 1 ? 'найден' : 'найдено'} {cards.length} {foundProduct(cards.length)}</p>}
-                <div className={s.sortCards}>
+            <div className={s.sort__wrapper}>
+                    {search && <p className={s.search__message}>По Вашему запросу {cards.length === 1 ? 'найден' : 'найдено'} {cards.length} {foundProduct(cards.length)}</p>}
+                <div className={s.sort__cards}>
                     {!search && sortedItems.map((e) => 
-                        <span className={s.sortCardsItem} key={e.id} onClick={() => onSort(e.id)}>{e.title}</span>
+                        <span className={s.sort__cards_item} key={e.id} onClick={() => onSort(e.id)}>{e.title}</span>
                     )}
                 </div>
             </div>

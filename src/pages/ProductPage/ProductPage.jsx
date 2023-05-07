@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import s from "./index.module.css";
+// import s from "./index.module.css";
 import { Product } from "../../components/Product/Product";
 import { api } from "../../assets/api/api";
 import { useParams } from "react-router";

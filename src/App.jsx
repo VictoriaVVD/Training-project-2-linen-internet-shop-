@@ -1,16 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
-import data from "./assets/data.json";
 import './App.css';
 import { Header } from './components/Header/Header';
 import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { FavouritesPage } from "./pages/FavouritesPage/FavouritesPage";
-import { CardList } from "./components/CardList/CardList";
 import { Footer } from './components/Footer/Footer';
 import { api } from "./assets/api/api";
 import { Routes, Route, Navigate } from "react-router";
 import { UserContext } from "./context/userContext";
 import { CardContext } from "./context/cardContext";
+import { Home } from "./pages/Home/home";
 
 
 const useDebounce = (path) => {
@@ -53,6 +52,14 @@ function App() {
     : setFavourites(state => [updatedCard, ...state])
   }
 
+  const productRate = (rewiews) => {
+    if (!rewiews || rewiews.length) {
+      return 0;
+    }
+    const result = rewiews.reduce((accum, el) => accum += el.rating, 0)
+    return result / rewiews.length;
+  }
+
   const onSort = (sortId) => {
     let cardsSorted;
     switch (sortId) {
@@ -61,10 +68,11 @@ function App() {
           cardsSorted = cards.filter(e => e.likes.length)
           setCards([...cardsSorted])
         break;
-        // case 'byRate':
-        
-        
-        // break;
+        case 'byRate':
+          cardsSorted = cards.sort((a, b) => productRate(b.rewiews) - productRate(a.rewiews))
+          setCards([...cardsSorted])
+          console.log(cardsSorted);
+        break;
         case 'newProduct':
           
           cardsSorted = cards.filter(e => e.tags.includes('new'))
@@ -130,6 +138,7 @@ function App() {
         <UserContext.Provider value={user}>
           <Header setSearch={setSearch} />
           <section>
+            <Home />
             {isAuthorized
             ? <Routes>
                 <Route path="/" element={<CatalogPage />}/>

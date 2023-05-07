@@ -7,10 +7,11 @@
     font-size: 16px;
     line-height: 20px;
     border: 1px solid transparent;
-}
-.search__input:focus {
-    background-color: #fff;
-    outline: none;
-    border-color: #ecdfd8;
-    box-shadow: 5px 5px 10px #cbbcb4;
+
+    &:focus {
+        background-color: #fff;
+        outline: none;
+        border-color: #ecdfd8;
+        box-shadow: 5px 5px 10px #cbbcb4;
+    }
 }

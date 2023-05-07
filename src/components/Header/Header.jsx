@@ -1,7 +1,7 @@
 import React, { useContext } from 'react';
-import "./Header.css";
+import "./Header.scss";
 import { ReactComponent as Logo } from "../../assets/images/logo 1.svg";
-import s from "./style.modules.css";
+// import s from "./style.modules.css";
 import { Search } from './Search/Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons';
@@ -17,7 +17,7 @@ export const Header = (props) => {
     const location = useLocation();
     const {favourites} = useContext(CardContext);
 
-    return <header>
+    return <header className='header'>
         <div className='header__wrapper'>
             <Link to={"/"}>
                 <Logo className='header__logo'/>
@@ -28,18 +28,18 @@ export const Header = (props) => {
                 <div className='icons'>
                     <Link to={"/favourites"}>
                         <FontAwesomeIcon icon={faHeart} title='Избранное' />
-                        <div className='icon-favourite-over-num'>
+                        <div className='icons__favourite-over-num'>
                         {/* {!!favourites.length && <span>{favourites.length}</span>} */}
                     </div> 
                     </Link>  
                 </div>
                 <div className='icons'>
-                    <a className="icon-cart" href="">
+                    <a className="icon__cart" href="">
                     <FontAwesomeIcon icon={faCartShopping} />
                     </a>
                 </div>
                 <div className="icons">
-                    <a className="icon-profile" href="">
+                    <a className="icon__profile" href="">
                     <FontAwesomeIcon icon={faUser} />
                     </a>
                 </div> 
