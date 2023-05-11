@@ -1,0 +1,5 @@
+.container {
+    width: calc(100vh - 96px - 300px);
+    display: grid;
+    grid-template-rows: 56px auto 200px;
+}

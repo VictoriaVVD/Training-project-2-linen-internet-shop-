@@ -35,7 +35,7 @@ export const Product = ({product}) => {
                         <span><FontAwesomeIcon icon={faStar} /></span>
                     </div>
                     {!!product.discount &&<div className={s.desc}>Старая цена:
-                        <span className={s.oldPrice}>{Math.round(product.price / (1 - product.discount / 100))}&nbsp;₽</span>
+                        <span className={s.old_price}>{Math.round(product.price / (1 - product.discount / 100))}&nbsp;₽</span>
                     </div>}
                     <div className={s.desc}>Цена: 
                         <span className={s.price}>{product.price}&nbsp;₽</span>
@@ -48,7 +48,7 @@ export const Product = ({product}) => {
                         <button>Двуспальное</button>
                         <button>Евро</button>
                     </div>
-                    <div className={s.decs}>Количество 
+                    <div className={s.desc}>Количество 
                         <select>
                             <option value="1"> 1 </option>
                             <option value="1"> 2 </option>
@@ -68,6 +68,13 @@ export const Product = ({product}) => {
                     <li>Описание</li>
                     <li>Информация</li>
                     <li>Отзывы</li>
+                </ul>
+                <ul className={s.product__card_desc_list}>
+                    <li>
+                        {product.description}
+                    </li>
+                    <li></li>
+                    <li></li>
                 </ul>
                 <div className={s.product__card_desc_content}>
                     <div className={s.desc}>

@@ -8,6 +8,7 @@ import { faHeart, faCartShopping, faUser } from '@fortawesome/free-solid-svg-ico
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { CardContext } from '../../context/cardContext';
+import { CatalogButton } from './CatalogButton/catalogButton';
 
 export const Header = (props) => {
 
@@ -16,20 +17,21 @@ export const Header = (props) => {
     };
     const location = useLocation();
     const {favourites} = useContext(CardContext);
-
+    
     return <header className='header'>
         <div className='header__wrapper'>
+            <CatalogButton pageWrapId={'page-wrap'} outerContainerId={'outer-container'} />
             <Link to={"/"}>
                 <Logo className='header__logo'/>
             </Link>
 
-            {location.pathname === "/" && <Search setSearch={setSearchData} />}
+            {location.pathname === "/catalog" && <Search setSearch={setSearchData} />}
             <div className='icons__wrapper'>
                 <div className='icons'>
                     <Link to={"/favourites"}>
                         <FontAwesomeIcon icon={faHeart} title='Избранное' />
                         <div className='icons__favourite-over-num'>
-                        {/* {!!favourites.length && <span>{favourites.length}</span>} */}
+                        {/* {favourites.length && <span>{favourites.length}</span>} */}
                     </div> 
                     </Link>  
                 </div>

@@ -3,13 +3,16 @@ import "./Footer.scss";
 import { ReactComponent as Logo} from "../../assets/images/logo 1.svg";
 import { faTelegram, faWhatsapp, faViber, faInstagram, faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Link } from 'react-router-dom';
 
 
 export const Footer = () => {
     return <footer className='footer'>
         <div className='footer__wrapper'>
             <div className='footer__logo_wrapper'>
-                <Logo />
+                <Link to={"/"}>
+                    <Logo />
+                </Link>
                 <p>© «Интернет-магазин Linen-shop.ru»</p>
             </div>
             <div className='footer__links'>

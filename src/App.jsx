@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import './App.css';
+import './App.scss';
 import { Header } from './components/Header/Header';
 import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
@@ -61,42 +61,28 @@ function App() {
   }
 
   const onSort = (sortId) => {
-    let cardsSorted;
     switch (sortId) {
       case 'popular':
-          // Реализовать очищение страницы для сортировки по другому признаку - т.е. вернуть все товары на страницу
-          cardsSorted = cards.filter(e => e.likes.length)
-          setCards([...cardsSorted])
-        break;
-        case 'byRate':
-          cardsSorted = cards.sort((a, b) => productRate(b.rewiews) - productRate(a.rewiews))
-          setCards([...cardsSorted])
-          console.log(cardsSorted);
-        break;
-        case 'newProduct':
-          
-          cardsSorted = cards.filter(e => e.tags.includes('new'))
-          setCards([...cardsSorted])
-        break;
-        case 'cheapFirst':
-          
-          cardsSorted = cards.sort((a, b) => b.price - a.price)
-          setCards([...cardsSorted])
-        break;
-        case 'expensiveFirst':
-          
-          cardsSorted = cards.sort((a, b) => a.price - b.price)
-          setCards([...cardsSorted])
-        break;
-        case 'sale':
-        
-          cardsSorted = cards.sort((a, b) => b.discount - a.discount)
-          setCards([...cardsSorted])
-        
-        break;
-    
+        // Реализовать очищение страницы для сортировки по другому признаку - т.е. вернуть все товары на страницу
+        setCards([...cards.filter(e => e.likes.length)])
+      break;
+      case 'byRate':
+        setCards([...cards.sort((a, b) => productRate(b.rewiews) - productRate(a.rewiews))])
+      break;
+      case 'newProduct':
+        setCards([...cards.filter(e => e.tags.includes('new'))])
+      break;
+      case 'cheapFirst':
+        setCards([...cards.sort((a, b) => b.price - a.price)])
+      break;
+      case 'expensiveFirst':
+        setCards([...cards.sort((a, b) => a.price - b.price)])
+      break;
+      case 'sale':
+        setCards([...cards.sort((a, b) => b.discount - a.discount)])
+      break;
       default:
-        break;
+
     }
   }
 
@@ -138,10 +124,10 @@ function App() {
         <UserContext.Provider value={user}>
           <Header setSearch={setSearch} />
           <section>
-            <Home />
             {isAuthorized
             ? <Routes>
-                <Route path="/" element={<CatalogPage />}/>
+                <Route path="/" element={<Home />} />
+                <Route path="/catalog" element={<CatalogPage />}/>
                 <Route path="/product/:id" element={<ProductPage />}/>
                 <Route path="/favourites" element={<FavouritesPage />}/>
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
