@@ -10,6 +10,8 @@ import { Routes, Route, Navigate } from "react-router";
 import { UserContext } from "./context/userContext";
 import { CardContext } from "./context/cardContext";
 import { Home } from "./pages/Home/home";
+import { Modal } from "./components/Modal/Modal";
+import { Form } from "./components/Form/Form";
 
 
 const useDebounce = (path) => {
@@ -33,6 +35,7 @@ function App() {
   const [user, setUser] = useState([]);
   const [isAuthorized, setAuthorized] = useState(true);
   const [favourites, setFavourites] = useState();
+  const [modalActive, setModalActive] = useState(false);
   
   const filteredCards = (cards) => {
     return cards.filter(e => e.author._id === "64416c303291d790b3fc22b3")
@@ -43,9 +46,9 @@ function App() {
   const handleProductLike = async (product, isLiked) => {
     const updatedCard = await api.toggleCardLike(product._id, isLiked);
 
-    const foundedIndex = cards.findIndex(e => e._id === updatedCard._id);
-    if (foundedIndex !== -1) {
-      setCards(state => [...state.slice(0, foundedIndex), updatedCard, ...state.slice(foundedIndex + 1)])
+    const foundIndex = cards.findIndex(e => e._id === updatedCard._id);
+    if (foundIndex !== -1) {
+      setCards(state => [...state.slice(0, foundIndex), updatedCard, ...state.slice(foundIndex + 1)])
     }
     isLiked 
     ? setFavourites(state => state.filter(e => e._id !== updatedCard._id))
@@ -64,24 +67,19 @@ function App() {
     switch (sortId) {
       case 'popular':
         // Реализовать очищение страницы для сортировки по другому признаку - т.е. вернуть все товары на страницу
-        setCards([...cards.filter(e => e.likes.length)])
-      break;
+        return setCards(cards => [...cards.filter(e => e.likes.length)]);
       case 'byRate':
-        setCards([...cards.sort((a, b) => productRate(b.rewiews) - productRate(a.rewiews))])
-      break;
+        return setCards(cards => [...cards.sort((a, b) => productRate(b.rewiews) - productRate(a.rewiews))]);
       case 'newProduct':
-        setCards([...cards.filter(e => e.tags.includes('new'))])
-      break;
+        return setCards(cards => [...cards.filter(e => e.tags.includes('new'))]);
       case 'cheapFirst':
-        setCards([...cards.sort((a, b) => b.price - a.price)])
-      break;
+        return setCards(cards => [...cards.sort((a, b) => b.price - a.price)]);
       case 'expensiveFirst':
-        setCards([...cards.sort((a, b) => a.price - b.price)])
-      break;
+        return setCards(cards => [...cards.sort((a, b) => a.price - b.price)]);
       case 'sale':
-        setCards([...cards.sort((a, b) => b.discount - a.discount)])
-      break;
+        return setCards(cards => [...cards.sort((a, b) => b.discount - a.discount)]);
       default:
+        setCards(cards => [...cards.sort((a, b) => b.price - a.price)]);
 
     }
   }
@@ -116,6 +114,7 @@ function App() {
     search,
     favourites,
     onSort,
+    setModalActive,
   }
 
   return (
@@ -123,6 +122,9 @@ function App() {
         <CardContext.Provider value={cardsValue}>
         <UserContext.Provider value={user}>
           <Header setSearch={setSearch} />
+          <Modal modalActive={modalActive} setModalActive={setModalActive}>
+            <Form />
+          </Modal>
           <section>
             {isAuthorized
             ? <Routes>

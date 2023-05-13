@@ -83,6 +83,16 @@
         border-radius: 8px;
         cursor: pointer;
     }
+    select {
+        margin: 10px;
+        border-radius: 8px;
+        padding: 5px;
+
+        & option:checked, option:hover {
+            background: #f5efec;
+        }
+    }
+    
 }
 
 .old_price {

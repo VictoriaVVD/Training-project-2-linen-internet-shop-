@@ -8,7 +8,7 @@ import { faHeart, faCartShopping, faUser } from '@fortawesome/free-solid-svg-ico
 import { Link } from 'react-router-dom';
 import { useLocation } from 'react-router-dom';
 import { CardContext } from '../../context/cardContext';
-import { CatalogButton } from './CatalogButton/catalogButton';
+import { CatalogButton } from '../CatalogButton/catalogButton';
 
 export const Header = (props) => {
 
@@ -16,7 +16,7 @@ export const Header = (props) => {
         props.setSearch(el);
     };
     const location = useLocation();
-    const {favourites} = useContext(CardContext);
+    const {favourites, setModalActive} = useContext(CardContext);
     
     return <header className='header'>
         <div className='header__wrapper'>
@@ -31,7 +31,7 @@ export const Header = (props) => {
                     <Link to={"/favourites"}>
                         <FontAwesomeIcon icon={faHeart} title='Избранное' />
                         <div className='icons__favourite-over-num'>
-                        {/* {favourites.length && <span>{favourites.length}</span>} */}
+                        {favourites?.length && <span>{favourites.length}</span>}
                     </div> 
                     </Link>  
                 </div>
@@ -42,7 +42,7 @@ export const Header = (props) => {
                 </div>
                 <div className="icons">
                     <a className="icon__profile" href="">
-                    <FontAwesomeIcon icon={faUser} />
+                    <FontAwesomeIcon icon={faUser} onClick={() => setModalActive(true)}  />
                     </a>
                 </div> 
             </div>
