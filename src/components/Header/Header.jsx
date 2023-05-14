@@ -41,9 +41,9 @@ export const Header = (props) => {
                     </a>
                 </div>
                 <div className="icons">
-                    <a className="icon__profile" href="">
-                    <FontAwesomeIcon icon={faUser} onClick={() => setModalActive(true)}  />
-                    </a>
+                    <Link to={'/singin'} className="icon__profile" onClick={() => setModalActive(true)}>
+                        <FontAwesomeIcon icon={faUser} />
+                    </Link>
                 </div> 
             </div>
         </div>

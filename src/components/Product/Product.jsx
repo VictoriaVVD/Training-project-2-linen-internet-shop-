@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 // import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import {faStar} from '@fortawesome/free-solid-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
+import { TabsMenu } from "../Tabs/TabsMenu";
 
 
 export const Product = ({product}) => {
@@ -63,7 +64,14 @@ export const Product = ({product}) => {
                     
                 </div>
             </div> 
-            <div className={s.product__card_desc}>
+
+
+            <div>
+                <TabsMenu product={product} />
+            </div>
+
+
+            {/* <div className={s.product__card_desc}>
                 <ul className={s.product__card_desc_list}>
                     <li>Описание</li>
                     <li>Информация</li>
@@ -88,7 +96,7 @@ export const Product = ({product}) => {
                     </div>
                 </div>
 
-            </div>
+            </div> */}
         </div>  
     </div>
     )

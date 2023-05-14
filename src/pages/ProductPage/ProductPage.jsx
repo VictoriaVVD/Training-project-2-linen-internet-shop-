@@ -6,7 +6,7 @@ import { useParams } from "react-router";
 
 
 export const ProductPage = () => {
-const [product, setProduct] = useState({})
+    const [product, setProduct] = useState({});
     const { id } = useParams();
 
     useEffect(() => {

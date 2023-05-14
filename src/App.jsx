@@ -11,7 +11,8 @@ import { UserContext } from "./context/userContext";
 import { CardContext } from "./context/cardContext";
 import { Home } from "./pages/Home/home";
 import { Modal } from "./components/Modal/Modal";
-import { Form } from "./components/Form/Form";
+import { RegisterForm } from "./components/Form/RegisterForm";
+import { AuthorizationForm } from "./components/Form/AuthorizationForm";
 
 
 const useDebounce = (path) => {
@@ -117,14 +118,24 @@ function App() {
     setModalActive,
   }
 
+  // const authRoutes = <>
+  //   <Route path="/singup" element={
+  //     <Modal modalActive={modalActive} setModalActive={setModalActive}>
+  //       <RegisterForm />
+  //     </Modal>
+  //   } />
+  //   <Route path="/singin" element={
+  //     <Modal modalActive={modalActive} setModalActive={setModalActive}>
+  //       <AuthorizationForm />
+  //     </Modal>
+  //   } />
+  // </>
+
   return (
     <div className="container">
         <CardContext.Provider value={cardsValue}>
         <UserContext.Provider value={user}>
           <Header setSearch={setSearch} />
-          <Modal modalActive={modalActive} setModalActive={setModalActive}>
-            <Form />
-          </Modal>
           <section>
             {isAuthorized
             ? <Routes>
@@ -133,6 +144,16 @@ function App() {
                 <Route path="/product/:id" element={<ProductPage />}/>
                 <Route path="/favourites" element={<FavouritesPage />}/>
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
+                <Route path="/singup" element={
+                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
+                    <RegisterForm />
+                  </Modal>
+                } />
+                <Route path="/singin" element={
+                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
+                    <AuthorizationForm />
+                  </Modal>
+                } />
               </Routes>
             : <Navigate to={'/not authorizated'} />}
           </section>
