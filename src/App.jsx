@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import './App.scss';
 import { Header } from './components/Header/Header';
 import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
@@ -9,10 +9,11 @@ import { api } from "./assets/api/api";
 import { Routes, Route, Navigate } from "react-router";
 import { UserContext } from "./context/userContext";
 import { CardContext } from "./context/cardContext";
-import { Home } from "./pages/Home/home";
+import { Home } from "./pages/Home/Home";
 import { Modal } from "./components/Modal/Modal";
 import { RegisterForm } from "./components/Form/RegisterForm";
 import { AuthorizationForm } from "./components/Form/AuthorizationForm";
+import { NewsPage } from "./pages/NewsPage/NewsPage";
 
 
 const useDebounce = (path) => {
@@ -32,13 +33,14 @@ const useDebounce = (path) => {
 function App() {
 
   const [cards, setCards] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState(undefined);
   const [user, setUser] = useState([]);
   const [isAuthorized, setAuthorized] = useState(true);
   const [favourites, setFavourites] = useState();
   const [modalActive, setModalActive] = useState(false);
   
-  const filteredCards = (cards) => {
+  const filtered = (cards) => {
     return cards.filter(e => e.author._id === "64416c303291d790b3fc22b3")
   }
   
@@ -47,21 +49,22 @@ function App() {
   const handleProductLike = async (product, isLiked) => {
     const updatedCard = await api.toggleCardLike(product._id, isLiked);
 
-    const foundIndex = cards.findIndex(e => e._id === updatedCard._id);
-    if (foundIndex !== -1) {
-      setCards(state => [...state.slice(0, foundIndex), updatedCard, ...state.slice(foundIndex + 1)])
-    }
+    setCards(state => [...state.map(e => e._id === updatedCard?._id ? updatedCard : e)]);
+    
     isLiked 
     ? setFavourites(state => state.filter(e => e._id !== updatedCard._id))
-    : setFavourites(state => [updatedCard, ...state])
-  }
+    : setFavourites(state => [updatedCard, ...state]);
 
-  const productRate = (rewiews) => {
-    if (!rewiews || rewiews.length) {
+    return isLiked
+  }
+  
+
+  const productRateNum = (reviews) => {
+    if (!reviews || reviews.length) {
       return 0;
     }
-    const result = rewiews.reduce((accum, el) => accum += el.rating, 0)
-    return result / rewiews.length;
+    const ratingTotal = reviews.reduce((accum, el) => accum += el.rating, 0)
+    return ratingTotal / reviews.length;
   }
 
   const onSort = (sortId) => {
@@ -70,7 +73,7 @@ function App() {
         // Реализовать очищение страницы для сортировки по другому признаку - т.е. вернуть все товары на страницу
         return setCards(cards => [...cards.filter(e => e.likes.length)]);
       case 'byRate':
-        return setCards(cards => [...cards.sort((a, b) => productRate(b.rewiews) - productRate(a.rewiews))]);
+        return setCards(cards => [...cards.sort((a, b) => productRateNum(b.reviews) - productRateNum(a.reviews))]);
       case 'newProduct':
         return setCards(cards => [...cards.filter(e => e.tags.includes('new'))]);
       case 'cheapFirst':
@@ -92,18 +95,20 @@ function App() {
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
     api.searchProduct(debounceValueInApp)
-    .then(data => setCards(filteredCards(data)))
+    .then(data => setCards(filtered(data)))
     .catch(error => console.log(new Error(error.message)));
   }, [debounceValueInApp]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getProductList()])
-      .then(([userData, data]) => {
+    Promise.all([api.getUserInfo(), api.getProductList(), api.getAllPosts()])
+      .then(([userData, data, posts]) => {
         setUser(userData);
-        const filtered = filteredCards(data.products);
-        setCards(filtered);
+        const filteredCards = filtered(data.products);
+        const filteredPosts = filtered(posts)
+        setCards(filteredCards);
+        setPosts(filteredPosts);
 
-        const favourites = filtered.filter(e => findLiked(e, userData._id));
+        const favourites = filteredCards.filter(e => findLiked(e, userData._id));
         setFavourites(favourites);
       })
       .catch(error => console.log(new Error(error.message)))
@@ -112,25 +117,16 @@ function App() {
   const cardsValue = {
     handleLike: handleProductLike,
     cards,
+    posts,
     search,
     favourites,
     onSort,
+    modalActive,
     setModalActive,
+    user,
   }
 
-  // const authRoutes = <>
-  //   <Route path="/singup" element={
-  //     <Modal modalActive={modalActive} setModalActive={setModalActive}>
-  //       <RegisterForm />
-  //     </Modal>
-  //   } />
-  //   <Route path="/singin" element={
-  //     <Modal modalActive={modalActive} setModalActive={setModalActive}>
-  //       <AuthorizationForm />
-  //     </Modal>
-  //   } />
-  // </>
-
+  
   return (
     <div className="container">
         <CardContext.Provider value={cardsValue}>
@@ -141,8 +137,9 @@ function App() {
             ? <Routes>
                 <Route path="/" element={<Home />} />
                 <Route path="/catalog" element={<CatalogPage />}/>
-                <Route path="/product/:id" element={<ProductPage />}/>
+                <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/favourites" element={<FavouritesPage />}/>
+                <Route path="/news" element={<NewsPage />} />
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
                 <Route path="/singup" element={
                   <Modal modalActive={modalActive} setModalActive={setModalActive}>
@@ -154,6 +151,11 @@ function App() {
                     <AuthorizationForm />
                   </Modal>
                 } />
+                {/* <Route path="/reviews" element={
+                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
+                    <ReviewForm />
+                  </Modal>
+                } /> */}
               </Routes>
             : <Navigate to={'/not authorizated'} />}
           </section>

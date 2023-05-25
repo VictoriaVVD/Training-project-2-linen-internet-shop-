@@ -1,11 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { Link } from "react-router-dom";
 
 export const RegisterForm = ({ isRequired = true }) => {
-
-    const [type, setType] = useState(true)
 
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
@@ -14,8 +12,6 @@ export const RegisterForm = ({ isRequired = true }) => {
         console.log({ data })
         //    await  api.updateUser(data)
     }
-
-    console.log({ errors });
 
     const groupRegister = {
         required: {

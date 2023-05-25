@@ -10,9 +10,9 @@ export const CatalogButton = () => {
         <a href='/catalog' className="menu-item">
             Каталог товаров
         </a>
-        <Link to={""}>
-            <span className="menu-item">Новинки</span>
-        </Link>
+        <a href="/news">
+            <span className="menu-item">Новости</span>
+        </a>
         <Link to={""}>
             <span className="menu-item">SALE</span>
         </Link>

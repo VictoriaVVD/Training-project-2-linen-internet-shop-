@@ -73,16 +73,10 @@
 }
 .desc {
     max-width: 488px;
+    width: 100%;
     flex-shrink: 0;
     text-align: justify;
     
-    button {
-        padding: 8px;
-        background-color: #f5efec;
-        border: none;
-        border-radius: 8px;
-        cursor: pointer;
-    }
     select {
         margin: 10px;
         border-radius: 8px;
@@ -121,7 +115,10 @@
 }
 .rating {
     display: flex;
-    flex-direction: column;
+
+    & span {
+        margin-right: 10px;
+    }
 }
 .select {
     display: flex;

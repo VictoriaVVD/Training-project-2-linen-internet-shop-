@@ -1,13 +1,11 @@
 .form {
 
-    &__wrapper {
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
         gap: 10px;
-    }
-
+        
     &__input, button {
         margin: 8px;
         border: rgb(218, 212, 212);
@@ -16,6 +14,7 @@
         padding: 8px;
         color: rgb(99, 94, 94);
         background-color: #fff;
+        outline: none;
 
     }
 
@@ -26,4 +25,14 @@
         color: #1a1a1a;
     }
     
+}
+
+h3 {
+    text-align: center;
+}
+
+textarea {
+    font-size: 12px;
+    font-family: inherit;
+    outline: none;
 }

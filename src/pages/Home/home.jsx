@@ -1,5 +1,6 @@
 import React from "react";
 import { Carousel } from 'antd';
+import "./style.scss"
 
 
 export const Home = () => {
@@ -15,21 +16,24 @@ export const Home = () => {
     };
 
     return (
-
-    <Carousel autoplay >
-        <div style={{backgroundSize: 'contain'}}>
-            <img src="https://cdn-mgsm.akinon.net/cms/2023/05/01/281cfcc2-e836-4456-8a3f-fbf1006061a4.jpg" style={contentStyle} alt="promo"></img>
-        </div>
-        <div >
-            <img src="https://www.shopmarriott.com/images/products/v2/xlrg/Marriott-platinum-stitch-bed-bedding-set-mar-101-st-gy_xlrg.jpg" alt="promo" style={contentStyle}></img>
-        </div>
-        <div >
-            <img src="https://cozyhome.ru/upload/resize_cache/iblock/561/xabmb2mxmthj9dfrtz7bo73i0jhc52wt/1320_360_2/QI0A1745.jpg" style={contentStyle} alt="promo"></img>
-        </div>
-        <div >
-            <img src="https://cdn-mgsm.akinon.net/cms/2023/02/27/0cc1577e-4026-46ef-a28b-95924cd5ff8a.jpg" style={contentStyle} alt="promo"></img>
-        </div>
-    </Carousel>
+            <div className="home__wrapper">
+                <div className="home__container">
+                    <Carousel autoplay >
+                        <div style={{backgroundSize: 'auto'}}>
+                            <img src="https://cozyhome.ru/upload/iblock/c94/Main_banner_1249x468-1-_1_.png" style={contentStyle} alt="promo"></img>
+                        </div>
+                        <div >
+                            <img src="https://s22221.cdn.ngenix.net/media/wysiwyg/banners/slider/24052023_towels_1343.webp" alt="promo" style={contentStyle}></img>
+                        </div>
+                        <div >
+                            <img src="https://s22221.cdn.ngenix.net/media/wysiwyg/banners/slider/odeyal_pod_1600x540.webp" style={contentStyle} alt="promo"></img>
+                        </div>
+                        <div >
+                            <img src="https://onsilk.ru/wp-content/uploads/2019/06/banner_she-lkovyie-odeyala.jpg" style={contentStyle} alt="promo"></img>
+                        </div>
+                    </Carousel>
+                </div>
+            </div>
     );
 }
 

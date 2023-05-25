@@ -1,18 +1,34 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import s from "./index.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-// import {faHeart} from '@fortawesome/free-solid-svg-icons';
-// import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
-import {faStar} from '@fortawesome/free-solid-svg-icons';
+import { faHeart } from '@fortawesome/free-solid-svg-icons';
+import { faCartPlus } from "@fortawesome/free-solid-svg-icons";
+import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import { Link, useNavigate } from "react-router-dom";
 import { TabsMenu } from "../Tabs/TabsMenu";
+import { ProductRate } from "../ProductRate/ProductRate";
+import { CardContext } from "../../context/cardContext";
 
 
-export const Product = ({product}) => {
+
+export const Product = ({product, onProductLike, setProduct}) => {
+
+    const [isLikedProduct, setProductLike] = useState(false);
+
     const navigate = useNavigate();
     const goBack = () => {
         navigate(-1);
     }
+    const user = useContext(CardContext);
+    const isLiked = product.likes?.some(e => e === user?._id);
+    
+    const toggleCardLike = () => {
+        onProductLike(product, isLikedProduct);
+    } 
+
+    useEffect(() => {
+        setProductLike(isLiked)
+    }, [product.likes, user]);
 
     return (
     <div className={s.product}>
@@ -29,11 +45,10 @@ export const Product = ({product}) => {
                 <div className={s.product__info}>
                     <div className={s.product__title_wrapper}>
                         <span className={s.product__title}>{product.name}</span>
-                        {/* <span className={s.product__like} onClick={toggleCardLike} title="Добавить в избранное">{liked ? <FontAwesomeIcon icon={faHeart} /> : <FontAwesomeIcon icon={faHeartReg} />}</span> */}
                     </div>
                     <div className={s.rating}>
-                        <span>Article</span>
-                        <span><FontAwesomeIcon icon={faStar} /></span>
+                        <span>Barcode</span>
+                        <ProductRate />
                     </div>
                     {!!product.discount &&<div className={s.desc}>Старая цена:
                         <span className={s.old_price}>{Math.round(product.price / (1 - product.discount / 100))}&nbsp;₽</span>
@@ -59,44 +74,22 @@ export const Product = ({product}) => {
                         </select>
                     </div>
                     <div className={s.desc}>
-                        <button>Добавить в корзину</button>
+                        <button>
+                            <span className={s.product__like}><FontAwesomeIcon icon={faCartPlus} size="lg" /></span>
+                            <span>Добавить в корзину</span>
+                        </button>
+                        <button onClick={toggleCardLike}>
+                            <span className={s.product__like}>{isLiked ? <FontAwesomeIcon icon={faHeart} size="lg" /> : <FontAwesomeIcon icon={faHeartReg} size="lg" />}</span>
+                            <span >{isLiked ? "В избранном" : "Добавить в избранное"}</span>
+                        </button>
                     </div>
                     
                 </div>
             </div> 
 
-
             <div>
-                <TabsMenu product={product} />
+                <TabsMenu product={product} setProduct={setProduct} />
             </div>
-
-
-            {/* <div className={s.product__card_desc}>
-                <ul className={s.product__card_desc_list}>
-                    <li>Описание</li>
-                    <li>Информация</li>
-                    <li>Отзывы</li>
-                </ul>
-                <ul className={s.product__card_desc_list}>
-                    <li>
-                        {product.description}
-                    </li>
-                    <li></li>
-                    <li></li>
-                </ul>
-                <div className={s.product__card_desc_content}>
-                    <div className={s.desc}>
-                        <span className={s.description}></span>
-                    </div>
-                    <div className={s.desc}>
-                        <span className={s.description}></span>
-                    </div>
-                    <div className={s.desc}>
-                        <span className={s.description}></span>
-                    </div>
-                </div>
-
-            </div> */}
         </div>  
     </div>
     )

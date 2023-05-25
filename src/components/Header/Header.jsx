@@ -1,7 +1,6 @@
 import React, { useContext } from 'react';
 import "./Header.scss";
 import { ReactComponent as Logo } from "../../assets/images/logo 1.svg";
-// import s from "./style.modules.css";
 import { Search } from './Search/Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart, faCartShopping, faUser } from '@fortawesome/free-solid-svg-icons';

@@ -6,6 +6,8 @@ class Api {
     constructor (info) {
         this.baseUrl = info.baseUrl;
         this.headers = info.headers;
+        this.basePostUrl = info.basePostUrl;
+        // this.postHeaders = info.postHeaders;
     }
 
     getProductList() {
@@ -30,24 +32,10 @@ class Api {
         .then(onResponse)
     }
 
-    // addLike(productId) {
-    //     return fetch(`${this.baseUrl}products/likes/${productId}`, {
-    //         headers: this.headers,
-    //         method: "PUT",
-    //     })
-    //     .then(onResponse);
-    // }
-    // deleteLike(productId) {
-    //     return fetch(`${this.baseUrl}products/likes/${productId}`, {
-    //         headers: this.headers,
-    //         method: "DELETE",
-    //     })
-    //     .then(onResponse);
-    // }
-    toggleCardLike (productId, isLiked) {
+    toggleCardLike (productId, like) {
         return fetch(`${this.baseUrl}products/likes/${productId}`, {
             headers: this.headers,
-            method: isLiked ? "DELETE" : "PUT",
+            method: like ? "DELETE" : "PUT",
         })
         .then(onResponse)
     }
@@ -58,15 +46,47 @@ class Api {
         })
         .then(onResponse)
     }
+
+    addReview(productId, data) {
+        return fetch(`${this.baseUrl}products/review/${productId}`, {
+            method: "POST",
+            headers: this.headers,
+            body: JSON.stringify(data),
+        })
+        .then(onResponse)
+    }
+
+    deleteReview(productId, reviewId) {
+        return fetch(`${this.baseUrl}products/review/${productId}/${reviewId}`, {
+            method: "DELETE",
+            headers: this.headers,
+        })
+        .then(onResponse)
+    }
+
+    getAllPosts() {
+        return fetch(`${this.basePostUrl}`, {
+            headers: this.headers,
+        })
+        .then(onResponse)
+    }
+
+    togglePostLike(postId, liked) {
+        return fetch(`${this.basePostUrl}/likes/${postId}`, {
+            method: liked ? "DELETE" : "PUT",
+            headers: this.headers,
+        })
+        .then(onResponse)
+    }
 }
 
 const config = {
     baseUrl: "https://api.react-learning.ru/",
+    basePostUrl: "https://api.react-learning.ru/v2/group-12/posts",
     headers: {
         "Content-Type": "application/json",
         "authorization": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQxNmMzMDMyOTFkNzkwYjNmYzIyYjMiLCJncm91cCI6Imdyb3VwLTEyIiwiaWF0IjoxNjgyMDE4ODIzLCJleHAiOjE3MTM1NTQ4MjN9.eG8M6O1kUXvXhxIu3jTMtOcru6qiIG0_i-DDZcu2SgA",
     }
 }
-
 
 export const api = new Api(config);
