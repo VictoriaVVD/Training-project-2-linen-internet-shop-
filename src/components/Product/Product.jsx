@@ -19,7 +19,7 @@ export const Product = ({product, onProductLike, setProduct}) => {
     const goBack = () => {
         navigate(-1);
     }
-    const user = useContext(CardContext);
+    const {user, productRateNum} = useContext(CardContext);
     const isLiked = product.likes?.some(e => e === user?._id);
     
     const toggleCardLike = () => {
@@ -48,7 +48,7 @@ export const Product = ({product, onProductLike, setProduct}) => {
                     </div>
                     <div className={s.rating}>
                         <span>Barcode</span>
-                        <ProductRate />
+                        <ProductRate rating={Math.floor(productRateNum(product.reviews))}/>
                     </div>
                     {!!product.discount &&<div className={s.desc}>Старая цена:
                         <span className={s.old_price}>{Math.round(product.price / (1 - product.discount / 100))}&nbsp;₽</span>

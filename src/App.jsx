@@ -60,7 +60,7 @@ function App() {
   
 
   const productRateNum = (reviews) => {
-    if (!reviews || reviews.length) {
+    if (!reviews || !reviews.length) {
       return 0;
     }
     const ratingTotal = reviews.reduce((accum, el) => accum += el.rating, 0)
@@ -124,6 +124,7 @@ function App() {
     modalActive,
     setModalActive,
     user,
+    productRateNum,
   }
 
   

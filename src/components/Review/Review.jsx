@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from "react";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faStar } from "@fortawesome/free-regular-svg-icons";
-import { faRectangleXmark } from "@fortawesome/free-regular-svg-icons";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { api } from "../../assets/api/api";
+import { ProductRate } from "../ProductRate/ProductRate";
 
 
 const timeOptions = {
@@ -11,13 +11,16 @@ const timeOptions = {
     month: 'short', year: "numeric"
 }
 
-export const Review = ({review}) => {
+export const Review = ({review, setProduct}) => {
+    
     const deleteReview = useCallback(async () => {
-        const res = await api.deleteReview(review.product, review._id);
-        console.log(res);
-        
+    const res = await api.deleteReview(review.product, review._id);
+    setProduct({...res});
 
     }, [review._id, review.product])
+    console.log(review.rating);
+
+
     return (
         <>
             <div className="review__wrapper"> 
@@ -26,10 +29,10 @@ export const Review = ({review}) => {
                         <span> {review.author.name}</span>
                         <span className='review__date'> {new Date(review.updated_at).toLocaleString('ru-RU', timeOptions)}</span>
                     </div>
-                    {/* <div className='review__rate'>{new Array(review?.rating ?? 1).fill(<FontAwesomeIcon icon={faStar} />)}</div> */}
+                    <ProductRate rating={review.rating} />
                     <div className='review__text'>{review.text}</div>
                 </div>
-                <div><FontAwesomeIcon icon={faRectangleXmark} onClick={() => deleteReview()}/></div>
+                <div><FontAwesomeIcon icon={faCircleXmark} size="lg" onClick={() => deleteReview()}/></div>
             </div>
             <div className='review__hr' />
         </>
