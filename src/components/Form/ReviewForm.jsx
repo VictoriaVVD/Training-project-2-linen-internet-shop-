@@ -3,18 +3,17 @@ import { useForm } from "react-hook-form";
 import { ProductRate } from "../ProductRate/ProductRate";
 import "./style.scss";
 import { UserContext } from "../../context/userContext";
-import { api } from "../../assets/api/api";
 
-export const ReviewForm = ({product, setProduct, setModalActive, rating}) => {
-    const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
+export const ReviewForm = ({product, setModalActive, onSendReview}) => {
+    const { register, handleSubmit, reset, formState: { errors } } = useForm({mode: "onSubmit"});
+    const user = useContext(UserContext);
     const [rate, setRate] = useState();
-    const sendData = async (data) => {
-        const res = await api.addReview(product._id, data);
-        console.log({res});
-        setProduct({...res});
+    const sendData = ({text}) => {
+        onSendReview({ text, rating: rate });
+        reset();
         setModalActive(false)
-        
     }
+    
     const reviewRegister = {
         required: {
             value: true,
@@ -26,8 +25,6 @@ export const ReviewForm = ({product, setProduct, setModalActive, rating}) => {
         },
     }
 
-
-    const user = useContext(UserContext);
     return (
         <div className="form__review_wrapper">
             <div className="form__wrapper">
@@ -37,7 +34,7 @@ export const ReviewForm = ({product, setProduct, setModalActive, rating}) => {
                         <div className="form__review_info">
                             <p className="form__review_info_title">{product.name}</p>
                             <span>Оцените товар</span>
-                            <ProductRate product={product} setRate={setRate} isEditable={true} />
+                            <ProductRate rating={rate} setRate={setRate} isEditable={true} />
                         </div>
                     </div>
                     <textarea className="form__input" cols={60} rows={8} {...register("text", reviewRegister)} placeholder={`${user.name}, оставьте, пожалуйста, Ваш отзыв о товаре `}></textarea>

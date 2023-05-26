@@ -2,24 +2,22 @@ import React, { useState } from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { Link } from "react-router-dom";
+import { apiUser } from "../../assets/api/apiUser";
 
 export const AuthorizationForm = ({ isRequired = true }) => {
 
     const [type, setType] = useState(true)
 
-
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
 
-    const sendData = (data) => {
-        console.log({ data })
-        //    await  api.updateUser(data)
+    const sendData = async (data) => {
+        const res = await apiUser.singin(data);
+        localStorage.setItem("token", res.token);
     }
-
-    console.log({ errors });
 
     const emailRegister = { 
         required: {
-            value: true,
+            value: isRequired,
             massage: 'Введите эл.адрес'
         } 
     }
@@ -37,17 +35,20 @@ export const AuthorizationForm = ({ isRequired = true }) => {
             <form className="form" onSubmit={handleSubmit(sendData)}>
 
                 <div>
-                    <input className="form__input" type="email" {...register("email", emailRegister)} placeholder="email" />
+                    <input className="form__input" type="text" {...register("email", emailRegister)} placeholder="email" />
                     {errors?.email && <span> {errors?.email.message}</span>}
                 </div>
                 <div className="form__pass">
-                    <input className="form__input" type={!type ? 'password' : 'text'} {...register("password", passwordRegister)} placeholder="Пароль" />
+                    <input className="form__input" type='password' {...register("password", passwordRegister)} placeholder="Пароль" />
                     {errors?.password && <span> {errors?.password.message}</span>}
+                </div>
+                <div>
+                    <Link className="form__link" to={'/forgot-password'}>Забыли пароль</Link>
                 </div>
                 <div>
                     <Link className="form__link" to={'/singup'}>Регистрация</Link>
                 </div>
-                <button type="submit">Войти</button>
+                <button className="form__btn"  type="submit">Войти</button>
             </form>
         </div>
     )

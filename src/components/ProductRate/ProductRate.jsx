@@ -6,11 +6,14 @@ import "./style.scss";
 import { ReactComponent as Star } from "../../assets/images/star.svg";
 import cn from "classnames";
 
+const emptyStarsState = new Array(5).fill(<Star />)
+
 export const ProductRate = ({rating, setRate = () => {}, isEditable=false }) => {
-    const emptyState = new Array(5).fill(<Star />)
-    const [ratingArr, setRating] = useState(emptyState);
+    const [ratingArr, setRating] = useState(emptyStarsState);
     const changeRate = useCallback((r) => {
         if(!isEditable) return;
+        console.log(r);
+        rateConstructor(r)
         setRate(r)
     }, [setRate, isEditable])
     const changeStarRateOnMove = (r) => {
@@ -18,7 +21,7 @@ export const ProductRate = ({rating, setRate = () => {}, isEditable=false }) => 
         rateConstructor(r)
     }
     const rateConstructor = useCallback((rate) => {
-        const updatedRatingArr = emptyState.map((item, index) => 
+        const updatedRatingArr = emptyStarsState.map((item, index) => 
             <Star className={cn("star", {
                 "filled": index < rate,
                 "editable": isEditable,
@@ -28,8 +31,7 @@ export const ProductRate = ({rating, setRate = () => {}, isEditable=false }) => 
         onClick={() => changeRate(index + 1)}
         />
         )
-        
-        
+
         setRating(updatedRatingArr)
     }, [rating, isEditable])
 

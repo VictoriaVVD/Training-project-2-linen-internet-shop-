@@ -1,9 +1,9 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback } from "react";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
-import { api } from "../../assets/api/api";
 import { ProductRate } from "../ProductRate/ProductRate";
+import { apiProduct } from "../../assets/api/apiProduct";
 
 
 const timeOptions = {
@@ -12,14 +12,12 @@ const timeOptions = {
 }
 
 export const Review = ({review, setProduct}) => {
-    
+
     const deleteReview = useCallback(async () => {
-    const res = await api.deleteReview(review.product, review._id);
+    const res = await apiProduct.deleteReview(review.product, review._id);
     setProduct({...res});
 
     }, [review._id, review.product])
-    console.log(review.rating);
-
 
     return (
         <>

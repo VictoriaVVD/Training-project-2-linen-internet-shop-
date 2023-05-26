@@ -5,7 +5,9 @@ import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { FavouritesPage } from "./pages/FavouritesPage/FavouritesPage";
 import { Footer } from './components/Footer/Footer';
-import { api } from "./assets/api/api";
+import { apiProduct } from "./assets/api/apiProduct";
+import { apiUser } from "./assets/api/apiUser";
+import { apiPost } from "./assets/api/apiPost";
 import { Routes, Route, Navigate } from "react-router";
 import { UserContext } from "./context/userContext";
 import { CardContext } from "./context/cardContext";
@@ -14,6 +16,8 @@ import { Modal } from "./components/Modal/Modal";
 import { RegisterForm } from "./components/Form/RegisterForm";
 import { AuthorizationForm } from "./components/Form/AuthorizationForm";
 import { NewsPage } from "./pages/NewsPage/NewsPage";
+import { ForgotPassForm } from "./components/Form/ForgotPassForm";
+import { PostPage } from "./pages/PostPage/PostPage";
 
 
 const useDebounce = (path) => {
@@ -47,7 +51,7 @@ function App() {
   const debounceValueInApp = useDebounce(search);
 
   const handleProductLike = async (product, isLiked) => {
-    const updatedCard = await api.toggleCardLike(product._id, isLiked);
+    const updatedCard = await apiProduct.toggleCardLike(product._id, isLiked);
 
     setCards(state => [...state.map(e => e._id === updatedCard?._id ? updatedCard : e)]);
     
@@ -94,13 +98,13 @@ function App() {
 
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
-    api.searchProduct(debounceValueInApp)
+    apiProduct.searchProduct(debounceValueInApp)
     .then(data => setCards(filtered(data)))
     .catch(error => console.log(new Error(error.message)));
   }, [debounceValueInApp]);
 
   useEffect(() => {
-    Promise.all([api.getUserInfo(), api.getProductList(), api.getAllPosts()])
+    Promise.all([apiUser.getUserInfo(), apiProduct.getProductList(), apiPost.getAllPosts()])
       .then(([userData, data, posts]) => {
         setUser(userData);
         const filteredCards = filtered(data.products);
@@ -113,6 +117,12 @@ function App() {
       })
       .catch(error => console.log(new Error(error.message)))
   }, []);
+
+  useEffect(() => {
+    if (localStorage.getItem('token')) {
+      setAuthorized(true)
+    }
+  }, [])
 
   const cardsValue = {
     handleLike: handleProductLike,
@@ -141,6 +151,7 @@ function App() {
                 <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/favourites" element={<FavouritesPage />}/>
                 <Route path="/news" element={<NewsPage />} />
+                <Route path="/post/:id" element={<PostPage />} />
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
                 <Route path="/singup" element={
                   <Modal modalActive={modalActive} setModalActive={setModalActive}>
@@ -152,11 +163,11 @@ function App() {
                     <AuthorizationForm />
                   </Modal>
                 } />
-                {/* <Route path="/reviews" element={
+                <Route path="/forgot-password" element={
                   <Modal modalActive={modalActive} setModalActive={setModalActive}>
-                    <ReviewForm />
+                    <ForgotPassForm />
                   </Modal>
-                } /> */}
+                } />
               </Routes>
             : <Navigate to={'/not authorizated'} />}
           </section>

@@ -1,10 +1,10 @@
 import React from "react";
 import { Article } from "../../components/Article/Article";
 
-export const PostPage = () => {
+export const PostPage = ({post}) => {
     return (
         <div>
-            <Article />
+            <Article post={post} />
         </div>
     )
 }

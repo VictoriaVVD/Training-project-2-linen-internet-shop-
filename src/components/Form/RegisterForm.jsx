@@ -2,15 +2,15 @@ import React from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { Link } from "react-router-dom";
+import { apiUser } from "../../assets/api/apiUser";
 
 export const RegisterForm = ({ isRequired = true }) => {
 
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
 
-    const sendData = (data) => {
-        console.log({ data })
-        //    await  api.updateUser(data)
+    const sendData = async (data) => {
+        const res = await apiUser.singup(data);
     }
 
     const groupRegister = {
@@ -23,7 +23,7 @@ export const RegisterForm = ({ isRequired = true }) => {
     }
     const emailRegister = { 
         required: {
-            value: true,
+            value: isRequired,
             massage: 'Введите эл.адрес'
         } 
     }
@@ -63,7 +63,7 @@ export const RegisterForm = ({ isRequired = true }) => {
                 <div>
                     <Link className="form__link" to={'/singin'}>Авторизация</Link>
                 </div>
-                <button type="submit">Отправить</button>
+                <button className="form__btn"  type="submit">Отправить</button>
             </form>
         </div>
     )

@@ -1,11 +1,10 @@
 import React, { useContext, useEffect, useState } from "react";
 // import s from "./index.module.css";
 import { Product } from "../../components/Product/Product";
-import { api } from "../../assets/api/api";
 import { useParams } from "react-router";
 import { CardContext } from "../../context/cardContext";
 import { useCallback } from "react";
-import { UserContext } from "../../context/userContext";
+import { apiProduct } from "../../assets/api/apiProduct";
 
 export const ProductPage = () => {
     const [product, setProduct] = useState({});
@@ -27,9 +26,14 @@ export const ProductPage = () => {
             }
     }, [handleLike, user._id])
 
+    const addReview = useCallback(async data => {
+        const result = await apiProduct.addReview(product._id, data);
+        setProduct(() => ({ ...result }))
+    }, [product._id])
+
     useEffect(() => {
         if (id) {
-            api.getProductById(id)
+            apiProduct.getProductById(id)
             .then(data => { setProduct(data)})
             .catch(error => console.log(error.statusText))
         }
@@ -38,7 +42,7 @@ export const ProductPage = () => {
 
     return (
         <>
-            <Product product={product} onProductLike={onProductLike} setProduct={setProduct} />
+            <Product product={product} onProductLike={onProductLike} addReview={addReview} setProduct={setProduct} />
         </>
     )
 }

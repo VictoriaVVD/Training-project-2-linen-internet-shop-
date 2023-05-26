@@ -8,10 +8,12 @@ import { Link, useNavigate } from "react-router-dom";
 import { TabsMenu } from "../Tabs/TabsMenu";
 import { ProductRate } from "../ProductRate/ProductRate";
 import { CardContext } from "../../context/cardContext";
+import { Modal } from "../Modal/Modal";
+import { ReviewForm } from "../Form/ReviewForm";
 
 
 
-export const Product = ({product, onProductLike, setProduct}) => {
+export const Product = ({product, onProductLike, setProduct, rating, addReview}) => {
 
     const [isLikedProduct, setProductLike] = useState(false);
 
@@ -19,16 +21,19 @@ export const Product = ({product, onProductLike, setProduct}) => {
     const goBack = () => {
         navigate(-1);
     }
-    const {user, productRateNum} = useContext(CardContext);
+    const {user, productRateNum, modalActive, setModalActive} = useContext(CardContext);
     const isLiked = product.likes?.some(e => e === user?._id);
     
     const toggleCardLike = () => {
         onProductLike(product, isLikedProduct);
     } 
+    const onSendReview = (data) => {
+        addReview(data);
+    }
 
     useEffect(() => {
         setProductLike(isLiked)
-    }, [product.likes, user]);
+    }, [product.likes, user, isLiked]);
 
     return (
     <div className={s.product}>
@@ -80,7 +85,7 @@ export const Product = ({product, onProductLike, setProduct}) => {
                         </button>
                         <button onClick={toggleCardLike}>
                             <span className={s.product__like}>{isLiked ? <FontAwesomeIcon icon={faHeart} size="lg" /> : <FontAwesomeIcon icon={faHeartReg} size="lg" />}</span>
-                            <span >{isLiked ? "В избранном" : "Добавить в избранное"}</span>
+                            <span >{isLiked ? "Добавлено в избранное" : "Добавить в избранное"}</span>
                         </button>
                     </div>
                     
@@ -89,6 +94,9 @@ export const Product = ({product, onProductLike, setProduct}) => {
 
             <div>
                 <TabsMenu product={product} setProduct={setProduct} />
+                <Modal modalActive={modalActive} setModalActive={setModalActive}>
+                    <ReviewForm product={product} onSendReview={onSendReview} setModalActive={setModalActive} rating={rating}  />
+                </Modal>,
             </div>
         </div>  
     </div>

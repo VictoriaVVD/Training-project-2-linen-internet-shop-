@@ -5,7 +5,7 @@ import { CardContext } from "../../context/cardContext";
 export const NewsPage = () => {
     
     const {posts} = useContext(CardContext);
-
+    console.log(posts);
     return (
         <div>
         <div>Карусель популярных статей</div>

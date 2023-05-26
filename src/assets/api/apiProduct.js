@@ -7,7 +7,6 @@ class Api {
         this.baseUrl = info.baseUrl;
         this.headers = info.headers;
         this.basePostUrl = info.basePostUrl;
-        // this.postHeaders = info.postHeaders;
     }
 
     getProductList() {
@@ -64,20 +63,6 @@ class Api {
         .then(onResponse)
     }
 
-    getAllPosts() {
-        return fetch(`${this.basePostUrl}`, {
-            headers: this.headers,
-        })
-        .then(onResponse)
-    }
-
-    togglePostLike(postId, liked) {
-        return fetch(`${this.basePostUrl}/likes/${postId}`, {
-            method: liked ? "DELETE" : "PUT",
-            headers: this.headers,
-        })
-        .then(onResponse)
-    }
 }
 
 const config = {
@@ -89,4 +74,4 @@ const config = {
     }
 }
 
-export const api = new Api(config);
+export const apiProduct = new Api(config);

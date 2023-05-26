@@ -11,7 +11,7 @@ export const CatalogButton = () => {
             Каталог товаров
         </a>
         <a href="/news">
-            <span className="menu-item">Новости</span>
+            <span className="menu-item">Блог</span>
         </a>
         <Link to={""}>
             <span className="menu-item">SALE</span>

@@ -23,7 +23,7 @@ export const TabsMenu = ({product, setProduct}) => {
     {
       key: '3',
       label: `Отзывы`,
-      children: <ReviewsList product={product} setProduct={setProduct} />,
+      children: <ReviewsList product={product} setProduct={setProduct}/>,
     },
   ];
   
