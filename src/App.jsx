@@ -116,6 +116,25 @@ function App() {
     }
   }
 
+  const sortPosts = (sortId) => {
+    switch (sortId) {
+      case 'popular':
+        // Реализовать очищение страницы для сортировки по другому признаку - т.е. вернуть все товары на страницу
+        return setPosts(posts => [...posts.filter(e => e.likes.length)]);
+      case 'byRate':
+        return setPosts(posts => [...posts.sort((a, b) => productRateNum(b.reviews) - productRateNum(a.reviews))]);
+      case 'byAuthor':
+        return setPosts(posts => [...posts.sort((a, b) => b.author - a.author)]);
+      case 'byAlphabet':
+        return setPosts(posts => [...posts.sort()]);
+      case 'byDate':
+        return setPosts(posts => [...posts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))]);
+      default:
+        setPosts(posts => [...posts.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))]);
+
+    }
+  }
+
 
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
@@ -157,6 +176,7 @@ function App() {
     favourites,
     favouritesPosts,
     onSort,
+    sortPosts,
     modalActive,
     setModalActive,
     user,

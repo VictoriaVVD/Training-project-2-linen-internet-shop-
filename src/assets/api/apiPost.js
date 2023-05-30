@@ -29,6 +29,14 @@ class Api {
         })
         .then(onResponse)
     }
+    addNewPost(data) {
+        return fetch(`${this.basePostUrl}`, {
+            method: "POST",
+            headers: this.headers,
+            body: JSON.stringify(data),
+        })
+        .then(onResponse)
+    }
 }
 
 const config = {

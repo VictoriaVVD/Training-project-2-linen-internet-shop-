@@ -4,9 +4,8 @@ import s from "./index.module.scss";
 import { CardContext } from "../../context/cardContext";
 import { Link, useNavigate } from "react-router-dom";
 import { AddProductForm } from "../../components/Form/AddProductForm";
-import { useSelector } from "react-redux";
+// import { useSelector } from "react-redux";
 import { Modal } from "../../components/Modal/Modal"
-import { apiProduct } from "../../assets/api/apiProduct";
 
 
 export const CatalogPage = () => {
@@ -38,7 +37,7 @@ export const CatalogPage = () => {
         title: "По размеру скидки"}
     ]
 
-    const {products} = useSelector(s => s)
+    // const {products} = useSelector(s => s)
 
     const {cards, setCards, onSort, search, setModalActive, modalActive} = useContext(CardContext);
 
@@ -60,7 +59,7 @@ export const CatalogPage = () => {
         <>
             <div className={s.sort__wrapper}>
                     {search && <p className={s.search__message}>По Вашему запросу {cards.length === 1 ? 'найден' : 'найдено'} {cards.length} {foundProduct(cards.length)}</p>}
-                <Link to="/catalog">
+                <Link>
                     <span onClick={() => goBack()}>{'<'} Назад</span>
                 </Link>
                 <div className={s.sort__cards}>

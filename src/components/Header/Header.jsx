@@ -24,7 +24,7 @@ export const Header = (props) => {
                 <Logo className='header__logo'/>
             </Link>
 
-            {location.pathname === "/catalog" && <Search setSearch={setSearchData} />}
+            {(location.pathname === "/catalog" || location.pathname === "/news") && <Search setSearch={setSearchData} />}
             <div className='icons__wrapper'>
                 <div className='icons'>
                     <Link to={"/favourites"}>

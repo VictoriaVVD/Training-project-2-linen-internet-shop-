@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { apiProduct } from "../../assets/api/apiProduct";
 
-export const AddProductForm = ({setModalActive, isRequired = true, onSendNewProduct }) => {
+export const AddProductForm = ({ isRequired = true, onSendNewProduct }) => {
 
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
