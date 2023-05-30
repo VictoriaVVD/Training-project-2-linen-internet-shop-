@@ -1,5 +1,5 @@
 const onResponse = (res) => {
-    return res.ok ? res.json() : Promise.reject("Error", res.status);
+    return res.ok ? res.json() : res.json().catch(data => console.log(data.message))
 }
 
 class Api {
@@ -39,13 +39,6 @@ class Api {
         .then(onResponse)
     }
 
-    getUserInfo() {
-        return fetch(`${this.baseUrl}users/me`, {
-            headers: this.headers,
-        })
-        .then(onResponse)
-    }
-
     addReview(productId, data) {
         return fetch(`${this.baseUrl}products/review/${productId}`, {
             method: "POST",
@@ -57,6 +50,23 @@ class Api {
 
     deleteReview(productId, reviewId) {
         return fetch(`${this.baseUrl}products/review/${productId}/${reviewId}`, {
+            method: "DELETE",
+            headers: this.headers,
+        })
+        .then(onResponse)
+    }
+
+    addNewProduct(data) {
+        return fetch(`${this.baseUrl}products`, {
+            method: "POST",
+            headers: this.headers,
+            body: JSON.stringify(data),
+        })
+        .then(onResponse)
+    }
+
+    deleteProduct(productId) {
+        return fetch(`${this.baseUrl}products/${productId}`, {
             method: "DELETE",
             headers: this.headers,
         })

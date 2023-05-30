@@ -2,18 +2,17 @@ import React, { useContext } from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faThumbsUp } from "@fortawesome/free-regular-svg-icons";
+import { faThumbsUp, faComment } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as faThumbsUpSolid } from "@fortawesome/free-solid-svg-icons";
-import { CardContext } from "../../context/cardContext";
 import { UserContext } from "../../context/userContext";
 
-export const Post = ({post}) => {
-    const handleLike = useContext(CardContext);
+export const Post = ({post, handlePostLike}) => {
     const user = useContext(UserContext);
+    console.log({post});
     const isLiked = post.likes.some(e => e === user._id);
-    const toggleCardLike = () => {
-        handleLike(post, isLiked);
-}
+    const togglePostLike = () => {
+        handlePostLike(post, isLiked);
+    }
     const timeOptions = {
         day: 'numeric',
         month: 'short', year: "numeric"
@@ -22,22 +21,31 @@ export const Post = ({post}) => {
         <div className="post">
         <div className="post__wrapper">
             <div className="post__content">
-                <Link to={`/news/postID`}>
+                <Link to={`/post/${post._id}`}>
                     <img src={post.image} alt="" className="post__image" />
                 </Link>
                 <div className="post__info">
-                    <Link className="post__title">
+                    <Link to={`/post/${post._id}`} className="post__title">
                         <h2>{post.title}</h2>
                     </Link>
                     <div className="post__date">
                         <p>{new Date(post.created_at).toLocaleString('ru-RU', timeOptions)}</p>
                         <Link className="post__comment">Оставить комментарий</Link>
                     </div>
-                    <p>{post.text}</p>
-                    <Link to={"/news/postID"}>Читать далее</Link>
-                    <div>
-                        <span onClick={toggleCardLike}>{isLiked ? <FontAwesomeIcon icon={faThumbsUpSolid} size="lg" /> : <FontAwesomeIcon icon={faThumbsUp} size="lg" />}</span>
-                        <span>Читать позднее(в избранное)</span>
+                    <p>{post.text.substr(0, 200)}...</p>
+                    <Link to={`/post/${post._id}`} className="post__comment">Читать далее</Link>
+                    <div className="post__icons">
+                        <div className="post__icons_comment-icon">
+                            <FontAwesomeIcon icon={faComment} size="lg" />
+                            <div className='post__icons_comment-icon_over-num'>
+                                {post.comments?.length && <span>{post.comments.length}</span>}
+                            </div> 
+                        </div>
+                        <span onClick={togglePostLike}>{isLiked 
+                        ? <FontAwesomeIcon icon={faThumbsUpSolid} size="lg" /> 
+                        : <FontAwesomeIcon icon={faThumbsUp} size="lg" />}
+                        </span>
+                        <span className='post__icons_read-icon'>Читать позднее</span>
                     </div>
                 </div>
             </div>

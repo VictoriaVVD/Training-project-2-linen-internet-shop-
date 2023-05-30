@@ -1,45 +1,55 @@
 import React, { useContext } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {faHeart} from '@fortawesome/free-solid-svg-icons';
+import {faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import "./Card.scss";
 import { Link } from "react-router-dom";
 import { UserContext } from "../../context/userContext";
 import { CardContext } from "../../context/cardContext";
+import { apiProduct } from "../../assets/api/apiProduct";
 
 
 
-export const Card = ({product}) => {
+export const Card = ({product, onDeleteCards}) => {
     const user = useContext(UserContext);
     const {handleLike} = useContext(CardContext);
     const isLiked = product.likes.some(e => e === user._id);
     const toggleCardLike = () => {
         handleLike(product, isLiked);
 }
+    const deleteCard = async () => {
+        const res = await apiProduct.deleteProduct(product._id);
+        onDeleteCards(product._id)
+    }
 
     return (
-<div className="card">
-            <div className="card__sticky card__sticky_top-left">
-                {!!product.discount && <span className="card__discount">
-                    -{product.discount}%
-                </span>}
-            </div>
-            <div className="card__sticky card__sticky_top-right">
-                    <span onClick={toggleCardLike}>{isLiked ? <FontAwesomeIcon icon={faHeart} /> : <FontAwesomeIcon icon={faHeartReg} />}</span>
-            </div>
-            <Link to={`/product/${product._id}`} className="card__link">
-                <img src={product.pictures} alt="madame coco linen" className="card__image"/>
-                {product.tags.map((e) =>
-                        <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)}  
-                <div className="card__desc">
-                    <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) : null}</span>
-                    <span className="card__price" style={product.discount ? {"color": "red"} : {"color": "#1A1A1A"}}>{product.price}&nbsp;₽</span>
-                    <span className="card__wight">{product.wight}</span>
-                    <p className="card__title">{product.name}</p>
+            <div className="card">
+                <div className="card__sticky card__sticky_top-left">
+                    {!!product.discount && <span className="card__discount">
+                        -{product.discount}%
+                    </span>}
                 </div>
-            </Link>
-            <span className="card__button">В корзину</span>
-        </div>
+                <div className="card__sticky card__sticky_top-right">
+                    <span onClick={toggleCardLike}>{isLiked ? <FontAwesomeIcon icon={faHeart} /> : <FontAwesomeIcon icon={faHeartReg} />}</span>
+                </div>
+                <Link to={`/product/${product._id}`} className="card__link">
+                    <img src={product.pictures} alt="madame coco linen" className="card__image"/>
+                    {product.tags.map((e) =>
+                        <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)} 
+                    {/* {!!product.discount && <span className="card__tag tag__type_sale"></span>}   */}
+
+                    <div className="card__desc">
+                        <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) : null}</span>
+                        <span className="card__price" style={product.discount ? {"color": "red"} : {"color": "#1A1A1A"}}>{product.price}&nbsp;₽</span>
+                        <span className="card__wight">{product.wight}</span>
+                        <p className="card__title">{product.name}</p>
+                    </div>
+                </Link>
+                <span className="card__button">В корзину</span>
+                <div >
+                    <span className="card__sticky_bottom-right"><FontAwesomeIcon icon={faTrash} size="lg" onClick={deleteCard} /></span>
+                </div>
+            </div>
     )
 };
 

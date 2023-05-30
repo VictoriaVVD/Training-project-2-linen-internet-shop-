@@ -15,6 +15,13 @@ class Api {
         .then(onResponse)
     }
 
+    getPostById(id) {
+        return fetch(`${this.basePostUrl}/${id}`, {
+            headers: this.headers,
+        })
+        .then(onResponse)
+    }
+
     togglePostLike(postId, liked) {
         return fetch(`${this.basePostUrl}/likes/${postId}`, {
             method: liked ? "DELETE" : "PUT",

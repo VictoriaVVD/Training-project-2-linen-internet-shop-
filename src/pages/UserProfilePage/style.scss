@@ -1,0 +1,26 @@
+.user__account {
+    margin: 0 auto;
+    height: 100%;
+    border: none;
+    padding: 30px 100px;
+
+    &_wrapper {
+        max-width: 1140px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        margin-bottom: 20px; 
+    }
+
+    &_avatar {
+        width: 50%;
+        img {
+            width: 100%;
+        }
+    }
+
+    &_info {
+        width: 50%;
+    }
+}

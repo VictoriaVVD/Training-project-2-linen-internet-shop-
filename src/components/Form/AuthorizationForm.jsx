@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { Link } from "react-router-dom";
@@ -6,7 +6,6 @@ import { apiUser } from "../../assets/api/apiUser";
 
 export const AuthorizationForm = ({ isRequired = true }) => {
 
-    const [type, setType] = useState(true)
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
 

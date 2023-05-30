@@ -30,19 +30,20 @@ export const Header = (props) => {
                     <Link to={"/favourites"}>
                         <FontAwesomeIcon icon={faHeart} title='Избранное' />
                         <div className='icons__favourite-over-num'>
-                        {favourites?.length && <span>{favourites.length}</span>}
-                    </div> 
+                            {favourites?.length && <span>{favourites.length}</span>}
+                        </div> 
                     </Link>  
                 </div>
                 <div className='icons'>
-                    <a className="icon__cart" href="">
-                    <FontAwesomeIcon icon={faCartShopping} />
-                    </a>
+                    <Link className="icon__cart" href="">
+                        <FontAwesomeIcon icon={faCartShopping} />
+                    </Link>
                 </div>
                 <div className="icons">
                     <Link to={'/singin'} className="icon__profile" onClick={() => setModalActive(true)}>
                         <FontAwesomeIcon icon={faUser} />
                     </Link>
+                    <Link to={"/profile"}></Link>
                 </div> 
             </div>
         </div>

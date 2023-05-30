@@ -33,6 +33,21 @@
         left: 0px;
         top: 20px;
     }
+    &__sticky_bottom-right {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        right: 0px;
+        bottom: 5px;
+        color: #70eec2;
+        opacity: .6;
+        font-size: 20px;
+
+        &:hover {
+            color: #f5efec;
+            opacity: 1;
+        }
+    }
 
     &__discount {
         display: flex;
@@ -128,6 +143,11 @@
         font-size: 16px;
         line-height: 20px;
         cursor: pointer;
+
+        &:hover {
+            background: #70eec2;
+            opacity: .6;
+        }
     }
 
     a {

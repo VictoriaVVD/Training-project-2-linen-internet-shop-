@@ -50,6 +50,14 @@ class Api {
         .then(onResponse)
     }
 
+    changeAvatar(data) {
+        return fetch(`${this.baseUrl}users/me/avatar`, {
+            method: "PATCH",
+            headers: this.headers,
+            body: JSON.stringify(data),
+        })
+    }
+
 }
 const token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQxNmMzMDMyOTFkNzkwYjNmYzIyYjMiLCJncm91cCI6Imdyb3VwLTEyIiwiaWF0IjoxNjgyMDE4ODIzLCJleHAiOjE3MTM1NTQ4MjN9.eG8M6O1kUXvXhxIu3jTMtOcru6qiIG0_i-DDZcu2SgA";
 const config = {

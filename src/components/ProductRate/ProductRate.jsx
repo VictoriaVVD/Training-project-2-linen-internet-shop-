@@ -1,8 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
 import "./style.scss";
-// import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-// import { faStar } from "@fortawesome/free-regular-svg-icons";
-// import { faStar as faStarSolid } from "@fortawesome/free-solid-svg-icons";
 import { ReactComponent as Star } from "../../assets/images/star.svg";
 import cn from "classnames";
 

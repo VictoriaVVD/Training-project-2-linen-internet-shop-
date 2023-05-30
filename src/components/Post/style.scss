@@ -41,6 +41,10 @@
     &__title {
         text-decoration: none;
         color: #1a1a1a;
+
+        &:hover {
+            color: #b4a198;
+        }
         
         h2 {
             margin: 0;
@@ -71,6 +75,40 @@
             padding: 0;
         }
     }
+    &__icons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 15px;
+
+        svg:hover {
+
+            color: #b4a198;
+        }
+
+        &_comment-icon {
+            position: relative;
+
+        
+            &_over-num {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                position: absolute;
+                top: -12px;
+                right: -5px;
+                color: #70eec2;
+                font-size: 16px;
+                font-weight: 800;
+            }
+        }
+        &_read-icon {
+            &:hover {
+                color: #b4a198;
+                cursor: pointer;
+            }
+        }
+    }
+
 }
 .ff__different {
     font-family: "Roboto";

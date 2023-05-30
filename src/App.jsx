@@ -18,6 +18,10 @@ import { AuthorizationForm } from "./components/Form/AuthorizationForm";
 import { NewsPage } from "./pages/NewsPage/NewsPage";
 import { ForgotPassForm } from "./components/Form/ForgotPassForm";
 import { PostPage } from "./pages/PostPage/PostPage";
+import { UserProfilePage } from "./pages/UserProfilePage/UserProfilePage";
+import { AddProductForm } from "./components/Form/AddProductForm";
+import { useDispatch } from "react-redux";
+import { setList } from "./store/slices/productsSlice";
 
 
 const useDebounce = (path) => {
@@ -42,8 +46,10 @@ function App() {
   const [user, setUser] = useState([]);
   const [isAuthorized, setAuthorized] = useState(true);
   const [favourites, setFavourites] = useState();
+  const [favouritesPosts, setFavouritesPosts] = useState();
   const [modalActive, setModalActive] = useState(false);
   
+  const dispatch = useDispatch()
   const filtered = (cards) => {
     return cards.filter(e => e.author._id === "64416c303291d790b3fc22b3")
   }
@@ -61,7 +67,25 @@ function App() {
 
     return isLiked
   }
+
+  const handlePostLike = async (post, isLiked) => {
+    const updatedPost = await apiPost.togglePostLike(post._id, isLiked);
+
+    setPosts(state => [...state.map(e => e._id === updatedPost?._id ? updatedPost : e)]);
+    
+    isLiked 
+    ? setFavouritesPosts(state => state.filter(e => e._id !== updatedPost._id))
+    : setFavouritesPosts(state => [updatedPost, ...state]);
+
+    return isLiked
+  }
   
+  const findLiked = (product, userId) => {
+    return product.likes.some(e => e === userId)
+  }
+  const findLikedPosts = (posts, userId) => {
+    return posts.likes.some(e => e === userId)
+  }
 
   const productRateNum = (reviews) => {
     if (!reviews || !reviews.length) {
@@ -92,9 +116,6 @@ function App() {
     }
   }
 
-  const findLiked = (product, userId) => {
-    return product.likes.some(e => e === userId)
-  }
 
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
@@ -108,14 +129,17 @@ function App() {
       .then(([userData, data, posts]) => {
         setUser(userData);
         const filteredCards = filtered(data.products);
+        dispatch(setList(filteredCards))
         const filteredPosts = filtered(posts)
         setCards(filteredCards);
         setPosts(filteredPosts);
 
         const favourites = filteredCards.filter(e => findLiked(e, userData._id));
         setFavourites(favourites);
-      })
-      .catch(error => console.log(new Error(error.message)))
+        const favouritesPosts = filteredPosts.filter(e => findLikedPosts(e, userData._id));
+        setFavouritesPosts(favouritesPosts);
+        })
+        .catch(error => console.log(new Error(error.message)));
   }, []);
 
   useEffect(() => {
@@ -127,9 +151,11 @@ function App() {
   const cardsValue = {
     handleLike: handleProductLike,
     cards,
+    setCards,
     posts,
     search,
     favourites,
+    favouritesPosts,
     onSort,
     modalActive,
     setModalActive,
@@ -150,7 +176,7 @@ function App() {
                 <Route path="/catalog" element={<CatalogPage />}/>
                 <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/favourites" element={<FavouritesPage />}/>
-                <Route path="/news" element={<NewsPage />} />
+                <Route path="/news" element={<NewsPage handlePostLike={handlePostLike} />} />
                 <Route path="/post/:id" element={<PostPage />} />
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
                 <Route path="/singup" element={
@@ -166,6 +192,12 @@ function App() {
                 <Route path="/forgot-password" element={
                   <Modal modalActive={modalActive} setModalActive={setModalActive}>
                     <ForgotPassForm />
+                  </Modal>
+                } />
+                <Route path="/profile" element={<UserProfilePage />} />
+                <Route path="/newProduct" element={
+                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
+                    <AddProductForm />
                   </Modal>
                 } />
               </Routes>
