@@ -6,10 +6,8 @@ import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { FavouritesPage } from "./pages/FavouritesPage/FavouritesPage";
 import { Footer } from './components/Footer/Footer';
 import { apiProduct } from "./assets/api/apiProduct";
-import { apiUser } from "./assets/api/apiUser";
 import { apiPost } from "./assets/api/apiPost";
 import { Routes, Route, Navigate } from "react-router";
-import { UserContext } from "./context/userContext";
 import { CardContext } from "./context/cardContext";
 import { Home } from "./pages/Home/Home";
 import { Modal } from "./components/Modal/Modal";
@@ -20,8 +18,9 @@ import { ForgotPassForm } from "./components/Form/ForgotPassForm";
 import { PostPage } from "./pages/PostPage/PostPage";
 import { UserProfilePage } from "./pages/UserProfilePage/UserProfilePage";
 import { AddProductForm } from "./components/Form/AddProductForm";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setList } from "./store/slices/productsSlice";
+import { getUser } from "./store/slices/userSlice";
 
 
 const useDebounce = (path) => {
@@ -43,16 +42,17 @@ function App() {
   const [cards, setCards] = useState([]);
   const [posts, setPosts] = useState([]);
   const [search, setSearch] = useState(undefined);
-  const [user, setUser] = useState([]);
   const [isAuthorized, setAuthorized] = useState(true);
   const [favourites, setFavourites] = useState();
   const [favouritesPosts, setFavouritesPosts] = useState();
   const [modalActive, setModalActive] = useState(false);
   
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const user = useSelector(s => s.user);
   const filtered = (cards) => {
     return cards.filter(e => e.author._id === "64416c303291d790b3fc22b3")
   }
+
   
   const debounceValueInApp = useDebounce(search);
 
@@ -80,11 +80,11 @@ function App() {
     return isLiked
   }
   
-  const findLiked = (product, userId) => {
-    return product.likes.some(e => e === userId)
+  const findLiked = (product, user) => {
+    return product.likes.some(e => e === user)
   }
-  const findLikedPosts = (posts, userId) => {
-    return posts.likes.some(e => e === userId)
+  const findLikedPosts = (posts, user) => {
+    return posts.likes.some(e => e === user)
   }
 
   const productRateNum = (reviews) => {
@@ -144,22 +144,32 @@ function App() {
   }, [debounceValueInApp]);
 
   useEffect(() => {
-    Promise.all([apiUser.getUserInfo(), apiProduct.getProductList(), apiPost.getAllPosts()])
-      .then(([userData, data, posts]) => {
-        setUser(userData);
-        const filteredCards = filtered(data.products);
-        dispatch(setList(filteredCards))
+    if(!user.data._id) return;
+    apiProduct.getProductList().then(data => {
+      const filteredCards = filtered(data.products);
+      // dispatch(setList(filteredCards))
+      setCards(filteredCards);
+      const favourites = filteredCards.filter(e => findLiked(e, user.data?._id));
+      setFavourites(favourites);
+      })
+    .catch(error => console.log(new Error(error.message)));
+  }, [dispatch, user.data._id]);
+
+  useEffect(() => {
+    Promise.all([apiPost.getAllPosts()])
+      .then(([posts]) => {
         const filteredPosts = filtered(posts)
-        setCards(filteredCards);
         setPosts(filteredPosts);
 
-        const favourites = filteredCards.filter(e => findLiked(e, userData._id));
-        setFavourites(favourites);
-        const favouritesPosts = filteredPosts.filter(e => findLikedPosts(e, userData._id));
+        const favouritesPosts = filteredPosts.filter(e => findLikedPosts(e, user.data?._id));
         setFavouritesPosts(favouritesPosts);
         })
         .catch(error => console.log(new Error(error.message)));
-  }, []);
+  }, [user.data._id]);
+
+  useEffect(() => {
+    dispatch(getUser())
+  }, [dispatch])
 
   useEffect(() => {
     if (localStorage.getItem('token')) {
@@ -169,6 +179,7 @@ function App() {
 
   const cardsValue = {
     handleLike: handleProductLike,
+    handlePostLike,
     cards,
     setCards,
     posts,
@@ -179,7 +190,6 @@ function App() {
     sortPosts,
     modalActive,
     setModalActive,
-    user,
     productRateNum,
   }
 
@@ -187,7 +197,6 @@ function App() {
   return (
     <div className="container">
         <CardContext.Provider value={cardsValue}>
-        <UserContext.Provider value={user}>
           <Header setSearch={setSearch} />
           <section>
             {isAuthorized
@@ -196,7 +205,7 @@ function App() {
                 <Route path="/catalog" element={<CatalogPage />}/>
                 <Route path="/product/:id" element={<ProductPage />} />
                 <Route path="/favourites" element={<FavouritesPage />}/>
-                <Route path="/news" element={<NewsPage handlePostLike={handlePostLike} />} />
+                <Route path="/news" element={<NewsPage />} />
                 <Route path="/post/:id" element={<PostPage />} />
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
                 <Route path="/singup" element={
@@ -224,7 +233,6 @@ function App() {
             : <Navigate to={'/not authorizated'} />}
           </section>
           <Footer />
-        </UserContext.Provider>
         </CardContext.Provider>
       </div> 
   );

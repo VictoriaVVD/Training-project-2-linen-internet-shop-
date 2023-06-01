@@ -4,12 +4,13 @@ import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as faThumbsUpSolid } from "@fortawesome/free-solid-svg-icons";
-import { UserContext } from "../../context/userContext";
+import { useSelector } from "react-redux";
+import { CardContext } from "../../context/cardContext";
 
-export const Post = ({post, handlePostLike}) => {
-    const user = useContext(UserContext);
-    console.log({post});
-    const isLiked = post.likes.some(e => e === user._id);
+export const Post = ({post}) => {
+    const user = useSelector(s => s.user);
+    const handlePostLike = useContext(CardContext);
+    const isLiked = post.likes.some(e => e === user.data?._id);
     const togglePostLike = () => {
         handlePostLike(post, isLiked);
     }

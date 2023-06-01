@@ -56,6 +56,16 @@ class Api {
             headers: this.headers,
             body: JSON.stringify(data),
         })
+        .then(onResponse)
+    }
+
+    updateUserInfo(data) {
+        return fetch(`${this.baseUrl}users/me`, {
+            method: "PATCH",
+            headers: this.headers,
+            body: JSON.stringify(data),
+        })
+        .then(onResponse)
     }
 
 }

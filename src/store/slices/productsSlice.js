@@ -10,7 +10,6 @@ const productsSlice = createSlice({
     initialState,
     reducers: {
         setList(state, action) {
-            console.log({action});
             state.data = action.payload;
         }
     },

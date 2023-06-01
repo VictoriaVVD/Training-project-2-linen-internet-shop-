@@ -6,7 +6,7 @@ import "./style.scss";
 import { Modal } from "../../components/Modal/Modal";
 import { AddPostForm } from "../../components/Form/AddPostForm";
 
-export const NewsPage = ({handlePostLike}) => {
+export const NewsPage = () => {
     
     const {posts, sortPosts, search, setModalActive, modalActive, setPosts} = useContext(CardContext);
     
@@ -61,7 +61,7 @@ export const NewsPage = ({handlePostLike}) => {
                     </Modal>
                 </div>
             </div>
-            <PostList posts={posts} handlePostLike={handlePostLike} />
+            <PostList posts={posts} />
         </div>
     )
 }

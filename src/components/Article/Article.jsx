@@ -13,7 +13,7 @@ export const Article = ({post}) => {
         day: 'numeric',
         month: 'short', year: "numeric"
     }
-    console.log({post});
+    
     return (
         <div className={s.post}>
             <div className={s.post__wrapper}>

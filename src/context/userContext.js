@@ -1,4 +1,0 @@
-import { createContext } from "react";
-
-// export const UseContext = React.createContext();
-export const UserContext = createContext();

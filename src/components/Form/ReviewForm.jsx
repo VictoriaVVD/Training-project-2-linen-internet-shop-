@@ -2,11 +2,11 @@ import React, { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProductRate } from "../ProductRate/ProductRate";
 import "./style.scss";
-import { UserContext } from "../../context/userContext";
+import { useSelector } from "react-redux";
 
 export const ReviewForm = ({product, setModalActive, onSendReview}) => {
     const { register, handleSubmit, reset, formState: { errors } } = useForm({mode: "onSubmit"});
-    const user = useContext(UserContext);
+    const user = useSelector(s => s.user);
     const [rate, setRate] = useState();
     const sendData = ({text}) => {
         onSendReview({ text, rating: rate });

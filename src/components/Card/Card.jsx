@@ -4,16 +4,16 @@ import {faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import "./Card.scss";
 import { Link } from "react-router-dom";
-import { UserContext } from "../../context/userContext";
 import { CardContext } from "../../context/cardContext";
 import { apiProduct } from "../../assets/api/apiProduct";
+import { useSelector } from "react-redux";
 
 
 
 export const Card = ({product, onDeleteCards}) => {
-    const user = useContext(UserContext);
+    const user = useSelector(s => s.user);
     const {handleLike} = useContext(CardContext);
-    const isLiked = product.likes.some(e => e === user._id);
+    const isLiked = product.likes.some(e => e === user.data?._id);
     const toggleCardLike = () => {
         handleLike(product, isLiked);
 }

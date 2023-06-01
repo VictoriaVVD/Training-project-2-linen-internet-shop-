@@ -10,6 +10,7 @@ import { ProductRate } from "../ProductRate/ProductRate";
 import { CardContext } from "../../context/cardContext";
 import { Modal } from "../Modal/Modal";
 import { ReviewForm } from "../Form/ReviewForm";
+import { useSelector } from "react-redux";
 
 
 
@@ -21,8 +22,9 @@ export const Product = ({product, onProductLike, setProduct, rating, addReview})
     const goBack = () => {
         navigate(-1);
     }
-    const {user, productRateNum, modalActive, setModalActive} = useContext(CardContext);
-    const isLiked = product.likes?.some(e => e === user?._id);
+    const user = useSelector(s => s.user);
+    const {productRateNum, modalActive, setModalActive} = useContext(CardContext);
+    const isLiked = product.likes?.some(e => e === user.data._id);
     
     const toggleCardLike = () => {
         onProductLike(product, isLikedProduct);
