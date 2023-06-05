@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import React from "react";
 import { useForm } from 'react-hook-form';
 import { useDispatch, useSelector } from "react-redux";
-import { updateUser } from "../../store/slices/userSlice";
+import { fetchUpdateUser } from "../../store/slices/userSlice";
 
 export const UserInfoForm = () => {
     const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
@@ -14,8 +14,7 @@ export const UserInfoForm = () => {
     //     dispatch(updateUser())
     // }, [dispatch])
     const sendData = (data) => {
-        console.log({data});
-        dispatch(updateUser(data));
+        dispatch(fetchUpdateUser(data));
         reset()
     }
     const changeInput = (e) => {

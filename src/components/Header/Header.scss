@@ -1,5 +1,5 @@
 .header {
-    width: 100%;
+    // width: 100%;
     background: #f5efec;
     border: none;
     position: sticky;
@@ -8,34 +8,46 @@
 
     &__wrapper {
         display: flex;
-        flex-direction: row;
         justify-content: space-between;
         align-items: center;
         max-width: 1140px;
         min-height: 56px;
         margin: 0 auto;
-        padding: 20px 100px;
-        gap: 20px;
+        padding: 20px 0px;
+        gap: 15px;
     }
 
     &__logo {
         width: 100%;
     }
+    &__info_block {
+        width: calc(100% / 3);
+    }
 }
 .icons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     width: 24px;
     height: 24px;
     position: relative;
     padding: 3px;
     font-size: 20px;
+    cursor: pointer;
+
+    a {
+        text-decoration: none;
+        color: #70eec2;
+        font-family: inherit;
+        font-size: 20px;
+    }
 
     &__wrapper {
         display: flex;
-        flex-direction: row;
         justify-content: flex-end;
-        align-items: center;
         padding: 0px;
-        gap: 34px;
+        margin: 0;
+        gap: 10px;
     }
     a>svg {
         color: #70eec2;
@@ -57,21 +69,19 @@
         color: #fff;
         font-weight: 600;
     }
+
 }
-
-/* .icon__cart {
-    position: absolute;
-    left: 19.3%;
-    right: 19.3%;
-    top: 30.76%;
-    bottom: 14.9%;
-    background: #263238;
-
-    &__profile {
-        position: absolute;
-        left: 12.5%;
-        right: 12.5%;
-        top: 0%;
-        bottom: 0%;
-        background: #222327;
-} */
+.header__btn {
+    padding: 8px;
+    background-color: #fff;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    width: 100%;
+    margin: 0px;
+    border: rgb(218, 212, 212);
+    border-radius: 8px;
+    box-shadow: 1px 2px 1px rgb(218, 212, 212);
+    color: rgb(99, 94, 94);
+    outline: none;
+}

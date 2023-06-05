@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import s from "./index.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -10,11 +10,15 @@ import { ProductRate } from "../ProductRate/ProductRate";
 import { CardContext } from "../../context/cardContext";
 import { Modal } from "../Modal/Modal";
 import { ReviewForm } from "../Form/ReviewForm";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { countRateNum, findItemLiked } from "../../store/utilsStore";
+import { fetchSearch, fetchToggleItemLike } from "../../store/slices/productsSlice";
 
 
 
 export const Product = ({product, onProductLike, setProduct, rating, addReview}) => {
+
+    const user = useSelector(s => s.user.data);
 
     const [isLikedProduct, setProductLike] = useState(false);
 
@@ -22,18 +26,37 @@ export const Product = ({product, onProductLike, setProduct, rating, addReview})
     const goBack = () => {
         navigate(-1);
     }
-    const user = useSelector(s => s.user);
-    const {productRateNum, modalActive, setModalActive} = useContext(CardContext);
-    const isLiked = product.likes?.some(e => e === user.data._id);
+
+    const { modalActive, setModalActive} = useContext(CardContext);
+    const dispatch = useDispatch();
+
     
+    // const toggleCardLike = () => {
+
+    //     onProductLike(product._id, isLiked)
+    // } 
+
     const toggleCardLike = () => {
-        onProductLike(product, isLikedProduct);
-    } 
+        onProductLike(product, isLiked);
+    }
+
+    //     if (isLiked) {
+    //         const filteredCards = product.likes.filter(e => e !== user._id);
+    //         setProduct(state => ({...state, likes: filteredCards }))
+    //         }
+    //     else
+    //         {
+    //         const filteredCards = [...product.likes, user?._id];
+    //         setProduct(state => ({...state, likes: filteredCards}))
+    //         }
+    // }, [])
+
     const onSendReview = (data) => {
         addReview(data);
     }
-
+    const isLiked = product.likes.some(e => e === user?._id);
     useEffect(() => {
+        
         setProductLike(isLiked)
     }, [product.likes, user, isLiked]);
 
@@ -55,7 +78,7 @@ export const Product = ({product, onProductLike, setProduct, rating, addReview})
                     </div>
                     <div className={s.rating}>
                         <span>Barcode</span>
-                        <ProductRate rating={Math.floor(productRateNum(product.reviews))}/>
+                        <ProductRate rating={Math.floor(countRateNum(product.reviews))}/>
                     </div>
                     {!!product.discount &&<div className={s.desc}>Старая цена:
                         <span className={s.old_price}>{Math.round(product.price / (1 - product.discount / 100))}&nbsp;₽</span>

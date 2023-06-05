@@ -1,18 +1,24 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { apiProduct } from "../../assets/api/apiProduct";
+import { useDispatch } from "react-redux";
+import { fetchAddProduct, fetchGetProductList } from "../../store/slices/productsSlice";
 
 export const AddProductForm = ({ isRequired = true, onSendNewProduct }) => {
 
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
+    const dispatch = useDispatch();
 
-    const sendData = async (data) => {
-        const res = await apiProduct.addNewProduct(data);
-        onSendNewProduct(data)
+
+    const sendData = useCallback(async (data) => {
+        dispatch(fetchAddProduct(data))
+        // .then(() => dispatch(fetchGetProductList()))
+        // const res = await apiProduct.addNewProduct(data);
+        // onSendNewProduct(data)
         reset()
-    }
+    }, [dispatch])
 
     const picturesRegister = { 
         required: {

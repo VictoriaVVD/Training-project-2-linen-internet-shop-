@@ -1,26 +1,27 @@
-import React, { useContext } from "react";
+import React, { useCallback } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import "./Card.scss";
-import { Link } from "react-router-dom";
-import { CardContext } from "../../context/cardContext";
+import { Link, useLocation } from "react-router-dom";
 import { apiProduct } from "../../assets/api/apiProduct";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDeleteProduct, fetchToggleItemLike } from "../../store/slices/productsSlice";
+import { findItemLiked } from "../../store/utilsStore";
 
 
 
 export const Card = ({product, onDeleteCards}) => {
-    const user = useSelector(s => s.user);
-    const {handleLike} = useContext(CardContext);
-    const isLiked = product.likes.some(e => e === user.data?._id);
+    const location = useLocation();
+    const user = useSelector(s => s.user?.data);
+    const dispatch = useDispatch();
+    const isLiked = findItemLiked(product, user?._id);
     const toggleCardLike = () => {
-        handleLike(product, isLiked);
+        dispatch(fetchToggleItemLike(product, isLiked));
 }
-    const deleteCard = async () => {
-        const res = await apiProduct.deleteProduct(product._id);
-        onDeleteCards(product._id)
-    }
+    const deleteCard = useCallback(async () => {
+        dispatch(fetchDeleteProduct(product._id))
+    }, [dispatch]);
 
     return (
             <div className="card">
@@ -29,9 +30,10 @@ export const Card = ({product, onDeleteCards}) => {
                         -{product.discount}%
                     </span>}
                 </div>
+                {location.pathname === "/catalog" &&
                 <div className="card__sticky card__sticky_top-right">
                     <span onClick={toggleCardLike}>{isLiked ? <FontAwesomeIcon icon={faHeart} /> : <FontAwesomeIcon icon={faHeartReg} />}</span>
-                </div>
+                </div>}
                 <Link to={`/product/${product._id}`} className="card__link">
                     <img src={product.pictures} alt="madame coco linen" className="card__image"/>
                     {product.tags.map((e) =>
@@ -45,23 +47,13 @@ export const Card = ({product, onDeleteCards}) => {
                         <p className="card__title">{product.name}</p>
                     </div>
                 </Link>
-                <span className="card__button">В корзину</span>
-                <div >
-                    <span className="card__sticky_bottom-right"><FontAwesomeIcon icon={faTrash} size="lg" onClick={deleteCard} /></span>
-                </div>
+                {location.pathname === "/catalog" &&
+                <div>
+                    <span className="card__button">В корзину</span>
+                    <div >
+                        <span className="card__sticky_bottom-right"><FontAwesomeIcon icon={faTrash} size="lg" onClick={deleteCard} /></span>
+                    </div>
+                </div>}
             </div>
     )
 };
-
-/**
-{
-    "discount": 0,
-    "stock": 30,
-    "available": true,
-    "pictures": "https://cdn-mgsm.akinon.net/products/2023/03/30/132921/6bbc9ec1-f868-4612-92fd-a97dc3bc3a6f_size690x862_cropCenter.jpg",
-    "name": "Комплект постельного белья из шелкового атласа Ivonne",
-    "price": 12000,
-    "wight": "1шт",
-    "description": "Технические характеристики: Тип ткани: 100% лиоцелл; Цвет: Бежевый; Характеристика: не линяет и не садится; Инструкции по стирке: Стирать при 30 градусах; Место производства: Турция; Комплектация: Пододеяльник: 1 шт. Простыня: 1 шт. Наволочка: 2 шт."
-}
-**/

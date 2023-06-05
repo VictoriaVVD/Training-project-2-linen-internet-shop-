@@ -1,21 +1,17 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { apiUser } from "../../assets/api/apiUser"
+import { isError, isLoading } from "../utilsStore";
 
 const initialState = {
     data: {},
     loading: false,
 }
-const isLoading = (data) => {
-    return data.type.endsWith("pending");
-}
-const isError = (data) => {
-    return data.type.endsWith("rejected");
-}
-export const getUser = createAsyncThunk("user/getUser", async function () {
+
+export const fetchGetUser = createAsyncThunk("user/getUser", async function (args) {
     const data = await apiUser.getUserInfo();
     return data;
 })
-export const updateUser = createAsyncThunk("user/updateUser", async function (data) {
+export const fetchUpdateUser = createAsyncThunk("user/updateUser", async function (data) {
     if (data.avatar) {
         const res = await apiUser.changeAvatar({avatar: data.avatar});
         return res;
@@ -30,23 +26,20 @@ const userSlice = createSlice({
     initialState,
     reducers: {},
     extraReducers: (builder) => {
-        // builder.addCase(getUser.pending, (state, action) => {
-        //     state.loading = true;
-        // })
-        builder.addCase(getUser.fulfilled, (state, action) => {
+        builder.addCase(fetchGetUser.fulfilled, (state, {payload}) => {
             state.loading = false;
-            state.data = action.payload;
+            state.data = payload;
         })
-        builder.addCase(updateUser.fulfilled, (state, action) => {
+        builder.addCase(fetchUpdateUser.fulfilled, (state, {payload}) => {
             state.loading = false;
-            state.data = action.payload;
+            state.data = payload;
         })
         builder.addMatcher(isLoading, (state) => {
-            state.loading = true;
+            // state.loading = true;
         })
-        builder.addMatcher(isError, (state, action) => {
+        builder.addMatcher(isError, (state, {payload}) => {
             state.loading = false;
-            state.error = action.payload;
+            state.error = payload;
         })
 
     }

@@ -9,7 +9,6 @@ export const ProductRate = ({rating, setRate = () => {}, isEditable=false }) => 
     const [ratingArr, setRating] = useState(emptyStarsState);
     const changeRate = useCallback((r) => {
         if(!isEditable) return;
-        console.log(r);
         rateConstructor(r)
         setRate(r)
     }, [setRate, isEditable])

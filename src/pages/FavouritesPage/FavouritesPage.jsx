@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { useContext } from "react";
 import { CardContext } from "../../context/cardContext";
 import { PostList } from "../../components/PostList/PostList";
+import { useSelector } from "react-redux";
 
 export const FavouritesPage = () => {
     const navigate = useNavigate();
@@ -13,7 +14,8 @@ export const FavouritesPage = () => {
         navigate(-1);
     }
 
-    const {favourites, favouritesPosts} = useContext(CardContext);
+    const {favouritesPosts} = useContext(CardContext);
+    const {favourites} = useSelector(s => s.products);
 
     return (
         <div className={s.favouritesPage}>

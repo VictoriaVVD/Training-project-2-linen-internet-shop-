@@ -1,17 +1,18 @@
 import React from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { apiUser } from "../../assets/api/apiUser";
 
 export const AuthorizationForm = ({ isRequired = true }) => {
 
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
-
     const sendData = async (data) => {
         const res = await apiUser.singin(data);
         localStorage.setItem("token", res.token);
+        alert("Успешно!");
+        <Navigate to={"/profile"} />
     }
 
     const emailRegister = { 

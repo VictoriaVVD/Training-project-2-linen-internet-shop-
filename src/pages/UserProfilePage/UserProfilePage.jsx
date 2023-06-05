@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { UserInfoForm } from "../../components/Form/UserInfoForm";
 import "./style.scss";
 import { useDispatch, useSelector } from "react-redux";
-import { getUser, updateUser } from "../../store/slices/userSlice";
+import { fetchGetUser, fetchUpdateUser } from "../../store/slices/userSlice";
 import { useForm } from "react-hook-form";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPenToSquare } from "@fortawesome/free-regular-svg-icons";
@@ -20,10 +20,10 @@ export const UserProfilePage = () => {
     const {data: user, loading} = useSelector(s => s.user);
     const dispatch = useDispatch();
     useEffect(() => {
-        dispatch(getUser())
+        dispatch(fetchGetUser())
     }, [dispatch])
     const sendData = (data) => {
-        dispatch(updateUser(data));
+        dispatch(fetchUpdateUser(data));
         reset()
     }
     const changeInput = (e) => {

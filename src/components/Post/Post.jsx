@@ -1,19 +1,20 @@
-import React, { useContext } from "react";
+import React from "react";
 import "./style.scss";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp, faComment } from "@fortawesome/free-regular-svg-icons";
 import { faThumbsUp as faThumbsUpSolid } from "@fortawesome/free-solid-svg-icons";
-import { useSelector } from "react-redux";
-import { CardContext } from "../../context/cardContext";
+import { useDispatch, useSelector } from "react-redux";
+import { findItemLiked } from "../../store/utilsStore";
+import { fetchToggleItemLike } from "../../store/slices/postsSlice";
 
 export const Post = ({post}) => {
     const user = useSelector(s => s.user);
-    const handlePostLike = useContext(CardContext);
-    const isLiked = post.likes.some(e => e === user.data?._id);
+    const dispatch = useDispatch();
+    const isLiked = findItemLiked(post, user?._id);
     const togglePostLike = () => {
-        handlePostLike(post, isLiked);
-    }
+        dispatch(fetchToggleItemLike(post, isLiked));
+}
     const timeOptions = {
         day: 'numeric',
         month: 'short', year: "numeric"

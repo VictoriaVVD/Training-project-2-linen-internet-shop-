@@ -31,10 +31,10 @@ class Api {
         .then(onResponse)
     }
 
-    toggleCardLike (productId, like) {
+    toggleCardLike (productId, isLiked) {
         return fetch(`${this.baseUrl}products/likes/${productId}`, {
             headers: this.headers,
-            method: like ? "DELETE" : "PUT",
+            method: isLiked ? "DELETE" : "PUT",
         })
         .then(onResponse)
     }
@@ -85,3 +85,5 @@ const config = {
 }
 
 export const apiProduct = new Api(config);
+
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDQxNmMzMDMyOTFkNzkwYjNmYzIyYjMiLCJncm91cCI6Imdyb3VwLTEyIiwiaWF0IjoxNjgyMDE4ODIzLCJleHAiOjE3MTM1NTQ4MjN9.eG8M6O1kUXvXhxIu3jTMtOcru6qiIG0_i-DDZcu2SgA

@@ -1,21 +1,15 @@
-
 import { configureStore } from "@reduxjs/toolkit";
 import userSlice from "./slices/userSlice";
 import productsSlice from "./slices/productsSlice";
-import { apiUser } from "../assets/api/apiUser";
+import postsSlice from "./slices/postsSlice";
 
 
 const store = configureStore({
     reducer: {
         user: userSlice,
         products: productsSlice,
+        posts: postsSlice,
     },
-    // middleware: (getDefaultMiddleWare) => getDefaultMiddleWare({
-    //     thunk: {
-    //         extraArgument: apiUser,
-            
-    //     }
-    // })
 })
 
 export default store;

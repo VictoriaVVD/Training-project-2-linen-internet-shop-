@@ -5,11 +5,15 @@ import { Link, useNavigate } from "react-router-dom";
 import "./style.scss";
 import { Modal } from "../../components/Modal/Modal";
 import { AddPostForm } from "../../components/Form/AddPostForm";
+import { useDispatch, useSelector } from "react-redux";
+import { Post } from "../../components/Post/Post";
+import { sortingParameters } from "../../store/utilsStore";
 
 export const NewsPage = () => {
     
-    const {posts, sortPosts, search, setModalActive, modalActive, setPosts} = useContext(CardContext);
-    
+    const { sortPosts, search, setModalActive, modalActive, setPosts} = useContext(CardContext);
+    const {posts} = useSelector(s => s.posts);
+    const dispatch = useDispatch()
     const navigate = useNavigate();
     const goBack = () => {
         navigate(-1);
@@ -51,7 +55,7 @@ export const NewsPage = () => {
                 <Link><span onClick={() => goBack()}>{'<'} Назад</span></Link>
                 <div className="post-list__sorted">
                     {!search && sortedItems.map((e) => 
-                        <span className="post-list__sorted_item" key={e.id} onClick={() => sortPosts(e.id)}>{e.title}</span>
+                        <span className="post-list__sorted_item" key={e.id} onClick={() => dispatch(sortPosts(e.id))}>{e.title}</span>
                     )}
                 </div>
                 <div>
@@ -62,6 +66,7 @@ export const NewsPage = () => {
                 </div>
             </div>
             <PostList posts={posts} />
+            {/* {posts.map(item => <Post post={item} {...item} key={item.updated_at} />)} */}
         </div>
     )
 }
