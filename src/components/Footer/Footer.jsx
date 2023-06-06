@@ -23,10 +23,10 @@ export const Footer = () => {
             </div> */}
             <div className='footer__links'>
                 <Link to={"/about"}>О нас</Link>
-                <a href="">Оплата и доставка</a>
-                <a href="">Часто спрашивают</a>
-                <a href="">Напишите нам</a>
-                <a href="">Контакты</a>
+                <Link to={"/delivery"}>Оплата и доставка</Link>
+                <Link to={"/faq"}>Часто спрашивают</Link>
+                <Link to={"/feedback"}>Напишите нам</Link>
+                {/* <Link to={"/contacts"}>Контакты</Link> */}
             </div>
             <div className='footer__links'>
                 <div className='footer__contacts'>

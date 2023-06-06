@@ -18,6 +18,15 @@ export const fetchGetProductList = createAsyncThunk("products/fetchGetProductLis
     }
 })
 
+export const fetchGetProductById = createAsyncThunk("products/fetchGetProductById", async function (id, args) {
+    try {
+        const data = await apiProduct.getProductById(id);
+        return args.fulfillWithValue(data)
+    } catch (error) {
+        return args.rejectWithValue(error)
+    }
+})
+
 export const fetchToggleItemLike = createAsyncThunk("products/fetchToggleItemLike", async function (data, args ) {
     try {
         const state = args.getState();
@@ -92,6 +101,9 @@ const productsSlice = createSlice({
             state.products = filteredProductsByAuthor;
             state.favourites = filteredProductsByAuthor.filter(e => findItemLiked(e, payload.userId))
         });
+        builder.addCase(fetchGetProductById.fulfilled, (state, {payload}) => {
+            state.products = state.products.filter(e => e._id === payload._id)
+        })
         builder.addCase(fetchToggleItemLike.fulfilled, (state, {payload}) => {
             state.products = state.products.map(e => e._id === payload.updatedItem._id
                 ? payload.updatedItem

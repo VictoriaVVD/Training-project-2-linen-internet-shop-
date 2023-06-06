@@ -1,3 +1,49 @@
 .about {
+    background: #fff;
+    border: none;
     padding: 30px;
+    text-align: justify;
+    text-indent: 15px;
+    height: calc(100vh - 278px - 96px);
+
+    img {
+        width: 100%;
+        border-radius: 8px;
+    }
+    &__wrapper {
+        max-width: 1140px;
+        min-height: 56px;
+        margin: 0 auto;
+        padding: 20px 0px;
+        gap: 15px;
+    }
+
+    &__content-block {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        margin: 15px;
+
+        h2 {
+            padding: 0;
+            margin: 0;
+        }
+
+        img {
+            width: 50%;
+            border-radius: 8px;
+        }
+    }
+    &__delivery {
+        display: flex;
+        justify-content: flex-start;
+        align-items: center;
+        gap: 15px;
+
+        h2 {
+            margin: 0;
+            padding: 0;
+        }
+    }
 }

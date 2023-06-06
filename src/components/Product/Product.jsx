@@ -1,4 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useState } from "react";
 import s from "./index.module.scss";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart } from '@fortawesome/free-solid-svg-icons';
@@ -11,54 +11,35 @@ import { CardContext } from "../../context/cardContext";
 import { Modal } from "../Modal/Modal";
 import { ReviewForm } from "../Form/ReviewForm";
 import { useDispatch, useSelector } from "react-redux";
-import { countRateNum, findItemLiked } from "../../store/utilsStore";
-import { fetchSearch, fetchToggleItemLike } from "../../store/slices/productsSlice";
+import { countRateNum } from "../../store/utilsStore";
+import { fetchToggleItemLike } from "../../store/slices/productsSlice";
 
 
 
-export const Product = ({product, onProductLike, setProduct, rating, addReview}) => {
+export const Product = ({product, setProduct, rating, addReview}) => {
 
-    const user = useSelector(s => s.user.data);
-
+    const user = useSelector(s => s.user.data);  
+    const dispatch = useDispatch();  
     const [isLikedProduct, setProductLike] = useState(false);
+    const { modalActive, setModalActive } = useContext(CardContext);
+    const isLiked = product.likes?.some(e => e === user?._id);
 
     const navigate = useNavigate();
     const goBack = () => {
         navigate(-1);
     }
 
-    const { modalActive, setModalActive} = useContext(CardContext);
-    const dispatch = useDispatch();
-
+    const toggleCardLike = useCallback(async () => {
+        dispatch(fetchToggleItemLike(product, isLiked))
+        .then((data) => {
+            setProductLike(isLikedProduct);
+            setProduct(data.payload.updatedItem);
+        });
+    }, [dispatch, isLiked, isLikedProduct, product, setProduct]);
     
-    // const toggleCardLike = () => {
-
-    //     onProductLike(product._id, isLiked)
-    // } 
-
-    const toggleCardLike = () => {
-        onProductLike(product, isLiked);
-    }
-
-    //     if (isLiked) {
-    //         const filteredCards = product.likes.filter(e => e !== user._id);
-    //         setProduct(state => ({...state, likes: filteredCards }))
-    //         }
-    //     else
-    //         {
-    //         const filteredCards = [...product.likes, user?._id];
-    //         setProduct(state => ({...state, likes: filteredCards}))
-    //         }
-    // }, [])
-
     const onSendReview = (data) => {
         addReview(data);
     }
-    const isLiked = product.likes.some(e => e === user?._id);
-    useEffect(() => {
-        
-        setProductLike(isLiked)
-    }, [product.likes, user, isLiked]);
 
     return (
     <div className={s.product}>
@@ -121,7 +102,7 @@ export const Product = ({product, onProductLike, setProduct, rating, addReview})
                 <TabsMenu product={product} setProduct={setProduct} />
                 <Modal modalActive={modalActive} setModalActive={setModalActive}>
                     <ReviewForm product={product} onSendReview={onSendReview} setModalActive={setModalActive} rating={rating}  />
-                </Modal>,
+                </Modal>
             </div>
         </div>  
     </div>

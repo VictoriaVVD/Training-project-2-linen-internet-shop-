@@ -19,9 +19,8 @@ export const fetchGetPostList = createAsyncThunk("posts/fetchGetPostList", async
     } 
 })
 
-export const fetchPostById = createAsyncThunk("posts/fetchPostById", async function (id, args) {
+export const fetchGetPostById = createAsyncThunk("posts/fetchGetPostById", async function (id, args) {
     try {
-        // const state = args.getState()
         const data = await apiPost.getPostById(id);
         return args.fulfillWithValue(data)
     } catch (error) {
@@ -71,9 +70,8 @@ const postsSlice = createSlice({
             state.posts = filteredProductsByAuthor;
             state.favouritePosts = filteredProductsByAuthor.filter(e => findItemLiked(e, payload.userId))
         });
-        builder.addCase(fetchPostById.fulfilled, (state, {payload}) => {
-            console.log(payload);
-            state.posts = filterItemsByAuthor(payload);
+        builder.addCase(fetchGetPostById.fulfilled, (state, {payload}) => {
+            state.posts = state.posts.filter(e => e._id === payload._id);
         })
         builder.addCase(fetchToggleItemLike.fulfilled, (state, {payload}) => {
             state.posts = state.posts.map(e => e._id === payload.updatedItem._id

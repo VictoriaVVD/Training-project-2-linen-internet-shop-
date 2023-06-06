@@ -1,13 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import s from "./index.module.scss";
 import { Link, useNavigate } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faThumbsUp as faThumbsUpSolid } from "@fortawesome/free-solid-svg-icons";
 import { faComment, faThumbsUp } from "@fortawesome/free-regular-svg-icons";
 import { useDispatch, useSelector } from "react-redux";
+import { fetchToggleItemLike } from "../../store/slices/postsSlice";
 
-export const Article = ({post, onPostLike}) => {
+export const Article = ({post, setPost}) => {
     const [isPostLiked, setPostLike] = useState(false);
+    
+    const user = useSelector(s => s.user.data);
+    const dispatch = useDispatch();
+    const isLiked = post.likes?.some(e => e === user?._id);
+    
     const navigate = useNavigate();
     const goBack = () => {
         navigate(-1);
@@ -16,21 +22,15 @@ export const Article = ({post, onPostLike}) => {
         day: 'numeric',
         month: 'short', year: "numeric"
     }
-    const user = useSelector(s => s.user.data);
 
+    const togglePostLike = () => {
+        dispatch(fetchToggleItemLike(post, isLiked))
+        .then(data => {
+            setPostLike(isPostLiked);
+            setPost(data.payload.updatedItem);
+        });
+}
 
-    const dispatch = useDispatch();
-    const toggleCardLike = () => {
-        onPostLike(post, isLiked);
-    }
-
-    // const isLiked = post.likes.some(e => e === user?._id);
-    const isLiked = true;
-    useEffect(() => {
-        
-        setPostLike(isLiked)
-    }, [post.likes, user, isLiked]);
-    
     return (
         <div className={s.post}>
             <div className={s.post__wrapper}>
@@ -56,12 +56,12 @@ export const Article = ({post, onPostLike}) => {
                             </div>
                             
                             <div className={s.post__info_text}>{post.text}</div>
-                            <button onClick={toggleCardLike}>
-                                <span className={s.product__like}>{isLiked 
+                            {/* <button onClick={toggleCardLike}> */}
+                                <span className={s.product__like} onClick={togglePostLike}>{isLiked 
                                 ? <FontAwesomeIcon icon={faThumbsUpSolid} size="lg" /> 
                                 : <FontAwesomeIcon icon={faThumbsUp} size="lg" />}
                                 </span>
-                            </button>
+                            {/* </button> */}
                         </div>
                     </div>
                     <div className={s.post__sidebar}>

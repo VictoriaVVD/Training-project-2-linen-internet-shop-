@@ -4,24 +4,23 @@ import {faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
 import "./Card.scss";
 import { Link, useLocation } from "react-router-dom";
-import { apiProduct } from "../../assets/api/apiProduct";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDeleteProduct, fetchToggleItemLike } from "../../store/slices/productsSlice";
 import { findItemLiked } from "../../store/utilsStore";
 
 
-
-export const Card = ({product, onDeleteCards}) => {
+export const Card = ({product}) => {
     const location = useLocation();
     const user = useSelector(s => s.user?.data);
     const dispatch = useDispatch();
     const isLiked = findItemLiked(product, user?._id);
+    
     const toggleCardLike = () => {
         dispatch(fetchToggleItemLike(product, isLiked));
-}
+    }
     const deleteCard = useCallback(async () => {
         dispatch(fetchDeleteProduct(product._id))
-    }, [dispatch]);
+    }, [dispatch, product._id]);
 
     return (
             <div className="card">
@@ -38,7 +37,7 @@ export const Card = ({product, onDeleteCards}) => {
                     <img src={product.pictures} alt="madame coco linen" className="card__image"/>
                     {product.tags.map((e) =>
                         <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)} 
-                    {/* {!!product.discount && <span className="card__tag tag__type_sale"></span>}   */}
+                    {!!product.discount && <span className="card__tag tag__type_sale"></span>}  
 
                     <div className="card__desc">
                         <span className="card__oldprice">{product.discount ? Math.round(product.price / (1 - product.discount / 100)) : null}</span>
