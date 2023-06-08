@@ -1,5 +1,5 @@
 import React from 'react';
-import "./Footer.scss";
+import "./style.scss";
 import { ReactComponent as Logo} from "../../assets/images/logo 1.svg";
 import { faTelegram, faWhatsapp, faViber, faInstagram, faVk } from '@fortawesome/free-brands-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,9 +10,11 @@ export const Footer = () => {
     return <footer className='footer'>
         <div className='footer__wrapper'>
             <div className='footer__logo_wrapper'>
-                <Link to={"/"}>
-                    <Logo />
-                </Link>
+                <div className='footer__logo'>
+                    <Link to={"/"}>
+                        <Logo />
+                    </Link>
+                </div>
                 <p>© «Интернет-магазин Linen-shop.ru»</p>
             </div>
             {/* <div className='footer__links'>

@@ -1,22 +1,21 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .card {
-    display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
     position: relative;
     padding: 0px;
-    min-height: 359px;
-    color: #1A1A1A;
-    font-family: 'Nunito';
+    min-height: $card-height;
+    color: $black-color;
     margin-bottom: 20px;
 
     &__image {
         width: 100%;
-        min-height: 328px;
+        min-height: $card-img-height;
         left: 1px;
         right: -1px;
         top: 0px;
-        border-radius: 8px;
+        border-radius: $b-raduis;
     }
 
     &__sticky_top-right {

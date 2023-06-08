@@ -8,11 +8,14 @@ export const AuthorizationForm = ({ isRequired = true }) => {
 
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
+
+    const navigate = useNavigate();
     const sendData = async (data) => {
         const res = await apiUser.singin(data);
         localStorage.setItem("token", res.token);
         alert("Успешно!");
-        <Navigate to={"/profile"} />
+        if(alert("Успешно!")) {<Navigate to={"/catalog"} />}
+        // navigate("/profile")
     }
 
     const emailRegister = { 

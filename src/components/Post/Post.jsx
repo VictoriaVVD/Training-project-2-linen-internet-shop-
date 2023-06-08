@@ -31,10 +31,10 @@ export const Post = ({post}) => {
                         <h2>{post.title}</h2>
                     </Link>
                     <div className="post__date">
-                        <p>{new Date(post.created_at).toLocaleString('ru-RU', timeOptions)}</p>
+                        <p className="post__date_date">{new Date(post.created_at).toLocaleString('ru-RU', timeOptions)}</p>
                         <Link className="post__comment">Оставить комментарий</Link>
                     </div>
-                    <p>{post.text.substr(0, 200)}...</p>
+                    <p className="post__text">{post.text.substr(0, 200)}...</p>
                     <Link to={`/post/${post._id}`} className="post__comment">Читать далее</Link>
                     <div className="post__icons">
                         <div className="post__icons_comment-icon">

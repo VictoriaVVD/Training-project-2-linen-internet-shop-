@@ -5,9 +5,9 @@ export const About = () => {
     return (
         <div className="about">
             <div className="about__wrapper">
-                <h2>О компании</h2>
+                <h2 className="about_title">О компании</h2>
                 <img src="https://akn-coco.b-cdn.net/cms/2023/02/24/b16781ef-b9a9-42f6-9703-356024727307.jpg" alt="" />
-                <p>Добро пожаловать в наш уютный дом! Мы занимаемся продажей домашнего текстиля с 2008 года, 
+                <p className="about_title">Добро пожаловать в наш уютный дом! Мы занимаемся продажей домашнего текстиля с 2008 года, 
                     и постоянно стремимся к совершенству.
                 </p>
                 <div className="about__content-block">

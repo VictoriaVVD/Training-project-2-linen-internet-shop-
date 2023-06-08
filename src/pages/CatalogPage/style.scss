@@ -1,18 +1,22 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .sort__wrapper {
-    margin: 0 auto;
-    max-width: 1140px;
-    background: #FFF;
-    border: none;
-    padding: 30px 100px;
+    @include content_wrapper;
+    @include posed-spaces;
+    gap: 15px;
 }
 .search__message {
-    display: flex;
-    flex-direction: row;
     margin-bottom: 15px;
 
     p {
         margin: 0;
         padding: 0;
+    }
+
+    &_wrapper {
+        flex-direction: column;
+        text-align: left;
     }
 } 
 .sort__cards {

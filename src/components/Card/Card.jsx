@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {faHeart, faTrash } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as faHeartReg } from '@fortawesome/free-regular-svg-icons';
-import "./Card.scss";
+import "./style.scss";
 import { Link, useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchDeleteProduct, fetchToggleItemLike } from "../../store/slices/productsSlice";

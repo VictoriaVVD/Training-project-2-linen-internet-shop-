@@ -1,13 +1,11 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .reviews {
     &__list {
         margin: 10px;
     }
 }
 button {
-    padding: 8px;
-    background-color: #f5efec;
-    border: none;
-    border-radius: 8px;
-    cursor: pointer;
-    max-width: 200px;
+    @include base-button ($border-color, $base-color)
 }

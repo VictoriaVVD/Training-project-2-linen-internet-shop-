@@ -5,7 +5,7 @@ import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
 import { ProductPage } from "./pages/ProductPage/ProductPage";
 import { FavouritesPage } from "./pages/FavouritesPage/FavouritesPage";
 import { Footer } from './components/Footer/Footer';
-import { Routes, Route, Navigate } from "react-router";
+import { Routes, Route } from "react-router";
 import { CardContext } from "./context/cardContext";
 import { Home } from "./pages/Home/Home";
 import { Modal } from "./components/Modal/Modal";
@@ -18,7 +18,7 @@ import { UserProfilePage } from "./pages/UserProfilePage/UserProfilePage";
 import { AddProductForm } from "./components/Form/AddProductForm";
 import { useDispatch } from "react-redux";
 import { fetchGetUser } from "./store/slices/userSlice";
-import { countRateNum} from "./store/utilsStore"; 
+import { countRateNum, parseJwt} from "./store/utilsStore"; 
 import { fetchGetProductList, fetchSearch } from "./store/slices/productsSlice";
 import { fetchGetPostList } from "./store/slices/postsSlice";
 import { useDebounce } from "./hooks/debounceValue";
@@ -27,6 +27,7 @@ import { AboutDelivery } from "./components/Companie`sInfo/AboutDelivery";
 import { Contacts } from "./components/Companie`sInfo/Contacts";
 import { FAQ } from "./components/Companie`sInfo/FAQ";
 import { Feedback } from "./components/Companie`sInfo/Feedback";
+import { useNavigate, Navigate, useLocation } from "react-router-dom";
 
 
 function App() {
@@ -34,6 +35,9 @@ function App() {
   const [search, setSearch] = useState(undefined);
   const [isAuthorized, setAuthorized] = useState(true);
   const [modalActive, setModalActive] = useState(false);
+
+  const navigate = useNavigate();
+  const location = useLocation()
 
   const dispatch = useDispatch();
   
@@ -51,10 +55,16 @@ function App() {
   }, [dispatch])
 
   useEffect(() => {
-    if (localStorage.getItem('token')) {
-      setAuthorized(true)
+    const token = parseJwt(localStorage.getItem('token'));
+    const isCheckedDate = new Date() < new Date(token?.exp * 1e3);
+    console.log({location});
+    if (!token && !isCheckedDate && location.pathname === "/") {
+      setModalActive(true)
+      // navigate("/signin")
+    } else {
+      setAuthorized(true);
     }
-  }, [])
+  }, [navigate])
 
   const cardsValue = {
     search,
@@ -67,7 +77,7 @@ function App() {
   return (
     <div className="container">
         <CardContext.Provider value={cardsValue}>
-          <Header setSearch={setSearch} />
+          <Header setSearch={setSearch} setModalActive={setModalActive} isAuthorized={isAuthorized} setAuthorized={setAuthorized} />
           <section>
             {isAuthorized
             ? <Routes>
@@ -82,7 +92,6 @@ function App() {
                 <Route path="/about" element={<FAQ />} />
                 {/* <Route path="/about" element={<Contacts />} /> */}
                 <Route path="/about" element={<Feedback />} />
-                "/delivery"
                 <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
                 <Route path="/singup" element={
                   <Modal modalActive={modalActive} setModalActive={setModalActive}>
@@ -92,7 +101,7 @@ function App() {
                 <Route path="/singin" element={
                   <Modal modalActive={modalActive} setModalActive={setModalActive}>
                     <AuthorizationForm />
-                    {isAuthorized ? <Navigate to={"/profile"} /> : ""}
+                    {isAuthorized ? <Navigate to={"/profile"}/> : ""}
                   </Modal>
                 } />
                 <Route path="/forgot-password" element={

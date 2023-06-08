@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export const AboutDelivery = () => {
     return (
-        <div className="about">
+        <div className="about delivery">
             <div className="about__wrapper">
                 <div className="about__delivery">
                     <FontAwesomeIcon icon={faTruck} size="lg" />

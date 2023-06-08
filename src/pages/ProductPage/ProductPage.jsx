@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-// import s from "./index.module.css";
 import { Product } from "../../components/Product/Product";
 import { useParams } from "react-router";
 import { useCallback } from "react";
 import { apiProduct } from "../../assets/api/apiProduct";
+import { openNotification } from "../../components/Notification/Notification";
 
 export const ProductPage = () => {
     const [product, setProduct] = useState({});
@@ -11,8 +11,10 @@ export const ProductPage = () => {
 
     const addReview = useCallback(async data => {
         const result = await apiProduct.addReview(product._id, data);
-        setProduct(() => ({ ...result }))
-    }, [product._id])
+        setProduct(() => ({ ...result }));
+        openNotification("success", "Отзыв успешно отправлен!")
+    }, [product._id]);
+
 
     useEffect(() => {
         if (id) {

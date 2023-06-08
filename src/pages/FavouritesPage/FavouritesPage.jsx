@@ -14,8 +14,9 @@ export const FavouritesPage = () => {
         navigate(-1);
     }
 
-    const {favouritesPosts} = useContext(CardContext);
-    const {favourites} = useSelector(s => s.products);
+    const favouritesPosts = useSelector(s => s.posts?.favouritesPosts);
+    console.log({favouritesPosts});
+    const favourites = useSelector(s => s.products?.favourites);
 
     return (
         <div className={s.favouritesPage}>

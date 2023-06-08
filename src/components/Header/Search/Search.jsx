@@ -1,5 +1,5 @@
 import React from "react";
-import "./Search.scss"
+import "./style.scss"
 
 export const Search = ({setSearch}) => {
     return (

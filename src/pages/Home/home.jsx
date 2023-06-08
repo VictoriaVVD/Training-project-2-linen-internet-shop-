@@ -25,8 +25,8 @@ export const Home = () => {
 
 
     return (
-            <div className="home__wrapper">
-                <div className="home__container">
+            <div className="home">
+                <div className="home__wrapper">
                     <Carousel autoplay >
                         <div style={{backgroundSize: 'auto'}}>
                             <img src="https://cozyhome.ru/upload/iblock/c94/Main_banner_1249x468-1-_1_.png" style={contentStyle} alt="promo"></img>
@@ -44,8 +44,7 @@ export const Home = () => {
                     <div className="home__promo-block">
                         <h3>Популярные товары</h3>
                         <CardList cards={data} />
-                    </div>
-                    
+                    </div>  
                 </div>
             </div>
     );

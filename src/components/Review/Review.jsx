@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { ProductRate } from "../ProductRate/ProductRate";
 import { apiProduct } from "../../assets/api/apiProduct";
+import { openNotification } from "../Notification/Notification";
 
 
 const timeOptions = {
@@ -16,6 +17,7 @@ export const Review = ({review, setProduct}) => {
     const deleteReview = useCallback(async () => {
     const res = await apiProduct.deleteReview(review.product, review._id);
     setProduct({...res});
+    openNotification("success", "Отзыв удален!")
 
     }, [review._id, review.product])
 

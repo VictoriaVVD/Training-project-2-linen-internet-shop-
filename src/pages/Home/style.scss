@@ -1,23 +1,12 @@
-/* .container {
-    width: calc(100vh - 96px - 300px);
-    display: grid;
-    grid-template-rows: 46px auto 160px;
-} */
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .home {
+    @include section($second-color);
+    
     &__wrapper {
-        width: 100%;
-        background: #f5efec;
-        border: none;
-    }
-    &__container {
-        max-width: 1140px;
+        width: 70%;
         margin: 0 auto;
-    }
-    &__promo-block {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        align-items: center;
-        background-color: #f5efec;
+        min-height: 200px
     }
 }

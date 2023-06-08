@@ -1,0 +1,81 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.article {
+    @include section($second-color);
+
+    &__wrapper {
+        @include content_wrapper;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+    &__content {
+        @include posed-spaces;
+        align-items: flex-start;
+        margin-top: 15px;
+        gap: 30px;
+    }
+    &__card {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        max-width: 70%;
+        position: relative;
+    }
+
+    &__info {
+        width: 100%;
+        padding: 20px;
+        gap: 10px;
+
+        &_char {
+            @include text-block($ffamily-main, $fsize-main, justify, 400, 18px, 0px);
+            @include posed-center;
+            gap: 20px;
+            padding: 20px;
+            
+            &_links {
+                @include icon-link($black-color, 12px);
+            }
+        }
+        &_text {
+            @include text-block($ffamily-main, 20px, justify, 400, 32px, 20px);
+            padding: 20px;
+            margin-bottom: 40px;
+        }
+    }
+    
+    &__title {
+        @include text-block($ffamily-main, 28px, justify, 700, 32px, 0px);
+    }
+
+    &__sidebar {
+        @include sidebar(30%);
+        
+        img {
+            @include card-image(100%);
+        }
+    }
+}
+
+img {
+    @include card-image(100%);
+}
+
+.product__like {
+    display: flex;
+    justify-content: flex-start;
+}
+button {
+    @include base-button($border-color, $base-color);
+    @include posed-center;
+    gap: 15px;
+    font-family: $ffamily-main;
+    font-size: $fsize-main;
+}
+button:hover {
+    @include button-hover;
+}
+a:hover, svg:hover {
+    @include link-hover;
+}

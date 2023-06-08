@@ -1,114 +1,85 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .post {
-    width: 100%;
-    background: #f5efec;
-    border: none;
+    @include section($second-color);
 
     &__wrapper {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        max-width: 700px;
-        margin: 0 auto;
-        padding: 30px 100px;
+        @include content_wrapper;
+        flex-direction: column;
+        margin-bottom: 40px;
     }
     &__content {
+        max-width: 500px;
+        height: 100%;
         display: flex;
         justify-content: flex-start;
         position: relative;
         padding-bottom: 40px;
-
     }
     &__image {
-        border-radius: 8px;
-        max-width: 400px;
+        @include card-image(100%);
+        box-shadow: $box-shadow;
     }
+
     &__info {
-        background-color: #fff;
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-        padding: 20px;
+        @include posed-absolute(2rem, -25rem);
+        @include text-block($ffamily-main, $fsize-main, justify, 400, 18px, 0px);
+        @include posed-spaces;
         min-height: 300px;
-        max-width: 350px;
-        position: absolute;
-        right: -250px;
-        top: 15px;
-        border-radius: 8px;
-
+        max-width: 100%;
+        flex-direction: column;
+        padding: 20px 20px 40px;
+        background: $second-color;
+        border: 1px solid $border-color;
+        box-shadow: $box-shadow;
+        border-radius: $b-raduis;
     }
+    
+    &__text {
+        @include text-block($ffamily-main, 18px, justify, 400, 20px, 20px);
+    }
+    
     &__title {
-        text-decoration: none;
-        color: #1a1a1a;
-
-        &:hover {
-            color: #b4a198;
-        }
-        
-        h2 {
-            margin: 0;
-            padding: 0;
-        
-        }
-    }
-    &__comment {
-        text-decoration: none;
-        color: #1a1a1a;
-
-        &:hover {
-            color: #b4a198;
-        }
-    }
-    &__reaction {
-        margin-right: 25px;
+        @include text-block($ffamily-main, 24px, justify, 700, 32px, 0px);
+        @include icon-link($black-color, 16px);
     }
     &__date {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-family: "Roboto";
-        font-size: 14px;
+        @include posed-end;
+        width: 100%;
+        gap: 20px;
+        font-size: $fsize-main;
 
-        p {
-            margin: 0;
-            padding: 0;
+        &_date {
+            @include posed-start;
+            width: 100%;
         }
     }
     &__icons {
-        display: flex;
-        justify-content: flex-end;
-        gap: 15px;
+        @include posed-start;
+        width: 100%;
+        gap: 20px;
+        cursor: pointer;
 
-        svg:hover {
-
-            color: #b4a198;
-        }
-
-        &_comment-icon {
+        &_comment-icon{
             position: relative;
 
-        
             &_over-num {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                position: absolute;
-                top: -12px;
-                right: -5px;
-                color: #70eec2;
+                @include posed-absolute(-12px, -5px);
+                @include posed-center;
+                color: $icon-color;
                 font-size: 16px;
                 font-weight: 800;
             }
         }
-        &_read-icon {
-            &:hover {
-                color: #b4a198;
-                cursor: pointer;
-            }
-        }
     }
 
+    &__comment {
+        @include posed-end;
+        width: 100%;
+    }
 }
-.ff__different {
-    font-family: "Roboto";
-    font-size: 12px;
+
+.img {
+    @include card-image(100%);
 }

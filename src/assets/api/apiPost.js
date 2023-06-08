@@ -29,6 +29,7 @@ class Api {
         })
         .then(onResponse)
     }
+    
     addNewPost(data) {
         return fetch(`${this.basePostUrl}`, {
             method: "POST",
@@ -38,6 +39,15 @@ class Api {
         .then(onResponse)
     }
 }
+
+// const freshToken = () => {
+//     return {
+//         headers: {
+//             "Content-Type": "application/json",
+//             "authorization": localStorage.getItem("token"),   
+//         }
+//     }
+// }
 
 const config = {
     basePostUrl: "https://api.react-learning.ru/v2/group-12/posts",

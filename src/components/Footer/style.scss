@@ -1,0 +1,54 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.footer {
+    @include section($base-color);
+
+    &__wrapper {
+        @include content_wrapper;
+        justify-content: space-between;
+        display: flex;
+        align-items: center;
+        height: 100%;
+    }
+    &__logo {
+
+        &_wrapper {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+    }
+    &__links {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        padding: 0px;
+        gap: 12px;
+        height: 100%;
+        
+    }
+    &__contacts {
+        @include text-block($ffamily-main, 16px, justify, 700, 20px, 0px);
+        @include posed-spaces;
+        flex-direction: column;
+        color: $black-color;
+
+        h4 {
+            margin: 0;
+            padding: 0;
+            margin-bottom: 15px;
+        }
+    }
+
+} 
+.social-icons {
+    @include posed-spaces;
+    height: 100%;
+    font-size: 28px;
+    gap: 10px;
+}
+a {
+    @include icon-link($black-color, "20px");
+}

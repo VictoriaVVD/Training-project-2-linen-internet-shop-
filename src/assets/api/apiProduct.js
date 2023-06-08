@@ -59,7 +59,7 @@ class Api {
     addNewProduct(data) {
         return fetch(`${this.baseUrl}products`, {
             method: "POST",
-            headers: this.headers,
+            ...this.freshHeaders(),
             body: JSON.stringify(data),
         })
         .then(onResponse)

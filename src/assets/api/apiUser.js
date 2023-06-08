@@ -14,6 +14,7 @@ class Api {
         })
         .then(onResponse)
     }
+    
     singin(data) {
         return fetch(`${this.baseUrl}signin`, {
             method: "POST",

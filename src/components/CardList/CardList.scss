@@ -1,20 +1,15 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .main {
-    width: 100%;
-    background: #FFF;
-    border: none;
+    @include content_wrapper;
+    justify-content: space-between;
+    display: flex;
+    align-items: center;
 }
 .cards {
     display: grid;
     justify-content: space-between;
     gap: 30px;
     grid-template-columns: repeat(4, 1fr);
-    
-    &__wrapper {
-        display: flex;
-        flex-direction: row;
-        justify-content: space-between;
-        max-width: 1140px;
-        margin: 0 auto;
-        padding: 50px 0;
-    }
 }

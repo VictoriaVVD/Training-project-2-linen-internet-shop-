@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react';
-import "./Header.scss";
+import "./style.scss";
 import { ReactComponent as Logo } from "../../assets/images/logo 1.svg";
 import { Search } from './Search/Search';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -10,14 +10,13 @@ import { CardContext } from '../../context/cardContext';
 import { CatalogButton } from '../CatalogButton/catalogButton';
 import { useSelector } from 'react-redux';
 
-export const Header = ({setSearch}) => {
+export const Header = ({setSearch, setModalActive, isAuthorized, setAuthorized}) => {
 
     // const setSearchData = (el) => {
     //     setSearch(el);
     // };
     const location = useLocation();
     const {favourites} = useSelector(s => s.products);
-    const {setModalActive, isAuthorized, setAuthorized} = useContext(CardContext);
     const [isLoggedIn, setLoggedIn] = useState(false);
     const navigate = useNavigate()
 
@@ -25,7 +24,7 @@ export const Header = ({setSearch}) => {
         e.preventDefault();
         localStorage.removeItem('token');
         setLoggedIn(false);
-        // setAuthorized(false);
+        setAuthorized(false);
         <Navigate to={"/"} />;
 
     }
@@ -46,7 +45,7 @@ export const Header = ({setSearch}) => {
                     {isAuthorized && 
                     <div className='icons'>
                         <Link to={"/favourites"}>
-                            <FontAwesomeIcon icon={faHeart} title='Избранное' />
+                            <FontAwesomeIcon icon={faHeart} title='Избранное' size='lg' />
                             <div className='icons__favourite-over-num'>
                                 {favourites?.length && <span>{favourites.length}</span>}
                             </div> 
@@ -54,15 +53,14 @@ export const Header = ({setSearch}) => {
                     </div>}
                     {isAuthorized && 
                     <div className='icons'>
-                        <Link className="icon__cart" href="" title='Корзина'>
-                            <FontAwesomeIcon icon={faCartShopping} />
+                        <Link className="icon__cart" href="">
+                            <FontAwesomeIcon icon={faCartShopping} title='Корзина' size='lg' />
                         </Link>
                     </div>}
                     <div className="icons">
                         <Link to={'/singin'} className="icon__profile">
-                            {!isAuthorized
-                                ?   <button className='header__btn' onClick={() => setModalActive(true)}>Вход / Регистрация</button>
-                                :   <FontAwesomeIcon icon={faUser} title='LogOut' onClick={logOut} />}
+                        {/* <FontAwesomeIcon icon={faUser} title='LogOut' /> */}
+                            <button className='header__btn' onClick={() => setModalActive(true)} >Вход / Регистрация</button>
                         </Link>
                     </div> 
                 </div>

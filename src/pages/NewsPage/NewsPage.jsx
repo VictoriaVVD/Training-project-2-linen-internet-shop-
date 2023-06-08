@@ -59,7 +59,7 @@ export const NewsPage = () => {
                     )}
                 </div>
                 <div>
-                    <button onClick={() => setModalActive(true)}>Добавить статью</button>
+                    <button className="base-button" onClick={() => setModalActive(true)}>Добавить статью</button>
                     <Modal setModalActive={setModalActive} modalActive={modalActive}>
                         <AddPostForm onSendNewProduct={sendNewPost} />
                     </Modal>

@@ -1,12 +1,14 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
 .user__account {
-    margin: 0 auto;
-    height: 100%;
-    border: none;
-    padding: 30px 100px;
+    @include section($base-color);
 
     &_wrapper {
+        @include content_wrapper;
+        justify-content: space-between;
         display: flex;
-        margin-bottom: 20px; 
+        align-items: center;
     }
 
 }

@@ -1,6 +1,6 @@
 import React, { useContext } from "react";
 import { CardList } from "../../components/CardList/CardList";
-import s from "./index.module.scss";
+import "./style.scss";
 import { CardContext } from "../../context/cardContext";
 import { Link, useNavigate } from "react-router-dom";
 import { AddProductForm } from "../../components/Form/AddProductForm";
@@ -61,14 +61,19 @@ export const CatalogPage = () => {
 
     return (
         <>
-            <div className={s.sort__wrapper}>
-                    {search && <p className={s.search__message}>По Вашему запросу {products.length === 1 ? 'найден' : 'найдено'} {products.length} {foundProduct(products.length)}</p>}
-                <Link>
-                    <span onClick={() => goBack()}>{'<'} Назад</span>
-                </Link>
-                <div className={s.sort__cards}>
+            <div className="sort__wrapper">
+                <div className="search__message_wrapper">
+                    <Link>
+                        <span onClick={() => goBack()}>{'<'} Назад</span>
+                    </Link>
+                    {search && 
+                        <p className="search__message">
+                            По Вашему запросу {products.length === 1 ? 'найден' : 'найдено'} {products.length} {foundProduct(products.length)}
+                        </p>}
+                </div>
+                <div className="sort__cards">
                     {!search && sortedItems.map((e) => 
-                        <span className={s.sort__cards_item} key={e.id} onClick={() => dispatch(sortProducts(e.id))}>{e.title}</span>
+                        <span className="sort__cards_item" key={e.id} onClick={() => dispatch(sortProducts(e.id))}>{e.title}</span>
                     )}
                 </div>
                 <div>
