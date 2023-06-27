@@ -3,6 +3,7 @@
 
 .about {
     @include section($second-color);
+    min-height: calc(100vh - $header-height - $footer-height);
 
     img {
         @include card-image(100%);
@@ -14,10 +15,9 @@
     }
     
     &_title {
-        margin-bottom: 10px;
-        text-indent: 20px;
+        margin-bottom: 30px;
         font-weight: 600;
-        font-size: 18px;
+        font-size: 24px;
         text-align: justify;
     }
 
@@ -34,6 +34,47 @@
     &__delivery {
         @include posed-start;
         gap: 15px;
+    }
+
+    &__faq {
+        display: flex;
+        flex-direction: column;
+        gap: 30px;
+        
+        &_item {
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        &_title {
+            @include base-button(none, $base-color);
+            display: flex;
+            gap: 15px;
+            align-items: center;
+
+            &:hover {
+                cursor: pointer;
+                color: $icon-color;
+            }
+        }
+    
+        &_content {
+            overflow: hidden;
+            max-height: 0;
+            transition: all 1s cubic-bezier(0, 1, 0, 1);
+            padding-left: 20px;
+            
+            &.show {
+                position: absolute;
+                @include base-button(none, $second-color);
+                font-size: 16px;
+                top: 60px;
+                height: 50px;
+                max-height: 100px;
+                transition: all 1s cubic-bezier(0, 1, 0, 1);
+            }
+        }
     }
 }
 h2, h4 {

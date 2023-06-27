@@ -1,22 +1,41 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+.posts {
+    @include section($second-color);
+
+    &__wrapper {
+        @include content_wrapper;
+        flex-direction: column;
+    }
+}
 
 .post-list {
 
     &__wrapper {
-        @include content_wrapper;
-        @include posed-spaces;
-        justify-content: space-between;
-        gap: 15px;
+        flex-direction: column;
+        margin: 15px 0;
     }
 
     &__sorted {
-        border-radius: $b-raduis;
-        padding: 15px;
-
-        span {
-            padding: 15px;
+        width: 100%;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(40, 41, 61, 0.04);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        
+        &_item {
+            font-weight: 400;
+            line-height: 20px;
+            padding: 20px;
+            margin: 0 20px;
+            cursor: pointer;
+    
+            &:hover {
+                border-radius: $b-raduis;
+                background: $base-color;
+            }
         }
     }
 }

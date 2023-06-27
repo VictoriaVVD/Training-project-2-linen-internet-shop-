@@ -1,0 +1,17 @@
+[
+    {
+        "id": "mainSale",
+        "title": "Распродажа -30%",
+        "url": "https://spim.ru/imgup/72152_155496656833c0a71f1132873b97047a64f9b145fe.jpg"
+    },
+    {
+        "id": "classic",
+        "title": "Эксклюзивная классика со скидкой",
+        "url": "https://togas.pro/media/category/category-bedding.jpg"
+    },
+    {
+        "id": "summer",
+        "title": "Летняя коллекция",
+        "url": "https://cdn1.ozone.ru/multimedia/1022222052.jpg"
+    }
+]

@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React from "react";
 import "./style.scss";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 import { ProductRate } from "../ProductRate/ProductRate";
-import { apiProduct } from "../../assets/api/apiProduct";
-import { openNotification } from "../Notification/Notification";
+import { useDispatch, useSelector } from "react-redux";
+import { fetchDeleteProductReview } from "../../store/slices/productsSlice";
 
 
 const timeOptions = {
@@ -12,14 +12,10 @@ const timeOptions = {
     month: 'short', year: "numeric"
 }
 
-export const Review = ({review, setProduct}) => {
+export const Review = ({review}) => {
 
-    const deleteReview = useCallback(async () => {
-    const res = await apiProduct.deleteReview(review.product, review._id);
-    setProduct({...res});
-    openNotification("success", "Отзыв удален!")
-
-    }, [review._id, review.product])
+    const user = useSelector(s => s.user?.data);
+    const dispatch = useDispatch()
 
     return (
         <>
@@ -32,7 +28,14 @@ export const Review = ({review, setProduct}) => {
                     <ProductRate rating={review.rating} />
                     <div className='review__text'>{review.text}</div>
                 </div>
-                <div><FontAwesomeIcon icon={faCircleXmark} size="lg" onClick={() => deleteReview()}/></div>
+                <div className="delete-btn">
+                {review.author._id === user._id
+                    ?   <FontAwesomeIcon icon={faCircleXmark} size="lg" 
+                            onClick={() => dispatch(fetchDeleteProductReview({productId: review.product, reviewId: review._id}))}
+                        />
+                    :   ""
+                }
+                </div>
             </div>
             <div className='review__hr' />
         </>

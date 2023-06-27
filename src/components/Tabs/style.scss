@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.tabs {
+    font-family: $ffamily-main;
+    text-align: justify;
+
+}
+div {
+    font-family: $ffamily-main;
+    font-size: $fsize-main;
+    text-align: justify;
+    margin: 0;
+    padding: 0;
+}

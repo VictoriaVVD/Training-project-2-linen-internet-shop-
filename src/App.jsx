@@ -1,52 +1,35 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import './App.scss';
 import { Header } from './components/Header/Header';
-import { CatalogPage } from "./pages/CatalogPage/CatalogPage";
-import { ProductPage } from "./pages/ProductPage/ProductPage";
-import { FavouritesPage } from "./pages/FavouritesPage/FavouritesPage";
 import { Footer } from './components/Footer/Footer';
-import { Routes, Route } from "react-router";
-import { CardContext } from "./context/cardContext";
-import { Home } from "./pages/Home/Home";
-import { Modal } from "./components/Modal/Modal";
-import { RegisterForm } from "./components/Form/RegisterForm";
-import { AuthorizationForm } from "./components/Form/AuthorizationForm";
-import { NewsPage } from "./pages/NewsPage/NewsPage";
-import { ForgotPassForm } from "./components/Form/ForgotPassForm";
-import { PostPage } from "./pages/PostPage/PostPage";
-import { UserProfilePage } from "./pages/UserProfilePage/UserProfilePage";
-import { AddProductForm } from "./components/Form/AddProductForm";
-import { useDispatch } from "react-redux";
-import { fetchGetUser } from "./store/slices/userSlice";
-import { countRateNum, parseJwt} from "./store/utilsStore"; 
+import { useDispatch, useSelector } from "react-redux";
+import { fetchGetUser, setAuthorized } from "./store/slices/userSlice";
+import { parseJwt} from "./tools/utils"; 
 import { fetchGetProductList, fetchSearch } from "./store/slices/productsSlice";
-import { fetchGetPostList } from "./store/slices/postsSlice";
+import { fetchGetPostList, fetchSearchPosts } from "./store/slices/postsSlice";
 import { useDebounce } from "./hooks/debounceValue";
-import { About } from "./components/Companie`sInfo/About";
-import { AboutDelivery } from "./components/Companie`sInfo/AboutDelivery";
-import { Contacts } from "./components/Companie`sInfo/Contacts";
-import { FAQ } from "./components/Companie`sInfo/FAQ";
-import { Feedback } from "./components/Companie`sInfo/Feedback";
-import { useNavigate, Navigate, useLocation } from "react-router-dom";
-
+import { useLocation } from "react-router-dom";
+import { RouterAuth } from "./components/Router/RouterAuth";
+import { RouterUnAuth } from "./components/Router/RouterUnAuth";
 
 function App() {
-
-  const [search, setSearch] = useState(undefined);
-  const [isAuthorized, setAuthorized] = useState(true);
-  const [modalActive, setModalActive] = useState(false);
-
-  const navigate = useNavigate();
-  const location = useLocation()
-
+  const {search} = useSelector(s => s.products);
+  const {isAuthorized} = useSelector(s => s.user);
   const dispatch = useDispatch();
-  
+  const location = useLocation();
   const debounceValueInApp = useDebounce(search);
 
   useEffect(() => {
     if (debounceValueInApp === undefined) return;
-    dispatch(fetchSearch(debounceValueInApp))
+    
+    if (location.pathname === "/catalog" ) {
+      dispatch(fetchSearch(debounceValueInApp))
+    } else if (location.pathname === "/news") {
+      dispatch(fetchSearchPosts(debounceValueInApp))
+    }
+    
   }, [debounceValueInApp, dispatch]);
+
 
   useEffect(() => {
     dispatch(fetchGetUser())
@@ -57,70 +40,17 @@ function App() {
   useEffect(() => {
     const token = parseJwt(localStorage.getItem('token'));
     const isCheckedDate = new Date() < new Date(token?.exp * 1e3);
-    console.log({location});
-    if (!token && !isCheckedDate && location.pathname === "/") {
-      setModalActive(true)
-      // navigate("/signin")
-    } else {
-      setAuthorized(true);
-    }
-  }, [navigate])
-
-  const cardsValue = {
-    search,
-    modalActive,
-    setModalActive,
-    countRateNum,
-    isAuthorized,
-  }
+    isCheckedDate ? dispatch(setAuthorized(true)) : dispatch(setAuthorized(false));
+  }, [dispatch])
   
   return (
-    <div className="container">
-        <CardContext.Provider value={cardsValue}>
-          <Header setSearch={setSearch} setModalActive={setModalActive} isAuthorized={isAuthorized} setAuthorized={setAuthorized} />
-          <section>
-            {isAuthorized
-            ? <Routes>
-                <Route path="/" element={<Home />} />
-                <Route path="/catalog" element={<CatalogPage />}/>
-                <Route path="/product/:id" element={<ProductPage />} />
-                <Route path="/favourites" element={<FavouritesPage />}/>
-                <Route path="/news" element={<NewsPage />} />
-                <Route path="/post/:id" element={<PostPage />} />
-                <Route path="/about" element={<About />} />
-                <Route path="/delivery" element={<AboutDelivery />} />
-                <Route path="/about" element={<FAQ />} />
-                {/* <Route path="/about" element={<Contacts />} /> */}
-                <Route path="/about" element={<Feedback />} />
-                <Route path="*" element={<div className="pageNotFound">Страница не найдена</div>}/>
-                <Route path="/singup" element={
-                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
-                    <RegisterForm />
-                  </Modal>
-                } />
-                <Route path="/singin" element={
-                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
-                    <AuthorizationForm />
-                    {isAuthorized ? <Navigate to={"/profile"}/> : ""}
-                  </Modal>
-                } />
-                <Route path="/forgot-password" element={
-                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
-                    <ForgotPassForm />
-                  </Modal>
-                } />
-                <Route path="/profile" element={<UserProfilePage />} />
-                <Route path="/newProduct" element={
-                  <Modal modalActive={modalActive} setModalActive={setModalActive}>
-                    <AddProductForm />
-                  </Modal>
-                } />
-              </Routes>
-            : <Navigate to={'/not authorizated'} />}
-          </section>
-          <Footer />
-        </CardContext.Provider>
-      </div> 
+          <div className="container">
+            <Header />
+            <section>
+              {isAuthorized ? <RouterAuth /> : <RouterUnAuth />}
+            </section>
+            <Footer />
+          </div> 
   );
 };
 

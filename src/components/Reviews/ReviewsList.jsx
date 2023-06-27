@@ -1,24 +1,29 @@
-import React, { useCallback, useContext } from "react";
+import React from "react";
 import "./style.scss";
 import { Review } from "../Review/Review";
-import { CardContext } from "../../context/cardContext";
+import { useDispatch} from "react-redux";
+import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 import { Modal } from "../Modal/Modal";
-import { ReviewForm } from "../Form/ReviewForm";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faRectangleXmark } from "@fortawesome/free-regular-svg-icons";
-import { ProductRate } from "../ProductRate/ProductRate";
 
-export const ReviewsList = ({product, setProduct}) => {
-    const {setModalActive} = useContext(CardContext)
+export const ReviewsList = ({product}) => {
 
+    const dispatch = useDispatch();
+    const showModal = (path) => {
+        dispatch(setModalOpen(true));
+        dispatch(setStateByPath(path))
+    }
     return (
     <div className="reviews__list">
-        <button onClick={() => setModalActive(true)}>Оставить отзыв</button>
+        <button onClick={()=> showModal("newReview")}>Оставить отзыв</button>
         <div>
             {product.reviews
-            .sort((a, b) => new Date(b.updated_at) - new Date(a.updated_at))
-            .map(item => <Review review={item} key={item.updated_at} setProduct={setProduct} />)}
+                .map(item => 
+                    <Review review={item} key={item.created_at} 
+                    />
+                )
+                .sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
+            }
         </div>
-        
+        <Modal />
     </div>)
 }

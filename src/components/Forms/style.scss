@@ -1,0 +1,176 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.form {
+    @include section($second-color);
+    border-radius: $b-raduis;
+
+    &__wrapper {
+        @include content_wrapper;
+        @include posed-spaces;
+        flex-direction: column;
+        gap: 10px;
+        border-radius: $b-raduis;
+
+        h2 {
+            @include posed-center;
+            padding: 0;
+            margin-bottom: 20px;
+        }
+    }
+
+    &__content {
+        
+        gap: 20px; 
+
+        &_image {
+            @include posed-center;
+            width: 50%;
+            flex-direction: column;
+
+            img {
+                border-radius: 50%;
+                filter: blur(1px);
+                opacity: .8;
+        
+                &_block {
+                    @include posed-spaces;
+                    flex-direction: row;
+                }
+            }
+        }
+
+        &_info {
+            max-width: 50%;
+            flex-direction: column;
+            gap: 15px;
+
+            button {
+                width: 100%;
+            }
+        }
+    }
+
+    &__pass {
+        @include posed-center;
+        flex-direction: column;
+        width: 100%;
+        position: relative;
+        gap: 10px;
+
+        p {
+            width: 100%;
+            text-align: center;
+            vertical-align: middle;
+        }
+    }
+
+    &__btn {
+        @include base-button(none, $base-color);
+        @include posed-center;
+        margin-top: 15px;
+        max-width: 100%;
+    }
+        
+    &__input {
+        @include base-button(none, $second-color);
+        margin: 0;
+        width: 100%;
+
+        input, textarea {
+            font-family: $ffamily-main;
+            font-size: 14px;
+        }
+
+        &_block {
+            @include posed-spaces;
+            flex-direction: row;
+
+            input {
+                font-family: inherit;
+
+            }
+        }
+
+        &_profile {
+            display: flex;
+            align-items: flex-end;
+            padding: 15px;
+            margin: 10px 0;
+            cursor: pointer;
+            outline: none;
+            border: none;
+            border-radius: $b-raduis; 
+            box-shadow: $box-shadow;
+            background: $second-color;
+            color: $icon-text-color;
+        }
+
+        &_changing {
+
+            &_btn {
+                @include base-button(none, $base-color);
+                max-width: 20px;
+                
+                position: absolute;
+                right: 0px;
+                top: 50%;
+                transform: translateY(-50%);
+
+                &:hover {
+                    @include button-hover;
+                }
+            }
+        }
+    }
+
+    &__link {
+        @include icon-link($icon-color, $fsize-main);
+    }
+    
+    &__review {
+
+        &_wrapper {
+            max-width: 400px;
+        }
+        
+        &_info {
+            @include posed-spaces;
+            flex-direction: column;
+            padding: 0 15px;
+            gap: 15px;
+
+            &_title {
+                font-weight: 600;
+                font-size: 20px;
+                
+            }
+        }
+    }
+}
+.review {
+    &_img {
+        width: 50%;
+        text-align: center;
+
+    }
+    &_input {
+        width: 100%;
+        margin: 10px 0;
+        outline: none;
+        font-family: $ffamily-main;
+        border: $border;
+        border-radius: $b-raduis;
+        box-shadow: $box-shadow;
+    }
+}
+
+.checkbox {
+    margin: 0;
+    width: 100%;
+    font-family: $ffamily-main;
+    font-size: $fsize-main;
+}
+textarea {
+    font-family: inherit;
+}

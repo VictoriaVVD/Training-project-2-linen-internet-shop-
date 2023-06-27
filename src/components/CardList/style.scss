@@ -1,0 +1,15 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.main {
+    @include content_wrapper;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+}
+.cards {
+    display: grid;
+    justify-content: space-between;
+    gap: 30px;
+    grid-template-columns: repeat(4, 1fr);
+}

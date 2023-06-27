@@ -1,10 +1,12 @@
 import React from "react";
 import "./style.scss";
+import { GoBack } from "../GoBack/GoBack";
 
 export const About = () => {
     return (
         <div className="about">
             <div className="about__wrapper">
+                <GoBack />
                 <h2 className="about_title">О компании</h2>
                 <img src="https://akn-coco.b-cdn.net/cms/2023/02/24/b16781ef-b9a9-42f6-9703-356024727307.jpg" alt="" />
                 <p className="about_title">Добро пожаловать в наш уютный дом! Мы занимаемся продажей домашнего текстиля с 2008 года, 

@@ -1,15 +1,14 @@
 @import "./variables.scss";
 
 @mixin section ($background) {
-
     width: 100%;
     height: 100%;
     background: $background;
     border: none;
+    font-family: $ffamily-main;
 }
 
-@mixin content_wrapper {
-    
+@mixin content_wrapper { 
     display: flex;
     margin: 0 auto;
     padding: 30px 100px;
@@ -18,7 +17,6 @@
 }
 
 @mixin icon-link ($link-color, $size ) {
-
     text-decoration: none;
     font-family: inherit;
     cursor: pointer;
@@ -28,7 +26,6 @@
 @mixin link-hover {
     color: $link-hover;
 }
-
 
 @mixin posed-center {
     display: flex;
@@ -64,13 +61,12 @@
     right: $right;
 }
 
-@mixin base-button ($border-col, $background) {
-
+@mixin base-button ($border, $background) {
     padding: 15px;
     cursor: pointer;
     width: 100%;
     outline: none;
-    border: $border-col;
+    border: none;
     border-radius: $b-raduis; 
     box-shadow: $box-shadow;
     background: $background;
@@ -79,7 +75,9 @@
 
 @mixin button-hover {
     background: $icon-color;
-    opacity: .6;
+    box-shadow: none;
+    opacity: .4;
+    color: $black-color;
 }
 
 @mixin card-image ($image-width) {
@@ -87,9 +85,7 @@
     border-radius: $b-raduis;
 }
 
-
 @mixin text-block ($font, $size, $t-aligh, $weight, $height, $t-indent) {
-
     @include posed-center;
     text-align: $t-aligh;
     font-family: $font;
@@ -97,10 +93,6 @@
     font-weight: $weight;
     line-height: $height;
     text-indent: $t-indent;
-}
-
-@mixin content {
-
 }
 
 @mixin sidebar ($sidebar-width) {

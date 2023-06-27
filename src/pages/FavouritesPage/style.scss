@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+
+.favourites {
+    @include section($second-color);
+    border: none;
+    
+    &__wrapper {
+        @include content_wrapper;
+        flex-direction: column;
+        height: 100%;
+
+        p {
+            margin: 0;
+            padding: 0;
+        }
+    }
+}

@@ -2,46 +2,87 @@
 @import "../../styles/mixins.scss";
 
 .post {
-    @include section($second-color);
 
-    &__wrapper {
-        @include content_wrapper;
-        flex-direction: column;
-        margin-bottom: 40px;
-    }
     &__content {
-        max-width: 500px;
-        height: 100%;
+        max-width: 450px;
         display: flex;
         justify-content: flex-start;
         position: relative;
-        padding-bottom: 40px;
+        margin-bottom: 100px;
     }
+
+    &__block_image {
+        position: relative;;
+        overflow: hidden;
+        width: 450px;
+        height: 300px;
+        
+        &_hover-effect {
+            width: 100%;
+            height: 100%;
+            top: 0;
+            right: -100%;
+            position: absolute;
+            background: #1f3d4738;
+            backdrop-filter: blur(3px);
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: 1s;
+
+            button {
+                max-height: 40px;
+                max-width: 50%;
+                margin: 10px;
+            }
+        }
+    }
+
+
     &__image {
         @include card-image(100%);
         box-shadow: $box-shadow;
     }
 
+    &__icon_bottom-left {
+        position: absolute;
+        width: 24px;
+        height: 24px;
+        left: 5px;
+        bottom: 10px;
+        color: $icon-color;
+        opacity: .6;
+        font-size: 24px;
+
+            &:hover {
+                color: $base-color;
+                opacity: 1;
+            }
+    }
     &__info {
         @include posed-absolute(2rem, -25rem);
         @include text-block($ffamily-main, $fsize-main, justify, 400, 18px, 0px);
         @include posed-spaces;
-        min-height: 300px;
-        max-width: 100%;
+        min-height: 200px;
+        max-height: 250px;
+        width: 100%;
+        height: 100%;
         flex-direction: column;
         padding: 20px 20px 40px;
         background: $second-color;
-        border: 1px solid $border-color;
+        border: $border;
         box-shadow: $box-shadow;
         border-radius: $b-raduis;
     }
     
     &__text {
-        @include text-block($ffamily-main, 18px, justify, 400, 20px, 20px);
+        @include text-block($ffamily-main, 16px, justify, 400, 20px, 20px);
     }
     
     &__title {
-        @include text-block($ffamily-main, 24px, justify, 700, 32px, 0px);
+        @include text-block($ffamily-main, 20px, justify, 700, 32px, 0px);
         @include icon-link($black-color, 16px);
     }
     &__date {
@@ -54,6 +95,10 @@
             @include posed-start;
             width: 100%;
         }
+    }
+    &__tag {
+        color: $link-hover;
+
     }
     &__icons {
         @include posed-start;
@@ -72,6 +117,13 @@
                 font-weight: 800;
             }
         }
+
+        &_read-icon {
+            color: $icon-color;
+            &:hover {
+                @include link-hover;
+            }
+        }
     }
 
     &__comment {
@@ -82,4 +134,8 @@
 
 .img {
     @include card-image(100%);
+}
+
+.post__block_image:hover .post__block_image_hover-effect {
+    right: 0;
 }

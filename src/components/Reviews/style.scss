@@ -3,9 +3,10 @@
 
 .reviews {
     &__list {
-        margin: 10px;
+        margin: 10px 0;
+        button {
+            @include base-button (none, $base-color);
+            max-width: 200px;
+        }
     }
-}
-button {
-    @include base-button ($border-color, $base-color)
 }

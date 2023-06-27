@@ -5,92 +5,136 @@
     flex-direction: column;
     position: relative;
     padding: 0px;
+    margin-bottom: 40px;
     min-height: $card-height;
     color: $black-color;
-    margin-bottom: 20px;
 
-    &__image {
-        width: 100%;
-        min-height: $card-img-height;
-        left: 1px;
-        right: -1px;
-        top: 0px;
-        border-radius: $b-raduis;
-    }
+    &__icon {
 
-    &__sticky_top-right {
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        right: 0px;
-        top: 10px;
-        color: #F44336;
-        font-size: 20px;
-    }
+        &_top-right {
+            @include posed-absolute(10px, 0);
+            width: 24px;
+            height: 24px;
+            color: $warning-color;
+            z-index: 5;
+        }
 
-    &__sticky_top-left {
-        left: 0px;
-        top: 20px;
-    }
-    &__sticky_bottom-right {
-        position: absolute;
-        width: 24px;
-        height: 24px;
-        right: 0px;
-        bottom: 5px;
-        color: #70eec2;
-        opacity: .6;
-        font-size: 20px;
+        &_top-left {
+            left: 0px;
+            top: 20px;
+        }
 
-        &:hover {
-            color: #f5efec;
-            opacity: 1;
+        &_bottom-right {
+            position: absolute;
+            width: 24px;
+            height: 24px;
+            right: 5px;
+            bottom: 10px;
+            color: $icon-color;
+            opacity: .6;
+            font-size: 24px;
+
+            &:hover {
+                color: $base-color;
+                opacity: 1;
+            }
         }
     }
 
     &__discount {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        @include posed-center;
+        @include text-block(inherit, 16px, center, 800, 20px, 0);
         padding: 2px 8px;
         position: absolute;
         left: -1px;
         top: -1px;
         width: 58px;
         height: 24px;
-        background: #F44336;
+        background: $warning-color;
         border-radius: 10px;
-        color: #fff;
-        font-weight: 800;
-        font-size: 16px;
-        line-height: 20px;
+        color: $second-color;
         z-index: 5;
     }
 
     &__tag {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
+        @include posed-center;
         padding: 2px 8px;
         position: absolute;
         width: 86px;
         height: 24px;
         border-radius: 10px;
-
     }
 
-    &__desc {
+    &__info {
+
+        &_block {
+            width: 100%;
+        }
+
+        &_img-box {
+            width: 100%;
+            position: relative;
+            overflow: hidden;
+        }
+
+        &_img {
+            @include card-image(100%);
+            height: $card-img-height;
+            object-fit: cover;
+            left: 1px;
+            right: -1px;
+            top: 0px;
+            transition: all linear .5s;
+
+            &_grey-effect {
+                transition: all 0.5s linear;
+                filter: grayscale(1) opacity(0.7);
+                height: $card-img-height;
+                border-radius: $b-raduis;
+        
+                &:hover {
+                    filter: none;        
+                }
+            }
+
+            &:hover {
+            img {
+                height: $card-img-height;;
+            }
+        }
+    }
+    
+        &_description {
+            width: 100%;
+            display: flex;
+            flex-direction: column;
+            margin: 15px 0;
+            position: relative;
+            text-align: justify;
+        }
+    }
+
+    &__hover_effect {
+        width: 100%;
+        height: 100%;
+        top: 0;
+        right: -100%;
+        position: absolute;
+        background: #1f3d4738;
+        backdrop-filter: blur(3px);
+        border-radius: 8px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
-        padding: 0px;
-        gap: 6px;
-        width: 236px;
-        height: 100px;
-        margin: 20px 0;
-        position: relative;
+        justify-content: center;
+        align-items: center;
+        transition: 1s;
+        z-index: 10;
+
+        button {
+            max-height: 40px;
+            max-width: 50%;
+            margin: 10px;
+        }
     }
 
     &__oldprice {
@@ -98,16 +142,16 @@
         top: -10px;
         text-decoration: line-through;
         font-size: 18px;
+        height: 40px;
     }
 
     &__price {
         display: flex;
         flex-direction: column;
-        justify-content: flex-end;
-        align-items: flex-start;
-        padding: 0px;
-        width: 236px;
-        height: 38px;
+        justify-content: center;
+        align-items: flex-start;;
+        width: 100%;
+        height: 40px;
         font-weight: 800;
         font-size: 18px;
         line-height: 24px;
@@ -118,9 +162,12 @@
         font-weight: 400;
         font-size: 12px;
         line-height: 14px;
+        height: 30px;
     }
 
     &__title {
+        width: 100%;
+        height: 50px;
         font-weight: 600;
         font-size: 16px;
         line-height: 20px;
@@ -129,53 +176,55 @@
     }
 
     &__button {
-        display: flex;
-        flex-direction: row;
-        justify-content: center;
-        align-items: center;
-        padding: 10px 18px;
-        width: 116px;
-        height: 40px;
-        background: #f5efec;
-        border-radius: 55px;
-        font-weight: 700;
-        font-size: 16px;
-        line-height: 20px;
-        cursor: pointer;
+        @include base-button($border, $base-color);
+        max-width: 100%;
 
         &:hover {
-            background: #70eec2;
-            opacity: .6;
+            @include button-hover;
         }
+    }
+    &__cart {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        gap: 15px;
+        width: 100%;
     }
 
     a {
-        color: #1A1A1A;
-        text-decoration: none;
+        @include icon-link ($icon-color, $fsize-main);
     }
 }
 
 .tag {
     &__type_new {
         right: 0px;
-        top: -25px;
+        top: 0px;
         font-weight: 800;
         font-size: 16px;
         line-height: 20px;
-        color: #FFFFFF;
-        background: #70eec2;
+        color: $second-color;
+        background: $icon-color;
+        z-index: 5;
     }
 
     &__type_sale {
-        right: 25%;
-        top: 25%;
+        right: 30%;
+        top: 40%;
         transform: rotate(-45deg);
         font-weight: 800;
         font-size: 36px;
         letter-spacing: 20px;
         text-transform: uppercase;
         line-height: 20px;
-        color: rgba(255, 0, 0, .4);
+        color: $warning-color;
         background: transparent;
+        opacity: .5;
+        z-index: 5;
     }
+}
+
+.card__info_img-box:hover .card__hover_effect {
+    right: 0;
 }

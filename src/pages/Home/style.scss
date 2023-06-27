@@ -3,10 +3,118 @@
 
 .home {
     @include section($second-color);
-    
+
     &__wrapper {
-        width: 70%;
-        margin: 0 auto;
-        min-height: 200px
+        margin-bottom: 20px;
+        position: relative;
     }
+    
+    &__banner {
+        height: 87vh;
+        width: 100%;
+        background: url(https://img.7ya.ru/pub/img/24031/taylor_bl_edem_grey_white_10162.jpg) no-repeat 50% 50% / cover;
+        position: relative;
+
+        &_title {
+            @include content-wrapper;
+            @include text-block ($ffamily-main, 50px, justify, 800, 50px, 0px);
+            @include posed-end;
+            align-items: end;
+            color: $icon-color;
+            width: 100%;
+            padding-top: 5%;
+        }
+
+        img {
+            width: 100%;
+        }
+    }
+    &__btn { 
+        @include base_button(none, $base-color);
+        @include posed-absolute(75%, 65%);
+        max-width: 300px;
+        font-size: 30px;
+        font-weight: 600;
+        box-shadow: 5px 5px 5px $link-hover;
+    }
+
+    &__promo {
+        
+        &_block {
+            @include posed-center;
+            @include content-wrapper;
+            flex-direction: column;
+            background: $base-color;
+            border-radius: $b-raduis;
+            font-size: 20px;
+            padding: 0 0 20px;
+            position: relative;
+
+            p {
+                font-size: 16px;
+                padding: 0;
+                margin: 0 0 30px;
+            }
+        }
+
+        &_subscribe {
+            @include section($second-color);
+            border: $border;
+            box-shadow: $box-shadow;
+            min-height: 100px;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            gap: 50px;
+            margin: 20px 0;
+
+            form {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                gap: 20px;
+            }
+            input {
+                @include base-button($border, $second-color);
+                border-radius: 20px;
+                font-family: $ffamily-main;
+                font-size: $fsize-main;
+                min-width: 250px;
+            }
+
+            button {
+                @include base-button(none, $base-color);
+                padding: 15px 30px;
+            }
+        }
+    }
+}
+
+li button::after {
+    position: absolute;
+    inset: -4px;
+    content: "";
+    display: flex;
+    align-items: center;
+    background: $icon-color;
+    height: 4px;
+    width: 20px;
+    padding: 4px;
+    border: none;
+    border-radius: $b-raduis;
+}
+
+.label {
+    @include posed-absolute(-10px, -15px);
+    background: $icon-color;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    color: $second-color;
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    text-align: center;
+    
 }

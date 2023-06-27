@@ -5,6 +5,7 @@ import { useDispatch } from "react-redux";
 import { fetchGetPostById } from "../../store/slices/postsSlice";
 
 export const PostPage = () => {
+
     const [post, setPost] = useState({});
     const { id } = useParams();
     const dispatch = useDispatch();
@@ -16,7 +17,10 @@ export const PostPage = () => {
 
     return (
         <div>
-            <Article post={post} setPost={setPost} />
+            {!!Object.keys(post).length 
+                ?   <Article post={post} setPost={setPost} />
+                :   <div>Loading...</div>
+            }
         </div>
     )
 }

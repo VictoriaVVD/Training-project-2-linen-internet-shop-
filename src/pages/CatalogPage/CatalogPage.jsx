@@ -1,89 +1,46 @@
-import React, { useContext } from "react";
+import React from "react";
 import { CardList } from "../../components/CardList/CardList";
 import "./style.scss";
-import { CardContext } from "../../context/cardContext";
-import { Link, useNavigate } from "react-router-dom";
-import { AddProductForm } from "../../components/Form/AddProductForm";
-// import { useSelector } from "react-redux";
-import { Modal } from "../../components/Modal/Modal"
 import { useDispatch, useSelector } from "react-redux";
-import { sortingParameters } from "../../store/utilsStore";
 import { sortProducts } from "../../store/slices/productsSlice";
-
+import { findWordEnd, sortProductsParameters } from "../../tools/utils";
+import { GoBack } from "../../components/GoBack/GoBack";
+import { Pagination } from "../../components/Pagination/Pagination";
 
 export const CatalogPage = () => {
-    const foundProduct = (num) => {
-        let tmp = num % 10;
-        
-        if (tmp === 1) {
-            return 'товар'
-        }
-        if (tmp > 1 && tmp < 5) {
-            return 'товара'
-        }
-        else 
-            return 'товаров'
-    }
 
-    const sortedItems = [
-        {id: "popular",
-        title: "Популярное"}, 
-        {id: "byRate",
-        title: "По рейтингу"}, 
-        {id: "newProduct",
-        title: "Новинки"}, 
-        {id: "cheapFirst",
-        title: "По убыванию цены"}, 
-        {id: "expensiveFirst",
-        title: "По возрастанию цены"}, 
-        {id: "sale",
-        title: "По размеру скидки"}
-    ]
-
-    const {products} = useSelector(s => s.products);
+    const {products, search} = useSelector(s => s.products);
+    const {currentPage, productsOnPage} = useSelector(s => s.paginate);
     const dispatch = useDispatch();
-
-    const {cards, setCards, search, setModalActive, modalActive} = useContext(CardContext);
-
-    const navigate = useNavigate();
-    const goBack = () => {
-        navigate(-1);
-    }
-    // const sendNewProduct = (data) => {
-    //     setCards(data)
-    //     setModalActive(false)
-    // }
-
-    // const onDeleteCards = (id) => {
-    //     const filtered = products.filter(e => e._id !== id)
-    //     setCards(filtered) 
-    // }
+    const lastProductIndex = currentPage * productsOnPage;
+    const firstProductIndex = lastProductIndex - productsOnPage;
+    const currentProducts = products.slice(firstProductIndex, lastProductIndex);  
 
     return (
-        <>
-            <div className="sort__wrapper">
-                <div className="search__message_wrapper">
-                    <Link>
-                        <span onClick={() => goBack()}>{'<'} Назад</span>
-                    </Link>
-                    {search && 
-                        <p className="search__message">
-                            По Вашему запросу {products.length === 1 ? 'найден' : 'найдено'} {products.length} {foundProduct(products.length)}
-                        </p>}
-                </div>
-                <div className="sort__cards">
-                    {!search && sortedItems.map((e) => 
-                        <span className="sort__cards_item" key={e.id} onClick={() => dispatch(sortProducts(e.id))}>{e.title}</span>
-                    )}
-                </div>
-                <div>
-                    <button onClick={() => setModalActive(true)}>Добавить товар</button>
-                    <Modal setModalActive={setModalActive} modalActive={modalActive}>
-                        <AddProductForm />
-                    </Modal>
-                </div>
+        <div className="catalog">
+            <div className="catalog__wrapper">
+                <div className="sort__wrapper">
+                        <div className="search__message_wrapper">
+                            {search && 
+                                <p className="search__message">
+                                    По Вашему запросу {products.length === 1 ? 'найден ' : 'найдено '} 
+                                        <span>{products.length}</span> 
+                                            {findWordEnd(products.length, " товар")}
+                                </p>
+                            }
+                        </div>
+                        <GoBack />
+                        <div className="sort__cards">
+                            {!search && sortProductsParameters.map((e) => 
+                                <span className="sort__cards_item" key={e.id} 
+                                    onClick={() => dispatch(sortProducts(e.id))}>{e.title}
+                                </span>
+                            )}
+                        </div>
+                    </div>
+                <CardList cards={currentProducts} />
+                <Pagination items={products} />
             </div>
-            <CardList cards={products} />
-        </>
-)
+        </div>
+    )
 }

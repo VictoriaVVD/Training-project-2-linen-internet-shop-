@@ -1,0 +1,32 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.not__found {
+    @include section($second-color);
+    height: calc(100vh - $header-height - $footer-height);
+
+    &_wrapper {
+        @include content-wrapper;
+        @include posed-center;
+        flex-direction: column;
+        
+        h1 {
+            font-size: 70px;
+        }
+        h2 {
+            font-size: 40px;
+        }
+
+        p {
+            font-size: 18px;
+        }
+    }
+    &_link {
+        font-size: 20px;
+        color: $icon-color;
+    }
+}
+.icon_sad {
+    font-size: 100px;
+    opacity: .1;
+}

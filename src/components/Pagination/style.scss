@@ -1,0 +1,53 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+  
+.pagination {
+  @include posed-spaces;
+
+  &__btn {
+    @include base-button(none, $base-color);
+    max-width: 150px;
+
+      &:hover {
+        @include button-hover;
+        opacity: .4;
+      }
+
+      &.hidden {
+        visibility: hidden;
+      }
+  }
+
+  &__page {
+    @include link-hover;
+    padding: 15px;
+    margin: 0 15px;
+
+      &:hover {
+        @include base-button($link-hover, $icon-color);
+        opacity: .4;
+        color: $link-hover;
+        font-weight: 600;     
+      }
+    
+    &_list {
+      display: flex;
+      flex-direction: row;
+      list-style: none;
+      justify-content: center;
+      align-items: center;
+      padding: 15px;
+      margin: 0 15px;
+      color: $icon-color;
+    }
+
+    &.active {
+      @include base-button(none, $base-color);
+      font-weight: 600;
+      color: $icon-color;
+    }
+  }
+}
+
+
+

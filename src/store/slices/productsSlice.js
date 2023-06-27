@@ -1,11 +1,16 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { apiProduct } from "../../assets/api/apiProduct";
-import { countRateNum, filterItemsByAuthor, findItemLiked, isError, isLoading} from "../utilsStore";
+import { apiProduct } from "../../tools/api/apiProduct";
+import { countRateNum, filterItemsByAuthor, findItemLiked } from "../../tools/utils";
+import { isError, isLoading } from "../utilsStore";
+import { openNotification } from "../../components/Notification/Notification";
 
 const initialState = {
     products: [],
+    currentProduct: {},
     loading: false,
     favourites: [],
+    search: null,
+    reviews: [],
 }
 
 export const fetchGetProductList = createAsyncThunk("products/fetchGetProductList", async function(userId, args ) {
@@ -16,37 +21,67 @@ export const fetchGetProductList = createAsyncThunk("products/fetchGetProductLis
     } catch (error) {
         return args.rejectWithValue(error)
     }
-})
+});
 
-export const fetchGetProductById = createAsyncThunk("products/fetchGetProductById", async function (id, args) {
+export const fetchGetProductById = createAsyncThunk("products/fetchGetProductById", async function (productId, args) {
     try {
-        const data = await apiProduct.getProductById(id);
+        const data = await apiProduct.getProductById(productId);
         return args.fulfillWithValue(data)
     } catch (error) {
         return args.rejectWithValue(error)
     }
-})
+});
 
-export const fetchToggleItemLike = createAsyncThunk("products/fetchToggleItemLike", async function (data, args ) {
+export const fetchToggleItemLike = createAsyncThunk("products/fetchToggleItemLike", async function (product, args ) {
     try {
         const state = args.getState();
-        const isLiked = findItemLiked(data, state.user.data._id);
-        const updatedItem = await apiProduct.toggleCardLike(data._id, isLiked);
-        return args.fulfillWithValue({ updatedItem, isLiked: isLiked});
+        const isLiked = product.likes?.some(e => e === state.user.data?._id);
+        const updatedItem = await apiProduct.toggleCardLike(product._id, isLiked);
+        return args.fulfillWithValue({ updatedItem, isLiked});
     } catch (error) {
         return args.rejectWithValue(error);
     }
-})
+});
+
+export const fetchUpdateProduct = createAsyncThunk("products/fetchUpdateProduct", async function ({data}, args) {
+    try {
+        console.log({data});
+        const updatedProduct = apiProduct.updateProduct({productId: data.productId, data});
+        return args.fulfillWithValue(updatedProduct)
+    } catch (error) {
+        return args.rejectWithValue(error)
+    }
+});
 
 export const fetchSearch = createAsyncThunk("products/fetchSearch", async function (search, args) {
     try {
+        const state = args.getState();
         const searchResult = await apiProduct.searchProduct(search);
-        console.log({searchResult});
-        return args.fulfillWithValue(searchResult);
+        return args.fulfillWithValue({search, searchResult, userId: state.user.data?._id});
     } catch (error) {
         return args.rejectWithValue(error);
     }
-})
+});
+
+export const fetchAddProductReview = createAsyncThunk("products/fetchAddProductReview", async function ({productId, body}, args) {
+    try {
+        console.log({body});
+        const addedProductReview = await apiProduct.addReview(productId, body);
+        return args.fulfillWithValue(addedProductReview);
+    } catch (error) {
+        return args.rejectWithValue(error);
+    }
+});
+
+export const fetchDeleteProductReview = createAsyncThunk("products/fetchDeleteProductReview", async function ({productId, reviewId}, args) {
+    try {
+        console.log({reviewId});
+        const deletedProductReview = await apiProduct.deleteReview(productId, reviewId)
+        return args.fulfillWithValue(deletedProductReview)
+    } catch (error) {
+        return args.rejectWithValue(error);
+    }
+});
 
 export const fetchAddProduct = createAsyncThunk("products/fetchAddProduct", async function (data, args) {
     try {
@@ -55,7 +90,7 @@ export const fetchAddProduct = createAsyncThunk("products/fetchAddProduct", asyn
     } catch (error) {
         return args.rejectWithValue(error)
     }
-})
+});
 
 export const fetchDeleteProduct = createAsyncThunk("products/fetchDeleteProduct", async function (productId, args) {
     try {
@@ -64,7 +99,7 @@ export const fetchDeleteProduct = createAsyncThunk("products/fetchDeleteProduct"
     } catch (error) {
         return args.rejectWithValue(error)
     }
-})
+});
 
 const productsSlice = createSlice({
     name: 'products',
@@ -79,7 +114,7 @@ const productsSlice = createSlice({
                     state.products = state.products.sort((a, b) => countRateNum(b.reviews) - countRateNum(a.reviews));
                     break;
                 case 'newProduct':
-                    state.products = state.products.filter(e => e.tags.includes('new'));
+                    state.products = state.products.sort((a, b) => new Date(b.created_at) - new Date(a.created_at))
                     break;
                 case 'cheapFirst':
                     state.products = state.products.sort((a, b) => b.price - a.price);
@@ -97,31 +132,64 @@ const productsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchGetProductList.fulfilled, (state, {payload}) => {
-            const filteredProductsByAuthor = filterItemsByAuthor(payload.products) ?? [];
-            state.products = filteredProductsByAuthor;
-            state.favourites = filteredProductsByAuthor.filter(e => findItemLiked(e, payload.userId))
+            const filteredProducts = filterItemsByAuthor(payload.products, payload.userId);
+            state.products = filteredProducts;
+            state.favourites = filteredProducts.filter(e => findItemLiked(e, payload.userId));
         });
         builder.addCase(fetchGetProductById.fulfilled, (state, {payload}) => {
-            state.products = state.products.filter(e => e._id === payload._id)
-        })
+            state.currentProduct = payload;
+        });
         builder.addCase(fetchToggleItemLike.fulfilled, (state, {payload}) => {
             state.products = state.products.map(e => e._id === payload.updatedItem._id
                 ? payload.updatedItem
                 : e)
+            // state.products = [...state.products, payload.updatedItem];
+            
             if(payload.isLiked) {
                 state.favourites = state.favourites.filter(e => e._id !== payload.updatedItem._id)
             } else {
-                state.favourites = [...state.favourites, payload.updatedItem]
+                state.favourites = [...state.favourites, payload.updatedItem];
             }
         });
+        builder.addCase(fetchUpdateProduct.fulfilled, (state, {payload}) => {
+            // console.log({payload});
+            // state.products = state.products.map(e => e._id === payload._id
+            //     ? payload
+            //     : e)
+            state.currentProduct = payload;
+        });
         builder.addCase(fetchSearch.fulfilled, (state, {payload}) => {
-            state.products = filterItemsByAuthor(payload);
+            state.search = payload.search;
+            state.products = filterItemsByAuthor(payload.searchResult, payload.userId);
+
+            
+        });
+        builder.addCase(fetchAddProductReview.fulfilled, (state, {payload}) => {
+            // state.products = [...state.products, payload];
+            openNotification("success", "Новый отзыв")
+            state.products = state.products.map(e => e._id === payload._id
+                ? payload
+                : e);
+
+            
+        });
+        builder.addCase(fetchDeleteProductReview.fulfilled, (state, {payload}) => {
+            // state.products = payload;
+            state.products = state.products.map(e => e._id === payload._id 
+                ? payload 
+                : e)
+            openNotification("success", "Отзыв удален!")
+            
+            
+            // state.currentProduct.reviews = state.payload.reviews
         });
         builder.addCase(fetchAddProduct.fulfilled, (state, {payload}) => {
-            state.products = [...state.products, payload]
+            state.products = [...state.products, payload];
+            openNotification("success", "Ваш товар добавлен в каталог")
         });
         builder.addCase(fetchDeleteProduct.fulfilled, (state, {payload}) => {
-            state.products = state.products.filter(e => e._id !== payload._id)
+            state.products = state.products.filter(e => e._id !== payload._id);
+            openNotification("success", "Товар удален!")
         });
         builder.addMatcher(isError, (state, {payload}) => {
             state.loading = false;
@@ -129,7 +197,7 @@ const productsSlice = createSlice({
         });
         builder.addMatcher(isLoading, (state) => {
             // state.loading = true;
-        })
+        });
     }
 })
 

@@ -1,0 +1,13 @@
+.warning {
+    &__wrapper {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px;
+        font-size: 18px;
+    }
+    &__link {
+        font-size: 18px;
+    }
+}

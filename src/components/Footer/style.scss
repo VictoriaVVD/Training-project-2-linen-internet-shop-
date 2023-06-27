@@ -27,28 +27,31 @@
         padding: 0px;
         gap: 12px;
         height: 100%;
-        
+
+        a {
+            @include icon-link($black-color, "20px");
+        }
     }
     &__contacts {
         @include text-block($ffamily-main, 16px, justify, 700, 20px, 0px);
         @include posed-spaces;
         flex-direction: column;
+        align-items: flex-start;
         color: $black-color;
 
         h4 {
             margin: 0;
             padding: 0;
             margin-bottom: 15px;
+            align-items: flex-start;
         }
     }
-
 } 
+
 .social-icons {
     @include posed-spaces;
+    width: 100%;
     height: 100%;
     font-size: 28px;
     gap: 10px;
-}
-a {
-    @include icon-link($black-color, "20px");
 }

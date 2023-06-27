@@ -1,0 +1,26 @@
+.comment {
+    &__wrapper {
+        width: 100%;
+        display: flex;
+        justify-content: space-between;
+        margin: 20px 0;
+    }
+
+    &__author {
+        font-weight: 600;
+    }
+
+    &__date {
+        font-style: italic;
+        margin-left: 10px;
+        font-size: 12px;
+    }
+    &__hr {
+        border: 1px solid #f5efec;
+        margin: 10px;
+    }
+}
+
+.delete-btn {
+    opacity: .3;
+}

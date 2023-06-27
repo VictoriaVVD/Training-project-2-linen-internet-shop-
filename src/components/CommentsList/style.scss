@@ -1,0 +1,13 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.comments {
+    &__list {
+        margin: 10px 0;
+        
+        button {
+            @include base-button (none, $base-color);
+            max-width: 200px;
+        }
+    }
+}

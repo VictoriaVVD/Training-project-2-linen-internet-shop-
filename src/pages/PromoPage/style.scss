@@ -1,0 +1,19 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.promo {
+    @include section($second-color);
+    border: none;
+    
+    &__wrapper {
+        @include content_wrapper;
+        flex-direction: column;
+        height: 100%;
+
+        h1 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: $warning-color;
+        }
+    }
+}

@@ -5,21 +5,47 @@
     @include section($base-color);
     box-shadow: $box-shadow;
     max-height: $header-height;
+    position: sticky;
+    top: 0;
+    z-index: 100;
 
     &__wrapper {
         @include content_wrapper;
         justify-content: space-between;
         display: flex;
         align-items: center;
+        position: relative;
+    }
+    &__logo {
+        width: 100%;
+        display: flex;
+        align-items: end;
+
+        &_Wrapper {
+            display: flex;
+            flex-direction: row;
+            gap: 20px;
+            position: relative;
+        }
+        
+        &_subtitle {
+            @include posed-absolute(1%, 66%);
+            color: $icon-color;
+            font-weight: 600;
+            letter-spacing: .5px;
+        }
     }
 
     &__logo>svg {
         @include card-image("100%");
-        @include posed-center;
-        vertical-align: middle;
     }
     &__info_block {
         width: calc(100% / 3);
+
+        input {
+            display: flex;
+            justify-content: flex-start;
+        }
     }
 }
 .icons {
@@ -44,7 +70,7 @@
 
     &__favourite-over-num {
         @include posed-center;
-        @include posed-absolute(2px, -6px);
+        @include posed-absolute(-8px, -10px);
         background: $warning-color;
         color: $second-color;
         width: 13px;
@@ -53,9 +79,11 @@
         padding: 1px;
         border-radius: 50%;
         font-weight: 600;
-
     }
 }
+
 .header__btn {
     @include base-button(none, $second-color);
 }
+
+

@@ -1,0 +1,20 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.profile {
+    
+    &__block {
+        &_content {
+            margin: 0;
+            
+        }
+        &_btn {
+            max-width: 250px;
+            margin: 25px 0;
+    
+            &:hover {
+                @include button-hover;
+            }
+        }
+    }
+}

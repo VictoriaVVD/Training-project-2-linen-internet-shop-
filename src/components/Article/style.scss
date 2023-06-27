@@ -21,12 +21,16 @@
         justify-content: flex-start;
         max-width: 70%;
         position: relative;
+
+        &_tags {
+            display: flex;
+            flex-direction: column;
+        }
     }
 
     &__info {
         width: 100%;
-        padding: 20px;
-        gap: 10px;
+        margin: 20px 0;
 
         &_char {
             @include text-block($ffamily-main, $fsize-main, justify, 400, 18px, 0px);
@@ -35,13 +39,22 @@
             padding: 20px;
             
             &_links {
-                @include icon-link($black-color, 12px);
+                @include icon-link($black-color, 14px);
+                padding: 5px;
+
             }
         }
         &_text {
             @include text-block($ffamily-main, 20px, justify, 400, 32px, 20px);
+            display: flex;
+            flex-direction: column;
             padding: 20px;
             margin-bottom: 40px;
+
+            img {
+                object-fit: contain;
+                max-height: 100vh;
+            }
         }
     }
     
@@ -51,10 +64,38 @@
 
     &__sidebar {
         @include sidebar(30%);
+
+        &_item {
+            height: 300px;
+            position: relative;
+            margin-bottom: 20px;
+        }
+
+        &_adv {
+            @include posed-absolute(80%, 10%);
+            font-size: px;
+            max-width: 300px;
+            line-height: 28px;
+            cursor: pointer;
+            color: $warning-color;
+    
+            h2 {
+                margin-bottom: 20px;
+            }
+        }
         
         img {
-            @include card-image(100%);
+            object-fit: cover;
+            height: 100%;
         }
+    }
+
+    &__like_btn {
+        max-width: 200px;
+    }
+
+    &__comment_block {
+        margin-top: 20px;
     }
 }
 
@@ -62,12 +103,12 @@ img {
     @include card-image(100%);
 }
 
-.product__like {
+.article__like {
     display: flex;
     justify-content: flex-start;
 }
 button {
-    @include base-button($border-color, $base-color);
+    @include base-button(none, $base-color);
     @include posed-center;
     gap: 15px;
     font-family: $ffamily-main;

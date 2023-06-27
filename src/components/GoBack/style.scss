@@ -1,0 +1,13 @@
+@import "../../styles/variables.scss";
+@import "../../styles/mixins.scss";
+
+.back_el {
+    font-size: $fsize-main;
+    line-height: 32px;
+    transition: all 0.2s;
+
+    &:hover {
+        cursor: pointer;
+        color: $link-hover;
+    }
+}

@@ -1,10 +1,18 @@
 @import "../../styles/variables.scss";
 @import "../../styles/mixins.scss";
 
+
+.catalog {
+    @include section($second-color);
+
+    &__wrapper {
+        @include content_wrapper;
+        flex-direction: column;
+    }
+}
 .sort__wrapper {
-    @include content_wrapper;
-    @include posed-spaces;
-    gap: 15px;
+    flex-direction: column;
+    margin: 15px 0;
 }
 .search__message {
     margin-bottom: 15px;
@@ -13,6 +21,10 @@
         margin: 0;
         padding: 0;
     }
+    span {
+        font-weight: 600;
+        font-size: 20px;
+    }
 
     &_wrapper {
         flex-direction: column;
@@ -20,22 +32,27 @@
     }
 } 
 .sort__cards {
+    width: 100%;
     border-radius: 12px;
     box-shadow: 0 2px 4px rgba(40, 41, 61, 0.04);
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
-    margin: 10px auto;
 
     &_item {
         font-weight: 400;
         line-height: 20px;
-        padding: 5px;
+        padding: 15px;
+        margin: 0 15px;
         cursor: pointer;
 
         &:hover {
-            border-radius: 10px;
-            background: #f5efec;
+            border-radius: $b-raduis;
+            background: $base-color;
         }
     }
+}
+
+.add_btn {
+    @include base-button( none, $base-color );
 }

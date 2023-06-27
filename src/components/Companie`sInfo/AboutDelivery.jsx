@@ -2,11 +2,14 @@ import React from "react";
 import "./style.scss";
 import { faTruck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { GoBack } from "../GoBack/GoBack";
 
 export const AboutDelivery = () => {
+    
     return (
         <div className="about delivery">
             <div className="about__wrapper">
+                <GoBack />
                 <div className="about__delivery">
                     <FontAwesomeIcon icon={faTruck} size="lg" />
                     <h2>Доставка</h2>
