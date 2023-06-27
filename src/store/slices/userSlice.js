@@ -47,7 +47,7 @@ const userSlice = createSlice({
             state.data = payload;
         })
         builder.addMatcher(isLoading, (state) => {
-            // state.loading = true;
+            state.loading = true;
         })
         builder.addMatcher(isError, (state, {payload}) => {
             state.loading = false;

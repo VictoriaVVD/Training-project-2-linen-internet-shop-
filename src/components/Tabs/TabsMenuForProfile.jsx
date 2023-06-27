@@ -5,7 +5,7 @@ import { UserProfilePosts } from '../UserProfileSections/UserProfilePosts';
 import { UserProfileProducts } from '../UserProfileSections/UserProfileProducts';
 
 
-export const TabsMenuForProfile = () => {
+export const TabsMenuForProfile = ({product}) => {
 
   const onChange = (key) => {
   };

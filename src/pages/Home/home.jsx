@@ -7,7 +7,8 @@ import { Modal } from "../../components/Modal/Modal";
 import { CarouselPromo } from "../../components/Carousel/Carousel";
 import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 import { openNotification } from "../../components/Notification/Notification";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTruck } from "@fortawesome/free-solid-svg-icons";
 
 export const Home = () => {
     
@@ -26,7 +27,6 @@ export const Home = () => {
     const sendData = (data) => {
         openNotification("success", "Вы подписаны на новости");
         reset()
-        console.log({data});
     }
 
     const navigateToCatalog = () => {
@@ -39,27 +39,18 @@ export const Home = () => {
     }
     
 
-    const showModal = () => {
-        if(!isAuthorized) {
-            dispatch(setModalOpen(true));
-            dispatch(setStateByPath("/signup"));
-        } else
-            openNotification("error", "Ошибка! Вы авторизованы!")
-    }
-
     return (
             <div className="home">
                 <div className="home__wrapper">
                     <div className="home__banner">
-                        {/* <h2 className="home__banner_title">Добро пожаловать в магазин постельных принадлежностей MADAME COCO!</h2> */}
                         <button className="home__btn" onClick={navigateToCatalog}>Перейти в каталог</button>
                     </div>
                     <CarouselPromo />
                     <div className="home__promo_block">
-                        <h3>Бесплатная доставка при первом заказе</h3>
-                        <div className="label">Для новых покупателей</div>
+                        <h3><FontAwesomeIcon icon={faTruck} size="lg" /> Бесплатная доставка</h3>
+                        <div className="label">от 15 000 руб.</div>
                         <img src="" alt="" />
-                            <Link onClick={showModal}>Перейти к регистрации</Link>
+                            <Link to={"/catalog"}>За покупками</Link>
                     </div> 
                     <div className="home__promo_subscribe">
                         <h2>Подпишитесь на новости</h2>

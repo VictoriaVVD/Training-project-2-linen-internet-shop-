@@ -72,7 +72,7 @@
         }
 
         &_adv {
-            @include posed-absolute(80%, 10%);
+            @include posed-absolute(75%, 5%);
             font-size: px;
             max-width: 300px;
             line-height: 28px;
@@ -110,7 +110,7 @@ img {
 button {
     @include base-button(none, $base-color);
     @include posed-center;
-    gap: 15px;
+    margin: 15px 0;
     font-family: $ffamily-main;
     font-size: $fsize-main;
 }

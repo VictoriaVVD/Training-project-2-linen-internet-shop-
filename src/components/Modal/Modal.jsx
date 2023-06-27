@@ -1,6 +1,5 @@
 import React, { useCallback } from "react";
 import "./style.scss";
-import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { AuthorizationForm } from "../Forms/AuthorizationForm";
 import { RegisterForm } from "../Forms/RegisterForm";

@@ -1,10 +1,12 @@
 import React from "react";
 import "./style.scss";
 import { Comment } from "../CommentItem/Comment";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 
-export const CommentsList = ({post}) => {
+export const CommentsList = () => {
+
+    const {comments} = useSelector(s => s.posts);
     const dispatch = useDispatch();
     const showModal = () => {
         dispatch(setModalOpen(true));
@@ -14,7 +16,7 @@ export const CommentsList = ({post}) => {
     <div className="comments__list">
         <button onClick={showModal}>Добавить комментарий</button>
         <div>
-            {post?.comments
+            {comments
                 .map(item => 
                     <Comment comment={item} key={item.updated_at}  
                     />

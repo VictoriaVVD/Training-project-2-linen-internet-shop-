@@ -1,19 +1,19 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
-import { apiPost } from "../../tools/api/apiPost";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setModalOpen } from "../../store/slices/modalSlice";
+import { fetchUpdatePost } from "../../store/slices/postsSlice";
 
-export const UpdatePostForm = ({ isRequired = true, post }) => {
+export const UpdatePostForm = ({ isRequired = true }) => {
 
+    const {currentPost: post} = useSelector(s => s.posts);
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
-    const dispatch = useDispatch()
-    const sendData = (data) => {
-        // dispatch(fetchUpdateProduct(product._id, {...data}))
-        const res = apiPost.updatePost(post._id, data);
+    const dispatch = useDispatch();
+    const sendData = useCallback((data) => {
+        dispatch(fetchUpdatePost({postId: post?._id, data}))
         dispatch(setModalOpen(false))
-    }
+    }, [dispatch, post])
 
     const imageRegister = { 
         required: {

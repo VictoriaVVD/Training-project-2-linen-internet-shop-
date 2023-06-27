@@ -4,6 +4,7 @@
 .form {
     @include section($second-color);
     border-radius: $b-raduis;
+    font-family: $ffamily-main;
 
     &__wrapper {
         @include content_wrapper;
@@ -76,9 +77,9 @@
         @include base-button(none, $second-color);
         margin: 0;
         width: 100%;
+        font-family: inherit;
 
         input, textarea {
-            font-family: $ffamily-main;
             font-size: 14px;
         }
 

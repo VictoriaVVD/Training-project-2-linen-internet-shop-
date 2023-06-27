@@ -11,10 +11,9 @@ import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 
 export const AuthorizationForm = ({ isRequired = true }) => {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
+    const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
 
     const user = useSelector(s => s.user.data);
-    console.log({user});
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const sendData = useCallback(async (data) => {

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import { ProductRate } from "../ProductRate/ProductRate";
 import "./style.scss";
@@ -7,7 +7,7 @@ import { setModalOpen } from "../../store/slices/modalSlice";
 import { fetchAddProductReview } from "../../store/slices/productsSlice";
 
 export const ReviewForm = () => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({mode: "onSubmit"});
+    const { register, handleSubmit, reset } = useForm({mode: "onSubmit"});
 
     const product = useSelector(s => s.products?.currentProduct)
 
@@ -15,11 +15,11 @@ export const ReviewForm = () => {
     const user = useSelector(s => s.user?.data);
     const [rate, setRate] = useState();
 
-    const sendData = ({text}) => {
+    const sendData = useCallback(({text}) => {
         dispatch(fetchAddProductReview({productId: product?._id, body:{ text: text, rating: rate }}))
         reset();
         dispatch(setModalOpen(false))
-    }
+    }, [dispatch, product, rate, reset])
     
     const reviewRegister = {
         required: {

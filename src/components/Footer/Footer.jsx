@@ -33,7 +33,6 @@ export const Footer = () => {
                     <Link to={"/promo"}>Акции</Link>
                     <Link to={""}></Link>
                     <Link to={""}></Link>
-                    {/* <Link to={"/contacts"}>Контакты</Link> */}
                 </div>
             }
             <div className='footer__links'>
@@ -41,7 +40,6 @@ export const Footer = () => {
                     <h4>Мы на связи</h4>
                     <a href="tel">8 (999) 00-00-00</a>
                 </div>
-                {/* <a href="">linen_shop.ru@gmail.com</a> */}
                 <div className='social-icons'>
                     <a href="https://t.me/telegram" target='blank'><FontAwesomeIcon icon={faTelegram}/></a>
                     <a href="https://www.whatsapp.com/" target='blank'><FontAwesomeIcon icon={faWhatsapp}/></a>

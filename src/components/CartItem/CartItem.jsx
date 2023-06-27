@@ -2,7 +2,9 @@ import React from "react";
 import "./style.scss";
 import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { addProductInCart, deleteProductInCart } from "../../store/slices/productCartSlice";
+import { addProductInCart, deleteProductInCart, removeItem } from "../../store/slices/productCartSlice";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faCircleXmark } from "@fortawesome/free-regular-svg-icons";
 
 export const CartItem = ({product, quantity}) => {
 
@@ -32,13 +34,20 @@ export const CartItem = ({product, quantity}) => {
                 <div className="item__info_wrapper">
 
                     <div className="item__count">
-                        <span onClick={() => dispatch(deleteProductInCart({ product, quantity: 1 }))}>-</span>
+                        <span onClick={() => dispatch(deleteProductInCart({ product, quantity: 1 }))}>
+                            -
+                        </span>
                         <p>{quantity}</p>
-                        <span onClick={() => dispatch(addProductInCart({ product, quantity: 1 }))}>+</span>
+                        <span onClick={() => dispatch(addProductInCart({ product, quantity: 1 }))}>
+                            +
+                        </span>
                     </div>
                 </div>
                 <div className="item__info_wrapper">
                     {product.price * quantity}&nbsp;₽
+                </div>
+                <div className="icon__remove">
+                    <FontAwesomeIcon icon={faCircleXmark} onClick={() => dispatch(removeItem(product))}/>
                 </div>
             </div>
         </>

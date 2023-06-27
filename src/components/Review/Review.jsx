@@ -13,7 +13,6 @@ const timeOptions = {
 }
 
 export const Review = ({review}) => {
-
     const user = useSelector(s => s.user?.data);
     const dispatch = useDispatch()
 
@@ -22,14 +21,14 @@ export const Review = ({review}) => {
             <div className="review__wrapper"> 
                 <div className='review__item' >
                     <div className='review__author'>
-                        <span> {review.author.name}</span>
-                        <span className='review__date'> {new Date(review.updated_at).toLocaleString('ru-RU', timeOptions)}</span>
+                        <span> {review.author?.name}</span>
+                        <span className='review__date'> {new Date(review?.updated_at).toLocaleString('ru-RU', timeOptions)}</span>
                     </div>
-                    <ProductRate rating={review.rating} />
-                    <div className='review__text'>{review.text}</div>
+                    <ProductRate rating={review?.rating} />
+                    <div className='review__text'>{review?.text}</div>
                 </div>
                 <div className="delete-btn">
-                {review.author._id === user._id
+                {review.author?._id === user._id
                     ?   <FontAwesomeIcon icon={faCircleXmark} size="lg" 
                             onClick={() => dispatch(fetchDeleteProductReview({productId: review.product, reviewId: review._id}))}
                         />

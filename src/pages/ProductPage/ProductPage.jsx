@@ -12,7 +12,6 @@ export const ProductPage = () => {
     useEffect(() => {
         dispatch(fetchGetProductById(id))
             .then(data => setProduct(data.payload))
-            .catch(error => console.log(error.statusText))
     }, [dispatch, id])
 
     return (

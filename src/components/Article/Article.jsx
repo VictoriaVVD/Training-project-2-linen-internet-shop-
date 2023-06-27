@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useCallback, useState } from "react";
 import "./style.scss";
 import dataPromo from "../../assets/data/dataPromoCarousel.json";
 import { Link, useNavigate } from "react-router-dom";
@@ -35,11 +35,10 @@ export const Article = ({post, setPost}) => {
         dispatch(setStateByPath("newComment"));
     }
 
-    // const onSendComment = useCallback((data) => {
-    //     // const result = apiPost.addComment(post?._id, data)
-    //     const result = dispatch(fetchAddComment({postId: post?._id, text: data }));
-    // }, [dispatch, post._id]);
-
+    const updatePost = useCallback(() => {
+        dispatch(setModalOpen(true));
+        dispatch(setStateByPath("updatePost"));
+    }, [dispatch]); 
 
 return (
     <div className="article">
@@ -52,9 +51,10 @@ return (
                     </div>
                     <div className="article__card_tags">
                         {!!post.tags &&
-                            post.tags.map(e => <span key={e}>  
-                                                    #{e}
-                                                </span>
+                            post.tags.map(e => 
+                                <span key={e}>  
+                                    #{e}
+                                </span>
                             )
                         }
                     </div>
@@ -75,7 +75,6 @@ return (
                                 Оставить комментарий
                             </Link>
                         </div>
-                        
                         <div dangerouslySetInnerHTML={{__html: post.text}} className="article__info_text"></div>
                         <button className="article__like_btn" onClick={togglePostLike}>
                             {!isLiked && <span>Понравилось? </span>}
@@ -84,6 +83,7 @@ return (
                             : <FontAwesomeIcon icon={faThumbsUp} size="lg" />}
                             </span>
                         </button>
+                        <button className="article__like_btn" onClick={updatePost}>Редактировать</button>
                         <div className="article__comment_block">
                             <TabsMenuForPosts post={post} setPost={setPost} />
                         </div>

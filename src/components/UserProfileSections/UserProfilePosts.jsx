@@ -10,7 +10,7 @@ import { Pagination } from '../Pagination/Pagination';
 
 export const UserProfilePosts = ({post}) => {
 
-    const {data: user, loading} = useSelector(s => s.user);
+    const {data: user} = useSelector(s => s.user);
     const {posts} = useSelector(s => s.posts);
     const {currentPage, productsOnPage} = useSelector(s => s.paginate);
     const dispatch = useDispatch();

@@ -1,12 +1,11 @@
 import React from "react";
 import { useForm } from "react-hook-form";import { useDispatch, useSelector } from "react-redux";
 import { fetchUpdateUser } from "../../store/slices/userSlice";
-;
 
 export const UserInfoForm = () => {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
-    const {data: user, loading} = useSelector(s => s.user);
+    const { register, handleSubmit } = useForm({mode: "onSubmit"});
+    const {data: user} = useSelector(s => s.user);
     const dispatch = useDispatch();
     const sendData = (data) => {
         dispatch(fetchUpdateUser(data));

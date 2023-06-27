@@ -16,11 +16,6 @@ export const TabsMenuForProducts = ({product}) => {
         },
         {
             key: '2',
-            label: `Характеристики`,
-            children: ``,
-        },
-        {
-            key: '3',
             label: `Отзывы`,
             children: <ReviewsList product={product} />,
         },  

@@ -6,13 +6,11 @@ class Api {
     constructor (info) {
         this.baseUrl = info.baseUrl;
         this.headers = info.headers;
-        // this.updateHeaders = updateHeaders;
     }
 
     getProductList() {
         return fetch(`${this.baseUrl}products`, {
             method: 'GET',
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -20,7 +18,6 @@ class Api {
     }
     getProductById(productId) {
         return fetch(`${this.baseUrl}products/${productId}`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -28,7 +25,6 @@ class Api {
 
     searchProduct(path) {
         return fetch(`${this.baseUrl}products/search?query=${path}`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -36,7 +32,6 @@ class Api {
 
     toggleCardLike (productId, isLiked) {
         return fetch(`${this.baseUrl}products/likes/${productId}`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
             method: isLiked ? "DELETE" : "PUT",
         })
@@ -44,7 +39,6 @@ class Api {
     }
     updateProduct(productId, data) {
         return fetch(`${this.baseUrl}products/${productId}`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
             method: "PATCH",
             body: JSON.stringify(data),
@@ -55,7 +49,6 @@ class Api {
     addReview(productId, data) {
         return fetch(`${this.baseUrl}products/review/${productId}`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -65,7 +58,6 @@ class Api {
     deleteReview(productId, reviewId) {
         return fetch(`${this.baseUrl}products/review/${productId}/${reviewId}`, {
             method: "DELETE",
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -74,7 +66,6 @@ class Api {
     addNewProduct(data) {
         return fetch(`${this.baseUrl}products`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -84,7 +75,6 @@ class Api {
     deleteProduct(productId) {
         return fetch(`${this.baseUrl}products/${productId}`, {
             method: "DELETE",
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -97,7 +87,6 @@ class Api {
         .then(onResponse)
     }
 }
-
 
 const config = {
     baseUrl: "https://api.react-learning.ru/",

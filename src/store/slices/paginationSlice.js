@@ -13,7 +13,6 @@ const paginationSlice = createSlice({
             state.currentPage = payload;     
         },
         setProductsOnPage: (state, {payload}) => {
-            console.log(payload);
             state.productsOnPage = payload;     
         }
     }

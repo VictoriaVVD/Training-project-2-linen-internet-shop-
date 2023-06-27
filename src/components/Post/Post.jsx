@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDeletePostById, fetchToggleItemLike } from "../../store/slices/postsSlice";
 import { Modal } from "../Modal/Modal";
 import { timeOptions } from "../../tools/utils";
-import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 
 export const Post = ({post}) => {
 
@@ -17,10 +16,6 @@ export const Post = ({post}) => {
     const isLiked = post.likes?.some(e => e === user?._id);
     const togglePostLike = () => {
         dispatch(fetchToggleItemLike(post, isLiked));
-    }
-    const showModal = (path) => {
-        dispatch(setModalOpen(true));
-        dispatch(setStateByPath(path))
     }
 
     const deletePost = useCallback(async () => {
@@ -37,7 +32,6 @@ export const Post = ({post}) => {
                         </Link>
                         {user._id === post.author._id &&
                             <div className="post__block_image_hover-effect">
-                                <button onClick={() => showModal("updatePost")}>Редактировать</button>
                                 <button onClick={deletePost}>Удалить</button>
                             </div>
                         }
@@ -48,7 +42,6 @@ export const Post = ({post}) => {
                         </Link>
                         <div className="post__date">
                             <p className="post__date_date">{new Date(post.created_at).toLocaleString('ru-RU', timeOptions)}</p>
-                            <Link className="post__comment" onClick={() => showModal("newComment")}>Оставить комментарий</Link>
                         </div>
                         <p className="post__text">{post.text.substr(0, 200)}...</p>
                         <Link to={`/post/${post._id}`} className="post__comment">Читать далее</Link>

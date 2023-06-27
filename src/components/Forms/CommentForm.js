@@ -6,15 +6,15 @@ import { fetchAddComment } from "../../store/slices/postsSlice";
 import { setModalOpen } from "../../store/slices/modalSlice";
 
 export const CommentForm = () => {
-    const { register, handleSubmit, reset, formState: { errors } } = useForm({mode: "onSubmit"});
+    const { register, handleSubmit, reset } = useForm({mode: "onSubmit"});
     const post = useSelector(s => s.posts?.currentPost);
     const dispatch = useDispatch();
 
-    const sendData = (text) => {
+    const sendData = useCallback((text) => {
         dispatch(fetchAddComment({postId: post?._id, text}))
         reset();
         dispatch(setModalOpen(false));
-    }
+    }, [dispatch, post, reset])
 
     const commentRegister = {
         required: {

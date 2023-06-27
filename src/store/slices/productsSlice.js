@@ -43,10 +43,9 @@ export const fetchToggleItemLike = createAsyncThunk("products/fetchToggleItemLik
     }
 });
 
-export const fetchUpdateProduct = createAsyncThunk("products/fetchUpdateProduct", async function ({data}, args) {
+export const fetchUpdateProduct = createAsyncThunk("products/fetchUpdateProduct", async function ({productId, data}, args) {
     try {
-        console.log({data});
-        const updatedProduct = apiProduct.updateProduct({productId: data.productId, data});
+        const updatedProduct = await apiProduct.updateProduct(productId, data);
         return args.fulfillWithValue(updatedProduct)
     } catch (error) {
         return args.rejectWithValue(error)
@@ -65,7 +64,6 @@ export const fetchSearch = createAsyncThunk("products/fetchSearch", async functi
 
 export const fetchAddProductReview = createAsyncThunk("products/fetchAddProductReview", async function ({productId, body}, args) {
     try {
-        console.log({body});
         const addedProductReview = await apiProduct.addReview(productId, body);
         return args.fulfillWithValue(addedProductReview);
     } catch (error) {
@@ -75,7 +73,6 @@ export const fetchAddProductReview = createAsyncThunk("products/fetchAddProductR
 
 export const fetchDeleteProductReview = createAsyncThunk("products/fetchDeleteProductReview", async function ({productId, reviewId}, args) {
     try {
-        console.log({reviewId});
         const deletedProductReview = await apiProduct.deleteReview(productId, reviewId)
         return args.fulfillWithValue(deletedProductReview)
     } catch (error) {
@@ -108,7 +105,7 @@ const productsSlice = createSlice({
         sortProducts: (state, {payload}) => {
             switch (payload) {
                 case 'popular':
-                    state.products = state.products.sort((a, b) => a.likes.length - b.likes.length);
+                    state.products = state.products.sort((a, b) => b.likes.length - a.likes.length);
                     break;
                 case 'byRate':
                     state.products = state.products.sort((a, b) => countRateNum(b.reviews) - countRateNum(a.reviews));
@@ -132,62 +129,55 @@ const productsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchGetProductList.fulfilled, (state, {payload}) => {
+            state.loading = false;
             const filteredProducts = filterItemsByAuthor(payload.products, payload.userId);
             state.products = filteredProducts;
             state.favourites = filteredProducts.filter(e => findItemLiked(e, payload.userId));
         });
         builder.addCase(fetchGetProductById.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.currentProduct = payload;
         });
         builder.addCase(fetchToggleItemLike.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.products = state.products.map(e => e._id === payload.updatedItem._id
                 ? payload.updatedItem
                 : e)
-            // state.products = [...state.products, payload.updatedItem];
             
             if(payload.isLiked) {
+                state.loading = false;
                 state.favourites = state.favourites.filter(e => e._id !== payload.updatedItem._id)
             } else {
                 state.favourites = [...state.favourites, payload.updatedItem];
             }
         });
         builder.addCase(fetchUpdateProduct.fulfilled, (state, {payload}) => {
-            // console.log({payload});
-            // state.products = state.products.map(e => e._id === payload._id
-            //     ? payload
-            //     : e)
+            state.loading = false;
             state.currentProduct = payload;
         });
         builder.addCase(fetchSearch.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.search = payload.search;
             state.products = filterItemsByAuthor(payload.searchResult, payload.userId);
-
-            
         });
         builder.addCase(fetchAddProductReview.fulfilled, (state, {payload}) => {
-            // state.products = [...state.products, payload];
+            state.loading = false;
+            state.reviews = payload.reviews;
             openNotification("success", "Новый отзыв")
-            state.products = state.products.map(e => e._id === payload._id
-                ? payload
-                : e);
 
-            
         });
         builder.addCase(fetchDeleteProductReview.fulfilled, (state, {payload}) => {
-            // state.products = payload;
-            state.products = state.products.map(e => e._id === payload._id 
-                ? payload 
-                : e)
+            state.loading = false;
+            state.reviews = payload.reviews;
             openNotification("success", "Отзыв удален!")
-            
-            
-            // state.currentProduct.reviews = state.payload.reviews
         });
         builder.addCase(fetchAddProduct.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.products = [...state.products, payload];
             openNotification("success", "Ваш товар добавлен в каталог")
         });
         builder.addCase(fetchDeleteProduct.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.products = state.products.filter(e => e._id !== payload._id);
             openNotification("success", "Товар удален!")
         });
@@ -196,7 +186,7 @@ const productsSlice = createSlice({
             state.error = payload;
         });
         builder.addMatcher(isLoading, (state) => {
-            // state.loading = true;
+            state.loading = true;
         });
     }
 })

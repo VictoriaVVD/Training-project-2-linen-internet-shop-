@@ -1,15 +1,15 @@
 import "./style.scss";
 import { CartItem } from "../../components/CartItem/CartItem";
 import { GoBack } from "../../components/GoBack/GoBack";
-import { CardList } from "../../components/CardList/CardList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { clearCart } from "../../store/slices/productCartSlice";
+import { openNotification } from "../../components/Notification/Notification";
 
 export const CartPage = () => {
 
     const {cart} = useSelector(s => s.cart);
-    const {products} = useSelector(s => s.products);
-    console.log(products);
-    const productsPopular = products.slice(0, 4);
+    const dispatch = useDispatch();
     const price = cart.reduce((accum, item) => accum + item.product.price * item.quantity, 0);
     const discount = cart.reduce((accum, item) => accum + (item.product.price * item.product.discount / 100) * item.quantity, 0);
     const total = price - discount;
@@ -23,6 +23,11 @@ export const CartPage = () => {
         }
         return total;
     }
+    const sendData = () => {
+        dispatch(clearCart());
+        openNotification("success", "Заказ оформлен");
+        
+    }
 
     return (
             <div className="cart">
@@ -33,7 +38,7 @@ export const CartPage = () => {
                             <h3>В корзине {getTotalQuantity()} товаров</h3>
                             {!!getTotalQuantity() &&
                                 <div className="cart__list_caption">
-                                    <span>Карточка товара</span>
+                                    <span>Товар</span>
                                     <span>Наименование</span>
                                     <span>Цена</span>
                                     <span>Скидка</span>
@@ -67,23 +72,27 @@ export const CartPage = () => {
                                             <td><strong>Общая стоимость</strong></td>
                                             <td><strong>{total}&nbsp;₽</strong></td>
                                         </tr>
+                                        {total >= 15000 &&
+                                            <tr className="cart__total_table">
+                                                <td>Бесплатная доставка</td>
+                                            </tr>
+                                        }
                                     </tbody>
                                 </table>
                                 {cart.length !== 0
-                                ? <button>Оформить заказ</button>
+                                ? <button onClick={sendData}>Оформить заказ</button>
                                 : <button>Корзина пуста</button>
                                 }
                             </div>
-                            <div className="cart__info_delivery"></div>
                         </div>
 
                     </div>
-                    {/* <div className="cart__block">
-                        <h2>Популярные товары</h2>
-                        <CardList cards={productsPopular} />
-                    </div> */}
+                    {!cart.length && 
+                        <Link to={"/catalog"} className="cart__list_empty">
+                            За покупками   
+                        </Link>
+                    }
                 </div>
-
             </div>
     )
 }

@@ -1,12 +1,13 @@
 import React from "react";
 import "./style.scss";
 import { Review } from "../Review/Review";
-import { useDispatch} from "react-redux";
+import { useDispatch, useSelector} from "react-redux";
 import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 import { Modal } from "../Modal/Modal";
 
-export const ReviewsList = ({product}) => {
+export const ReviewsList = () => {
 
+    const {reviews} = useSelector(s => s.products);
     const dispatch = useDispatch();
     const showModal = (path) => {
         dispatch(setModalOpen(true));
@@ -16,7 +17,7 @@ export const ReviewsList = ({product}) => {
     <div className="reviews__list">
         <button onClick={()=> showModal("newReview")}>Оставить отзыв</button>
         <div>
-            {product.reviews
+            {reviews
                 .map(item => 
                     <Review review={item} key={item.created_at} 
                     />

@@ -1,19 +1,20 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setModalOpen } from "../../store/slices/modalSlice";
 import { fetchUpdateProduct } from "../../store/slices/productsSlice";
 
-export const UpdateProductForm = ({ isRequired = true, product }) => {
 
-    const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
-    const dispatch = useDispatch()
-    const sendData = (data) => {
-        dispatch(fetchUpdateProduct(product._id, {...data}))
-        // const res = apiProduct.updateProduct(product._id, data);
-        dispatch(setModalOpen(false))
-    }
+export const UpdateProductForm = ({ isRequired = true }) => {
+
+    const {currentProduct: product} = useSelector(s => s.products)
+        const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
+        const dispatch = useDispatch()
+        const sendData = useCallback((data) => {
+            dispatch(fetchUpdateProduct({productId: product?._id, data}))
+            dispatch(setModalOpen(false))
+        }, [dispatch, product])
 
     const picturesRegister = { 
         required: {
@@ -111,7 +112,7 @@ export const UpdateProductForm = ({ isRequired = true, product }) => {
                 </div>
                 <div className="form__pass">
                     <label htmlFor="">Описание товара</label>
-                    <input className="form__input" 
+                    <textarea className="form__input" 
                         type='text' {...register("description", descriptionRegister)} 
                         placeholder="Описание товара" 
                         defaultValue={product.description} 

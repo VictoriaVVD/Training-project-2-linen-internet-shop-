@@ -11,6 +11,7 @@ const initialState = {
     favouritePosts: [],
     loading: false,
     search: null,
+    comments: [],
 }
 
 export const fetchGetPostList = createAsyncThunk("posts/fetchGetPostList", async function (userId, args) {
@@ -34,7 +35,6 @@ export const fetchGetPostById = createAsyncThunk("posts/fetchGetPostById", async
 
 export const fetchSearchPosts = createAsyncThunk("posts/fetchSearchPosts", async function (search, args) {
     try {
-        console.log(search);
         const state = args.getState();
         const searchResult = await apiPost.searchPosts(search)
         return args.fulfillWithValue({searchResult, userId: state.user.data._id});
@@ -56,7 +56,6 @@ export const fetchToggleItemLike = createAsyncThunk("posts/fetchToggleItemLike",
 
 export const fetchAddComment = createAsyncThunk("posts/fetchAddComment", async function (data, args) {
     try {
-        console.log({data});
         const addedComment = await apiPost.addComment(data.postId, data.text);
         return args.fulfillWithValue(addedComment);
     } catch (error) {
@@ -66,7 +65,6 @@ export const fetchAddComment = createAsyncThunk("posts/fetchAddComment", async f
 
 export const fetchDeleteComment = createAsyncThunk("posts/fetchDeleteComment", async function (data, args) {
     try {
-        console.log({data});
         const res = await apiPost.deleteComment(data.postId, data.commentId)
         return args.fulfillWithValue(res);
     } catch (error) {
@@ -76,7 +74,6 @@ export const fetchDeleteComment = createAsyncThunk("posts/fetchDeleteComment", a
 
 export const fetchAddNewPost = createAsyncThunk("posts/fetchAddNewPost", async function (data, args) {
     try {
-        console.log({data});
         const addedPost = await apiPost.addNewPost(data);
         return args.fulfillWithValue(addedPost);
     } catch (error) {
@@ -84,10 +81,9 @@ export const fetchAddNewPost = createAsyncThunk("posts/fetchAddNewPost", async f
     }
 })
 
-export const fetchUpdatePost = createAsyncThunk("posts/fetchUpdatePost", async function (data, args) {
+export const fetchUpdatePost = createAsyncThunk("posts/fetchUpdatePost", async function ({postId, data}, args) {
     try {
-        console.log({data});
-        const updatedPost = await apiPost.updatePost();
+        const updatedPost = await apiPost.updatePost(postId, data);
         return args.fulfillWithValue(updatedPost);
     } catch (error) {
         return args.rejectWithValue(error)
@@ -132,18 +128,21 @@ const postsSlice = createSlice({
     },
     extraReducers: (builder) => {
         builder.addCase(fetchGetPostList.fulfilled, (state, {payload}) => {
+            state.loading = false;
             const filteredPosts = filterItemsByAuthor(payload.posts, payload.userId);
             state.posts = filteredPosts;
             state.favouritePosts = filteredPosts.filter(e => findItemLiked(e, payload.userId))
         });
         builder.addCase(fetchGetPostById.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.currentPost = payload;
         })
         builder.addCase(fetchSearchPosts.fulfilled, (state, {payload}) => {
-            console.log(payload);
+            state.loading = false;
             state.posts = filterItemsByAuthor(payload.searchResult, payload.userId)
         })
         builder.addCase(fetchToggleItemLike.fulfilled, (state, {payload}) => {
+            state.loading = false;
             state.posts = state.posts.map(e => e._id === payload.updatedItem._id
             ? payload.updatedItem
             : e)
@@ -154,31 +153,31 @@ const postsSlice = createSlice({
             }
         })
         builder.addCase(fetchAddComment.fulfilled, (state, {payload}) => {
-            console.log({payload});
-            state.posts = state.posts.map(e => e._id === payload._id
-                ? payload
-                : e)
-            // state.posts.comments = [...state.posts.comments, payload];
-            // state.currentPost.comments = payload.comments;
+            state.loading = false;
+            state.comments = payload.comments;
+            openNotification("success", "Новый комментарий")
         });
         builder.addCase(fetchDeleteComment.fulfilled, (state, {payload}) => {
-            console.log({payload});
-            // state.posts = state.posts.filter(e => e._id !== payload._id);
-            state.currentPost.comments = payload.comments;
+            state.loading = false;
+            state.comments = payload.comments;
+            openNotification("success", "Комментарий удален!")
         })
         builder.addCase(fetchAddNewPost.fulfilled, (state, {payload}) => {
+            state.loading = false;
+            state.posts = [...state.posts, payload];
             openNotification("success", "Поздравляю! Теперь Ваша статья доступна для чтения!")
-            state.posts = [...state.posts, payload]
         });
         builder.addCase(fetchUpdatePost.fulfilled, (state, {payload}) => {
-            console.log({payload});
+            state.loading = false;
+            state.currentPost = payload;
         })
         builder.addCase(fetchDeletePostById.fulfilled, (state, {payload}) => {
+            state.loading = false;
             openNotification("success", "Статья удалена!");
             state.posts = state.posts.filter(e => e._id !== payload._id);
         })
         builder.addMatcher(isLoading, (state) => {
-            // state.loading = true;
+            state.loading = true;
         })
         builder.addMatcher(isError, (state, {payload}) => {
             state.loading = false;

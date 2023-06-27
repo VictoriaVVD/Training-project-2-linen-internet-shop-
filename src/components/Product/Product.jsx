@@ -13,13 +13,17 @@ import { fetchToggleItemLike } from "../../store/slices/productsSlice";
 import { addProductInCart, deleteProductInCart } from "../../store/slices/productCartSlice";
 import { findWordEnd } from "../../tools/utils";
 import { GoBack } from "../GoBack/GoBack";
+import { useLocation } from "react-router-dom";
+import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 
 
 export const Product = ({product, setProduct}) => {
 
     const user = useSelector(s => s.user.data);  
     const {cart} = useSelector(s => s.cart);
-    const dispatch = useDispatch();  
+
+    const dispatch = useDispatch(); 
+    const location = useLocation();
     const [isLikedProduct, setProductLike] = useState(false);
     const isLiked = product.likes?.some(e => e === user?._id);
 
@@ -29,7 +33,13 @@ export const Product = ({product, setProduct}) => {
             setProductLike(isLikedProduct);
             setProduct(data.payload?.updatedItem);
         });
-    }, [dispatch, isLiked]);
+    }, [dispatch, isLiked, isLikedProduct,product]);
+
+    const updateCard = useCallback(() => {
+        dispatch(setModalOpen(true));
+        dispatch(setStateByPath("updateProduct"));
+    }, [dispatch]); 
+
 
     return (
     <div className={s.product}>
@@ -39,6 +49,11 @@ export const Product = ({product, setProduct}) => {
                 <div className={s.img__box}>
                     <div className={s.img__wrapper}>
                         <img className={s.img} src={product.pictures} alt="" />
+                        {location.pathname === `/product/${product._id}` && 
+                            <div className={s.img__hover_effect}>
+                                <button id={product._id} onClick={updateCard}>Редактировать</button>
+                            </div>
+                        }
                     </div>
                 </div>
                 <div className={s.product__info}>
@@ -46,12 +61,10 @@ export const Product = ({product, setProduct}) => {
                         <span className={s.product__title}>{product.name}</span>
                     </div>
                     <div className={s.rating}>
-                        <span>Barcode</span>
                         <ProductRate rating={Math.floor(countRateNum(product.reviews))}/>
                         <span>{product.reviews?.length}</span>
-                        <span>
-                            {findWordEnd(product.rewiews?.length, "отзыв")}
-                        </span>
+                            {findWordEnd(product.reviews.length, " отзыв")}
+
                     </div>
                     {!!product.discount &&<div className={s.desc}>Старая цена:
                         <span className={s.old_price}>

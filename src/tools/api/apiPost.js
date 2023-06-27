@@ -6,12 +6,10 @@ class Api {
     constructor (info) {
         this.headers = info.headers;
         this.basePostUrl = info.basePostUrl;
-        // this.updateHeaders = updateHeaders;
     }
 
     getAllPosts() {
         return fetch(`${this.basePostUrl}`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -19,7 +17,6 @@ class Api {
 
     getPostById(id) {
         return fetch(`${this.basePostUrl}/${id}`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -34,7 +31,6 @@ class Api {
     togglePostLike(postId, liked) {
         return fetch(`${this.basePostUrl}/likes/${postId}`, {
             method: liked ? "DELETE" : "PUT",
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -45,12 +41,12 @@ class Api {
             headers: this.headers,
             body: JSON.stringify(data),
         })
+        .then(onResponse)
     }
 
     addComment(postId, data) {
         return fetch(`${this.basePostUrl}/comments/${postId}`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -60,7 +56,6 @@ class Api {
     deleteComment(postId, commentId) {
         return fetch(`${this.basePostUrl}/comments/${postId}/${commentId}`, {
             method: "DELETE",
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -69,7 +64,6 @@ class Api {
     addNewPost(data) {
         return fetch(`${this.basePostUrl}`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -79,7 +73,6 @@ class Api {
     deletePost(postId) {
         return fetch(`${this.basePostUrl}/${postId}`, {
             method: "DELETE",
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -92,15 +85,6 @@ class Api {
         .then(onResponse)
     }
 }
-
-// const updateHeaders = () => {
-//     return {
-//         headers: {
-//             "Content-Type": "application/json",
-//             "authorization": localStorage.getItem("token"),
-//         }
-//     }
-// }
 
 const config = {
     basePostUrl: "https://api.react-learning.ru/v2/group-12/posts",

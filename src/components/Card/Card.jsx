@@ -8,7 +8,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { fetchDeleteProduct, fetchToggleItemLike } from "../../store/slices/productsSlice";
 import { findItemLiked } from "../../tools/utils";
 import { addProductInCart, deleteProductInCart } from "../../store/slices/productCartSlice";
-import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 
 
 export const Card = ({product}) => {
@@ -23,10 +22,6 @@ export const Card = ({product}) => {
     const toggleCardLike = () => {
         dispatch(fetchToggleItemLike(product, isLiked));
     }
-    const updateCard = useCallback((e) => {
-        dispatch(setModalOpen(true));
-        dispatch(setStateByPath("updateProduct"));
-    }, [dispatch]); 
 
     const deleteCard = useCallback(async () => {
         dispatch(fetchDeleteProduct(product._id));
@@ -57,9 +52,8 @@ export const Card = ({product}) => {
                                 <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)} 
                             {!!product.discount && <span className="card__tag tag__type_sale"></span>}  
                         </Link>
-                            {location.pathname === "/profile" &&
+                            {location.pathname === "/catalog" && 
                                 <div className="card__hover_effect">
-                                    <button id={product._id} onClick={updateCard}>Редактировать</button>
                                     <button onClick={deleteCard}>Удалить</button>
                                 </div>
                             }

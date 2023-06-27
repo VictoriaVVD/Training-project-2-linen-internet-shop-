@@ -37,7 +37,6 @@ export const sortPostsParameters = [
     {id: "byComments", title: "По обсуждаемости"},
 ]
 
-
 export const countRateNum = (reviews) => {
     if (!reviews || !reviews.length) {
         return 0;

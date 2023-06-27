@@ -2,6 +2,8 @@ import { useNavigate } from "react-router-dom";
 import { Carousel } from 'antd';
 import dataPromo from "../../assets/data/dataPromoCarousel.json";
 import "./style.scss";
+import { useDispatch, useSelector } from "react-redux";
+import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
 
 export const CarouselPromo = () => {
     const contentStyle = {
@@ -19,11 +21,16 @@ export const CarouselPromo = () => {
     };
 
     const navigate = useNavigate();
-    const handleClick = (e) => {
-        console.log(e.currentTarget.id);
-        navigate("/promo");
-    }
-        
+    const {isAuthorized} = useSelector(s => s.user);
+    const dispatch = useDispatch();
+    const handleClick = () => {
+        if (isAuthorized) {
+            navigate("/promo");
+        } else {
+            dispatch(setModalOpen(true));
+            dispatch(setStateByPath("warning"));
+        }
+    }       
 
     return (
         <Carousel autoplay style={contentStyle} className="carousel__wrapper carousel">

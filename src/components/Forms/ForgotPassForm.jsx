@@ -12,20 +12,17 @@ export const ForgotPassForm = ({ isRequired = true }) => {
     const [isGetToken, setToken] = useState(false);
     const dispatch = useDispatch();
     const sendData = async (data) => {
-            const email = data.email;
-            const res = await apiUser.forgotPassword(data);
-                if(res.message === "Письмо успешно отправлено") {
-                    reset()
-                    setToken(true)
-                    const resetPass = async ({email, ...data}) => {
-                        const res = await apiUser.resetPassword({...data, email});
-                }
+        const res = await apiUser.forgotPassword(data);
+            if(res.message === "Письмо успешно отправлено") {
+                reset()
+                setToken(true);
+                const res = await apiUser.resetPassword(data);
             }
         }
-        const showModal = (path) => {
-            dispatch(setModalOpen(true));
-            dispatch(setStateByPath(path));
-        }
+    const showModal = (path) => {
+        dispatch(setModalOpen(true));
+        dispatch(setStateByPath(path));
+    }
         
     const emailRegister = { 
         required: {

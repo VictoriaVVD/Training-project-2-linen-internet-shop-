@@ -100,7 +100,7 @@ export const AddProductForm = ({ isRequired = true }) => {
                     {errors?.discount && <span>{errors?.discount.message}</span>}
                 </div>
                 <div className="form__pass">
-                    <input className="form__input" 
+                    <textarea className="form__input" 
                         type='text' {...register("description", descriptionRegister)} 
                         placeholder="Описание товара"
                     />

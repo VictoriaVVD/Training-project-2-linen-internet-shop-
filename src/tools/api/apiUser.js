@@ -6,12 +6,10 @@ class Api {
     constructor (info) {
         this.baseUrl = info.baseUrl;
         this.headers = info.headers;
-        // this.updateHeaders = updateHeaders;
     }
 
     getUserInfo() {
         return fetch(`${this.baseUrl}users/me`, {
-            // ...this.updateHeaders(),
             headers: this.headers,
         })
         .then(onResponse)
@@ -20,7 +18,6 @@ class Api {
     singin(data) {
         return fetch(`${this.baseUrl}signin`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -30,7 +27,6 @@ class Api {
     singup(data) {
         return fetch(`${this.baseUrl}signup`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -40,7 +36,6 @@ class Api {
     forgotPassword(data) {
         return fetch(`${this.baseUrl}forgot-password`, {
             method: "POST",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -50,7 +45,6 @@ class Api {
     resetPassword(data, token, email) {
         return fetch(`${this.baseUrl}password-reset/${token}`, {
             method: "PATCH",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify({...data, email}),
         })
@@ -60,7 +54,6 @@ class Api {
     changeAvatar(data) {
         return fetch(`${this.baseUrl}users/me/avatar`, {
             method: "PATCH",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
@@ -70,7 +63,6 @@ class Api {
     updateUserInfo(data) {
         return fetch(`${this.baseUrl}users/me`, {
             method: "PATCH",
-            // ...this.updateHeaders(),
             headers: this.headers,
             body: JSON.stringify(data),
         })
