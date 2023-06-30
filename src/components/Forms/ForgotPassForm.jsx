@@ -5,23 +5,31 @@ import { Link } from "react-router-dom";
 import { apiUser } from "../../tools/api/apiUser";
 import { useDispatch } from "react-redux";
 import { setModalOpen, setStateByPath } from "../../store/slices/modalSlice";
+import { openNotification } from "../../components/Notification/Notification";
 
 export const ForgotPassForm = ({ isRequired = true }) => {
 
     const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
     const [isGetToken, setToken] = useState(false);
     const dispatch = useDispatch();
-    const sendData = async (data) => {
-        const res = await apiUser.forgotPassword(data);
-            if(res.message === "Письмо успешно отправлено") {
-                reset()
-                setToken(true);
-                const res = await apiUser.resetPassword(data);
-            }
-        }
     const showModal = (path) => {
         dispatch(setModalOpen(true));
         dispatch(setStateByPath(path));
+    }
+    const sendData = async (data) => {
+        if (!isGetToken) {
+            await apiUser.forgotPassword(data);
+            openNotification("success", "Письмо отправлено!")
+                setToken(true);
+                reset()
+        }  else {
+            const res = await apiUser.resetPassword(data);
+                    
+            if (res._id) {
+                openNotification("success", "Пароль восстановлен!");
+                showModal("/signin"); 
+            }
+        }
     }
         
     const emailRegister = { 

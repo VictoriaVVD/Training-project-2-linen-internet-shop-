@@ -26,7 +26,6 @@ export const CartPage = () => {
     const sendData = () => {
         dispatch(clearCart());
         openNotification("success", "Заказ оформлен");
-        
     }
 
     return (
@@ -89,7 +88,7 @@ export const CartPage = () => {
                     </div>
                     {!cart.length && 
                         <Link to={"/catalog"} className="cart__list_empty">
-                            За покупками   
+                            <span>За покупками</span>
                         </Link>
                     }
                 </div>

@@ -1,5 +1,5 @@
 const onResponse = (res) => {
-    return res.ok ? res.json() : Promise.reject("Error", res.status, res.message);
+    return res.ok ? res.json() : res.json().then((data) => Promise.reject(data));
 }
 
 class Api {
@@ -42,11 +42,11 @@ class Api {
         .then(onResponse)
     }
 
-    resetPassword(data, token, email) {
-        return fetch(`${this.baseUrl}password-reset/${token}`, {
+    resetPassword(data) {
+        return fetch(`${this.baseUrl}password-reset/${data.token}`, {
             method: "PATCH",
             headers: this.headers,
-            body: JSON.stringify({...data, email}),
+            body: JSON.stringify({password: data.password}),
         })
         .then(onResponse)
     }

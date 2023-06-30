@@ -30,7 +30,7 @@ export const Post = ({post}) => {
                         <Link to={`/post/${post._id}`}>
                             <img src={post.image} alt="" className="post__image" />
                         </Link>
-                        {user._id === post.author._id &&
+                        {user._id === post.author._id && post.author?._id === user._id &&
                             <div className="post__block_image_hover-effect">
                                 <button onClick={deletePost}>Удалить</button>
                             </div>

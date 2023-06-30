@@ -28,7 +28,7 @@ function App() {
       dispatch(fetchSearchPosts(debounceValueInApp))
     }
     
-  }, [debounceValueInApp, dispatch]);
+  }, [debounceValueInApp, dispatch, location]);
 
 
   useEffect(() => {

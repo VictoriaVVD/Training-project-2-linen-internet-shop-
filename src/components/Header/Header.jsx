@@ -77,9 +77,11 @@ export const Header = () => {
                     <div className="icons">
                         <Link to={"/cart"} className="icon__cart" >
                             <FontAwesomeIcon icon={faCartShopping} title="Корзина" size="lg" />
+                            {!!cart?.length &&
                                 <div className="icons__favourite-over-num">
                                     <span>{getTotalQuantity()}</span>
                                 </div>
+                            }
                         </Link>  
                     </div>}
                     {isAuthorized && 

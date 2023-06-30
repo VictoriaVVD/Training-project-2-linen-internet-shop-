@@ -1,5 +1,5 @@
 const onResponse = (res) => {
-    return res.ok ? res.json() : Promise.reject("Error", res.status);
+    return res.ok ? res.json() : res.json().then((data) => Promise.reject(data));
 }
 
 class Api {
