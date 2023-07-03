@@ -52,7 +52,7 @@ export const Card = ({product}) => {
                                 <span className={`card__tag tag__type_${e}`} key={e}>{e}</span>)} 
                             {!!product.discount && <span className="card__tag tag__type_sale"></span>}  
                         </Link>
-                            {location.pathname === "/catalog" && product.author?._id === user._id &&
+                            {location.pathname === "/catalog" && product.author._id === user._id &&
                                 <div className="card__hover_effect">
                                     <button onClick={deleteCard}>Удалить</button>
                                 </div>

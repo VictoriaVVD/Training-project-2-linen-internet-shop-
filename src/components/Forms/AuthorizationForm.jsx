@@ -21,9 +21,9 @@ export const AuthorizationForm = ({ isRequired = true }) => {
         localStorage.setItem("token", res.token);
         if(res.token) {
             dispatch(setAuthorized(true));
-            openNotification("success", `Здравствуйте, ${user.name} `)
-            navigate("/catalog");
             setModalOpen(false);
+            openNotification("success", `Здравствуйте, ${user.name} `);
+            navigate("/catalog");
         } else
         navigate("/")
     }, [dispatch, user.name, navigate]);

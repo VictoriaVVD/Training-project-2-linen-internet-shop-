@@ -9,8 +9,8 @@ import { fetchGetProductList, fetchSearch } from "./store/slices/productsSlice";
 import { fetchGetPostList, fetchSearchPosts } from "./store/slices/postsSlice";
 import { useDebounce } from "./hooks/debounceValue";
 import { useLocation } from "react-router-dom";
-import { RouterAuth } from "./components/Router/RouterAuth";
-import { RouterUnAuth } from "./components/Router/RouterUnAuth";
+import { RouterAuth } from "./components/Routing/RouterAuth";
+import { RouterUnAuth } from "./components/Routing/RouterUnAuth";
 
 function App() {
   const {search} = useSelector(s => s.products);
@@ -28,7 +28,7 @@ function App() {
       dispatch(fetchSearchPosts(debounceValueInApp))
     }
     
-  }, [debounceValueInApp, dispatch, location]);
+  }, [debounceValueInApp, dispatch]);
 
 
   useEffect(() => {

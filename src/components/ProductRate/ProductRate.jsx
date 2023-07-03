@@ -7,11 +7,13 @@ const emptyStarsState = new Array(5).fill(<Star />)
 
 export const ProductRate = ({rating, setRate = () => {}, isEditable=false }) => {
     const [ratingArr, setRating] = useState(emptyStarsState);
+    
     const changeRate = useCallback((r) => {
         if(!isEditable) return;
         rateConstructor(r)
         setRate(r)
-    }, [setRate, isEditable])
+    }, [setRate, isEditable]);
+    
     const changeStarRateOnMove = (r) => {
         if(!isEditable) return;
         rateConstructor(r)
@@ -31,7 +33,7 @@ export const ProductRate = ({rating, setRate = () => {}, isEditable=false }) => 
         setRating(updatedRatingArr)
     }, [rating, isEditable])
 
-    useEffect(() => rateConstructor(rating), [rateConstructor])
+    useEffect(() => rateConstructor(rating), [rateConstructor, rating])
 
     return (
         <div>

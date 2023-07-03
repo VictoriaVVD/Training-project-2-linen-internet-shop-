@@ -10,7 +10,7 @@ import { openNotification } from "../../components/Notification/Notification";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faTruck } from "@fortawesome/free-solid-svg-icons";
 
-export const Home = () => {
+export const HomePage = () => {
     
     const { register, handleSubmit, formState: { errors }, reset } = useForm({mode: "onSubmit"});
 

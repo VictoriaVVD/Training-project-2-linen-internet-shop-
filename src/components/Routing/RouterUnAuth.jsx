@@ -1,6 +1,6 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
-import { Home } from "../../pages/Home/Home";
+import { HomePage } from "../../pages/HomePage/HomePage";
 import { About } from "../Companie`sInfo/About";
 import { AboutDelivery } from "../Companie`sInfo/AboutDelivery";
 import { Feedback } from "../Companie`sInfo/Feedback";
@@ -13,7 +13,7 @@ export const RouterUnAuth = () => {
     return (
             <>
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<HomePage />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/delivery" element={<AboutDelivery />} />
                     <Route path="/faq" element={<FAQ />} />

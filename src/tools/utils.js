@@ -15,7 +15,7 @@ export const timeOptions = {
 }
 
 export const filterItemsByAuthor = (items, userId) => {
-    return items.filter(e => e.author._id === userId)
+    return items.filter(e => e.author._id === userId || e.author._id === "64416c303291d790b3fc22b3")
 }
 export const findItemLiked = (item, userId) => {
     return item.likes?.some(e => e === userId);

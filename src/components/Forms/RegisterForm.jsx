@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { useForm } from 'react-hook-form';
 import "./style.scss";
 import { Link } from "react-router-dom";
@@ -10,9 +10,9 @@ export const RegisterForm = ({ isRequired = true }) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm({mode: "onSubmit"});
     const dispatch = useDispatch();
-    const sendData = async (data) => {
-        const res = await apiUser.singup(data);
-    }
+    const sendData = useCallback(async (data) => {
+        await apiUser.singup(data);
+    }, []);
     const showModal = (path) => {
         dispatch(setModalOpen(true));
         dispatch(setStateByPath(path));

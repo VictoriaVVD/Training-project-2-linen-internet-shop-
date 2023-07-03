@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Routes } from "react-router-dom";
 import { PromoPage } from "../../pages/PromoPage/PromoPage";
-import { Home } from "../../pages/Home/Home";
+import { HomePage } from "../../pages/HomePage/HomePage";
 import { CatalogPage } from "../../pages/CatalogPage/CatalogPage";
 import { ProductPage } from "../../pages/ProductPage/ProductPage";
 import { FavouritesPage } from "../../pages/FavouritesPage/FavouritesPage";
@@ -21,7 +21,7 @@ export const RouterAuth = () => {
     return (
             <>
                 <Routes>
-                    <Route path="/" element={<Home />} />
+                    <Route path="/" element={<HomePage />} />
                     <Route path="/promo" element={<PromoPage />}/>
                     <Route path="/catalog" element={<CatalogPage />}/>
                     <Route path="/product/:id" element={<ProductPage />} />
@@ -34,7 +34,6 @@ export const RouterAuth = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/delivery" element={<AboutDelivery />} />
                     <Route path="/faq" element={<FAQ />} />
-                    <Route path="/profile" element={<UserProfilePage />} />
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </> 

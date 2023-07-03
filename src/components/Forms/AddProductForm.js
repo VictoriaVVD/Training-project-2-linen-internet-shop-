@@ -14,7 +14,7 @@ export const AddProductForm = ({ isRequired = true }) => {
         dispatch(fetchAddProduct(data));
         reset();
         dispatch(setModalOpen(false));
-    }, [dispatch])
+    }, [dispatch, reset])
 
     const picturesRegister = { 
         required: {
