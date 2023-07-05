@@ -14,6 +14,7 @@ import { AboutDelivery } from "../Companie`sInfo/AboutDelivery";
 import { FAQ } from "../Companie`sInfo/FAQ";
 import { PageNotFound } from "../../pages/PageNotFound/PageNotFound";
 import { AuthorPage } from "../../pages/AuthorPage/AuthorPage";
+import { Feedback } from "../Companie`sInfo/Feedback";
 
 
 export const RouterAuth = () => {
@@ -34,6 +35,7 @@ export const RouterAuth = () => {
                     <Route path="/about" element={<About />} />
                     <Route path="/delivery" element={<AboutDelivery />} />
                     <Route path="/faq" element={<FAQ />} />
+                    <Route path="/feedback" element={<Feedback />} />
                     <Route path="*" element={<PageNotFound />} />
                 </Routes>
             </> 

@@ -132,7 +132,6 @@ const productsSlice = createSlice({
             state.loading = false;
             const filteredProducts = filterItemsByAuthor(payload.products, payload.userId);
             state.products = filteredProducts;
-            console.log(filteredProducts);
             state.favourites = filteredProducts.filter(e => findItemLiked(e, payload.userId));
         });
         builder.addCase(fetchGetProductById.fulfilled, (state, {payload}) => {

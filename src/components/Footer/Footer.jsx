@@ -31,8 +31,6 @@ export const Footer = () => {
                 <div className='footer__links'>
                     <Link to={"/news"}>Блог</Link>
                     <Link to={"/promo"}>Акции</Link>
-                    <Link to={""}></Link>
-                    <Link to={""}></Link>
                 </div>
             }
             <div className='footer__links'>
