@@ -1,3 +1,8 @@
+# Интернет-магазин постельного белья
+# Цель проекта
+
+Реализовать функционал добавления / редактирования / удаления товаров, отзывов на товары, поиск, сортировку, покупательскую корзину, форму регистрации и личный кабинет пользователя.
+
 # Стек
 
 - React: 18.2.0
@@ -44,6 +49,7 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+### `npm install`
 ### `npm start`
 
 Runs the app in the development mode.\
