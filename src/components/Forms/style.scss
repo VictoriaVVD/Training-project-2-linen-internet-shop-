@@ -21,30 +21,28 @@
     }
 
     &__content {
-        
+        max-width: 50%;
         gap: 20px; 
 
         &_image {
-            @include posed-center;
-            width: 50%;
             flex-direction: column;
 
             img {
                 border-radius: 50%;
+                max-width: 30%;
+                height: 50%;
                 filter: blur(1px);
                 opacity: .8;
         
                 &_block {
                     @include posed-spaces;
-                    flex-direction: row;
+                    flex-direction: row;;
                 }
             }
         }
 
         &_info {
-            max-width: 50%;
             flex-direction: column;
-            gap: 15px;
 
             button {
                 width: 100%;
@@ -75,8 +73,6 @@
         
     &__input {
         @include base-button(none, $second-color);
-        margin: 0;
-        width: 100%;
         font-family: inherit;
 
         input, textarea {
@@ -133,6 +129,7 @@
 
         &_wrapper {
             max-width: 400px;
+            max-height: 80vh;
         }
         
         &_info {
@@ -151,8 +148,10 @@
 }
 .review {
     &_img {
-        width: 50%;
-        text-align: center;
+        display: block;
+        margin: 0 auto;
+        max-height: 200px;
+        max-width: 50%;
 
     }
     &_input {

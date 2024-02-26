@@ -3,10 +3,11 @@ import "./style.scss";
 import { UserInfoForm } from '../Forms/UserInfoForm';
 import { UserProfilePosts } from '../UserProfileSections/UserProfilePosts';
 import { UserProfileProducts } from '../UserProfileSections/UserProfileProducts';
+import { EchartsPage } from '../../pages/EchartsPage/EchartsPage';
 
 
 export const TabsMenuForProfile = ({product}) => {
-
+  
   const onChange = (key) => {
   };
   
@@ -26,11 +27,16 @@ export const TabsMenuForProfile = ({product}) => {
         label: `Мои статьи`,
         children: <UserProfilePosts />           
     },
+    {
+      key: '4',
+      label: `Статистика`,
+      children: <EchartsPage />           
+  },
   ];
 
   
   return (
-    <Tabs defaultActiveKey="1" items={items} onChange={onChange} className='tabs' />
+    <Tabs items={items} onChange={onChange} className='tabs' />
   )
   
 };

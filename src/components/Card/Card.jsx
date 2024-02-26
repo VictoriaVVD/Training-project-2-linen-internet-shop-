@@ -41,7 +41,7 @@ export const Card = ({product}) => {
                             : <FontAwesomeIcon icon={faHeartReg} />}
                         </span>
                     </div>}
-                <div className="card__info_block">
+                <div className="card__info">
                     <div className="card__info_img-box">
                         <Link to={`/product/${product._id}`} className="card__link">
                             {location.pathname !== "/catalog"

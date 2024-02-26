@@ -72,19 +72,18 @@
         }
 
         &_img-box {
-            width: 100%;
             position: relative;
             overflow: hidden;
         }
 
         &_img {
             @include card-image(100%);
-            height: $card-img-height;
             object-fit: cover;
             left: 1px;
             right: -1px;
             top: 0px;
             transition: all ease-in-out .5s;
+
 
             &_grey-effect {
                 transition: all 0.5s linear;
@@ -99,7 +98,7 @@
 
             &:hover {
             img {
-                height: $card-img-height;;
+                height: $card-img-height;
             }
         }
     }

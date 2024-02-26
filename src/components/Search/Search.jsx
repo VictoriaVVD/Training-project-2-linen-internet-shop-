@@ -12,7 +12,7 @@ export const Search = () => {
     return (
             <input placeholder="Поиск"
                     onChange={
-                        location.pathname === "/catalog"
+                        location.pathname === "/catalog" && location.pathname !== "*"
                         ?   (e => dispatch(fetchSearch(e.target.value)))
                         :   (e => dispatch(fetchSearchPosts(e.target.value)))
                     }

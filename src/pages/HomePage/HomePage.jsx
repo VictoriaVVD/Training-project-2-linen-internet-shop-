@@ -49,8 +49,7 @@ export const HomePage = () => {
                     <div className="home__promo_block">
                         <h3><FontAwesomeIcon icon={faTruck} size="lg" /> Бесплатная доставка</h3>
                         <div className="label">от 15 000 руб.</div>
-                        <img src="" alt="" />
-                            <Link to={"/catalog"}>За покупками</Link>
+                        <Link to={"/catalog"}>За покупками</Link>
                     </div> 
                     <div className="home__promo_subscribe">
                         <h2>Подпишитесь на новости</h2>

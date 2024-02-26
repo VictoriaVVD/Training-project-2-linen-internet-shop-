@@ -45,7 +45,7 @@ export const ReviewForm = () => {
                         </div>
                     </div>
                     <textarea className="review_input" 
-                        cols={30} rows={8} 
+                        cols={20} rows={5} 
                         {...register("text", reviewRegister)} 
                         placeholder={`${user.name}, оставьте, пожалуйста, Ваш отзыв о товаре `}>
                     </textarea>
