@@ -5,7 +5,7 @@ import { countRateNum } from "../../tools/utils";
 
 export const EchartsPage = () => {
 
-  const {products} = useSelector(s => s.products);
+  const {products} = useSelector(s => s?.products);
 
   const productsInRate = useMemo(() => {
     const res = products.filter(e => e.reviews.length).sort((a,b) => b.reviews?.length - a.reviews?.length);
@@ -22,12 +22,13 @@ export const EchartsPage = () => {
     const res = products.map(e => e).sort((a,b) => b?.stock - a?.stock);
     const stock = res.map(e => e.stock);
     const categories = res.map(e => e.name);
+    console.log(categories);
+    console.log(stock);
     
     return {
       categories,
       stock,
     }
-
   }, [products]);
 
     useEffect(() => {
@@ -52,7 +53,7 @@ export const EchartsPage = () => {
               bottom: '3%',
               containLabel: true
             },
-            xAxis: [
+            xAxis:
               {
                 type: 'category',
                 data: productsInRate.categories,
@@ -63,15 +64,12 @@ export const EchartsPage = () => {
                   interval: 0, 
                   rotate: 60,
                   margin: 20,
-                  
                 },
-              }
-            ],
-            yAxis: [
+              },
+            yAxis:
               {
                 type: 'value'
-              }
-            ],
+              },
             series: [
               {
                 name: productsInRate.categories,
@@ -81,7 +79,6 @@ export const EchartsPage = () => {
               }
             ]
           };
-
           const option2 = {
             title: {
               text: "Наличие на складе"
@@ -102,7 +99,7 @@ export const EchartsPage = () => {
               bottom: '3%',
               containLabel: true
             },
-            yAxis: [
+            xAxis:
               {
                 type: 'category',
                 data: productsInStock.categories,
@@ -111,11 +108,14 @@ export const EchartsPage = () => {
                 },
                 axisLabel: { 
                   interval: 0, 
-                  rotate: 0,
-                  margin: 20,  
+                  rotate: 60,
+                  margin: 20,
                 },
-              }
-            ],
+              },
+            yAxis:
+              {
+                type: 'value',
+              },
             series: [
               {
                 name: productsInStock.categories,
@@ -136,8 +136,7 @@ export const EchartsPage = () => {
         const myChartStock = echarts.init(chartStock);
         option2 && myChartStock.setOption(option2);
 
-    }, [productsInRate, productsInStock])
-
+    }, [productsInRate, productsInStock]);
 
     return (
             <div>
